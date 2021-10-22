@@ -13,7 +13,7 @@
 
 <meta name="date" content="2021-10-22" />
 
-<title>first-analysis</title>
+<title>initialQC</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -34,6 +34,7 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
@@ -229,6 +230,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -332,10 +336,7 @@ div.tocify {
   <a href="index.html">Home</a>
 </li>
 <li>
-  <a href="about.html">About</a>
-</li>
-<li>
-  <a href="license.html">License</a>
+  <a href="first-analysis.html">QC</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -353,9 +354,17 @@ div.tocify {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
-<h1 class="title toc-ignore">first-analysis</h1>
+
+<h1 class="title toc-ignore">initialQC</h1>
 <h4 class="author">Karissa Barthelson</h4>
 <h4 class="date">2021-10-22</h4>
 
@@ -364,7 +373,7 @@ div.tocify {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -373,7 +382,7 @@ div.tocify {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -385,7 +394,7 @@ div.tocify {
 <strong>Last updated:</strong> 2021-10-22
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>2021-rosmap-ire/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -401,12 +410,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -473,16 +482,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretreeda3a49300ba9766ab6dfaab116e6539d0ffee27btargetblankda3a493a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/da3a49300ba9766ab6dfaab116e6539d0ffee27b" target="_blank">da3a493</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretree2d20818ef3c1a2291b9e21d080320617a5a2e9e4targetblank2d20818a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/2d20818ef3c1a2291b9e21d080320617a5a2e9e4" target="_blank">2d20818</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretreeda3a49300ba9766ab6dfaab116e6539d0ffee27btargetblankda3a493a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretree2d20818ef3c1a2291b9e21d080320617a5a2e9e4targetblank2d20818a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/da3a49300ba9766ab6dfaab116e6539d0ffee27b" target="_blank">da3a493</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/2d20818ef3c1a2291b9e21d080320617a5a2e9e4" target="_blank">2d20818</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -491,10 +500,15 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .Rapp.history
     Ignored:    .Rproj.user/
+    Ignored:    data/.DS_Store
+    Ignored:    data/confidentialData/
 
 Unstaged changes:
+    Modified:   .gitignore
     Modified:   analysis/_site.yml
-    Modified:   analysis/index.Rmd
+    Deleted:    analysis/about.Rmd
+    Modified:   analysis/first-analysis.Rmd
+    Modified:   data/README.md
 
 </code></pre>
 <p>
@@ -533,6 +547,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/karissa-b/2021-rosmap-ire/c07e1e090511b146201ab2c03137b62f1c5be4fc/docs/first-analysis.html" target="_blank">c07e1e0</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-22
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -659,9 +690,171 @@ Add my first analysis
 </div>
 </div>
 </div>
+<pre class="r"><code>library(tidyverse)
+library(magrittr)
+library(pander)
+library(AnnotationHub)
+library(ggpubr)
+library(ggeasy)
+library(edgeR)
+library(scales)</code></pre>
+<pre class="r"><code>theme_set(theme_bw())
+panderOptions(&quot;big.mark&quot;, &quot;,&quot;)
+panderOptions(&quot;table.split.table&quot;, Inf)
+panderOptions(&quot;table.style&quot;, &quot;rmarkdown&quot;)</code></pre>
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>test</p>
+<pre class="r"><code># Note that this chunk takes a while to run, and requires internet connection
+ah &lt;- AnnotationHub() %&gt;%
+    subset(species == &quot;Homo sapiens&quot;) %&gt;%
+    subset(rdataclass == &quot;EnsDb&quot;)
+
+ensDb &lt;- ah[[&quot;AH75011&quot;]] # for release 98, which is the genome version I aligned to
+grTrans &lt;- transcripts(ensDb)
+trLengths &lt;- exonsBy(ensDb, &quot;tx&quot;) %&gt;%
+    width() %&gt;%
+    vapply(sum, integer(1))
+mcols(grTrans)$length &lt;- trLengths[names(grTrans)]
+gcGene &lt;- grTrans %&gt;%
+  mcols() %&gt;%
+  as.data.frame() %&gt;%
+  dplyr::select(gene_id, tx_id, gc_content, length) %&gt;%
+  as_tibble() %&gt;%
+  group_by(gene_id) %&gt;%
+  summarise(
+    gc_content = sum(gc_content*length) / sum(length),
+    length = ceiling(median(length))
+  )
+grGenes &lt;- genes(ensDb)
+mcols(grGenes) %&lt;&gt;%
+  as.data.frame() %&gt;%
+  left_join(gcGene) %&gt;%
+  as.data.frame() %&gt;%
+  DataFrame()</code></pre>
+<p>In order to perform adequate QC, an <code>EnsDb</code> object was obtained for Ensembl release 98 using the <code>AnnotationHub</code> package. This provided the GC content and length for each of the 250,194 transcripts contained in that release.</p>
+<pre class="r"><code>meta &lt;- 
+  read_csv(&quot;data/confidentialData/ROSMAP-IN_assay_RNAseq_metadata.csv&quot;) %&gt;% 
+  dplyr::select(specimenID, RIN, rnaBatch, libraryBatch, sequencingBatch) %&gt;% 
+  left_join(read_csv(&quot;data/confidentialData/ROSMAP-IN_invitro_biospecimen_metadata.csv&quot;)) %&gt;% 
+  left_join(read_csv(&quot;data/confidentialData/ROSMAP-IN_individual_metadata.csv&quot;)) %&gt;% 
+  mutate(experimentor = str_extract(.$specimenID, 
+                                    pattern = &quot;(AH|VL)&quot;), 
+         temp = str_remove(.$specimenID, 
+                           pattern = &quot;(AH|VL)&quot;) %&gt;% 
+           str_remove(pattern = &quot;_BR[0-9]+&quot;), 
+         sample = paste0(experimentor, &quot;.s&quot;, temp)
+  ) %&gt;% 
+  dplyr::select(sample, experimentor, everything())# make some new cols to match the names in the gene counts matrix
+
+
+featureCounts &lt;- 
+  read_delim(&quot;data/confidentialData/counts.out&quot;, delim = &quot;\t&quot;, skip = 1) %&gt;%
+  set_names(basename(names(.))) %&gt;% 
+  as.data.frame() %&gt;%
+  dplyr::select(-c(Chr, Start, End, Length, Strand)) %&gt;% 
+  as_tibble %&gt;% 
+  column_to_rownames(&quot;Geneid&quot;)
+
+# tidy up colnames
+colnames(featureCounts) %&lt;&gt;% 
+  str_remove(&quot;.Aligned.sortedByCoord.out.bam&quot;)</code></pre>
+</div>
+<div id="filtering-lowly-expressed-genes" class="section level2">
+<h2>Filtering lowly expressed genes</h2>
+<p>Genes which are lowly expressed are uninformative for DE analysis. I will follow the 10/min.lib.size rule to filter lowly expressed genes. The effect of filtering is be shown in the density plots below.</p>
+<pre class="r"><code>minCPM &lt;- 1
+minSamples &lt;- 33
+
+a &lt;- featureCounts %&gt;% 
+  cpm(log = TRUE) %&gt;%
+  as.data.frame() %&gt;% 
+  pivot_longer(
+    cols = everything(),
+    names_to = &quot;sample&quot;,
+    values_to = &quot;logCPM&quot;
+  ) %&gt;%
+  split(f = .$sample) %&gt;%
+  lapply(function(x){
+    d &lt;- density(x$logCPM)
+    tibble(
+      sample = unique(x$sample),
+      x = d$x,
+      y = d$y
+    )
+  }) %&gt;%
+  bind_rows() %&gt;%
+  left_join(meta) %&gt;% 
+  ggplot(aes(x, y, colour = diagnosis, group = sample)) +
+  geom_line() +
+  labs(
+    x = &quot;logCPM&quot;,
+    y = &quot;Density&quot;,
+    colour = &quot;diagnosis&quot;
+  )+
+  ggtitle(&quot;Before filtering&quot;)
+
+b &lt;- featureCounts %&gt;% 
+  .[rowSums(cpm(.) &gt;= 2) &gt;= minSamples,] %&gt;% 
+  cpm(log = TRUE) %&gt;%
+  as.data.frame() %&gt;% 
+  pivot_longer(
+    cols = everything(),
+    names_to = &quot;sample&quot;,
+    values_to = &quot;logCPM&quot;
+  ) %&gt;%
+  split(f = .$sample) %&gt;%
+  lapply(function(x){
+    d &lt;- density(x$logCPM)
+    tibble(
+      sample = unique(x$sample),
+      x = d$x,
+      y = d$y
+    )
+  }) %&gt;%
+  bind_rows() %&gt;%
+  left_join(meta) %&gt;% 
+  ggplot(aes(x, y, colour = diagnosis, group = sample)) +
+  geom_line() +
+  labs(
+    x = &quot;logCPM&quot;,
+    y = &quot;Density&quot;,
+    colour = &quot;Genotype&quot;
+  )+
+  ggtitle(&quot;After filtering&quot;) 
+ggarrange(a, b, common.legend = TRUE)</code></pre>
+<p><img src="figure/first-analysis.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>dge &lt;- featureCounts %&gt;% 
+  as.matrix() %&gt;% 
+  DGEList(
+    samples = tibble(sample = colnames(.)) %&gt;%
+      left_join(meta) %&gt;% 
+      as_tibble(),
+    genes = grGenes[rownames(.)] %&gt;%
+      as.data.frame() %&gt;%
+      dplyr::select(
+        chromosome = seqnames, start, end, 
+        gene_id, gene_name, gene_biotype, description, entrezid
+      ) %&gt;% 
+      left_join(gcGene) %&gt;% 
+      as_tibble()
+  ) %&gt;%
+  calcNormFactors()</code></pre>
+</div>
+<div id="check-library-sizes" class="section level2">
+<h2>Check library sizes</h2>
+<p>Libary sizes vary considerably, which appears to be due to samples being sequenced across multiple runs. Library sizes range between <em>4,697,354</em> and <em>20,163,546</em>. Although concerning, this will be accounted for using the <code>TMM normalisation</code>.</p>
+<pre class="r"><code>dge$samples %&gt;% 
+  ggplot(aes(x = specimenIdSource, y = lib.size, fill = sequencingBatch)) + 
+  geom_col() +
+  easy_rotate_x_labels(angle = -45) +
+  facet_wrap(~diagnosis, scales = &quot;free_x&quot;) +
+  scale_y_continuous(labels = comma) +
+  labs(
+    x = &quot;Sample&quot;, 
+    y = &quot;RNA-seq library size&quot;, 
+    fill = &quot;RNA-seq batch&quot;
+  )</code></pre>
+<p><img src="figure/first-analysis.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -682,21 +875,78 @@ locale:
 [1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
 
 attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
+[1] stats4    parallel  stats     graphics  grDevices utils     datasets 
+[8] methods   base     
 
 other attached packages:
-[1] workflowr_1.6.2
+ [1] ensembldb_2.12.1        AnnotationFilter_1.12.0 GenomicFeatures_1.40.1 
+ [4] AnnotationDbi_1.50.3    Biobase_2.48.0          GenomicRanges_1.40.0   
+ [7] GenomeInfoDb_1.24.2     IRanges_2.22.2          S4Vectors_0.26.1       
+[10] scales_1.1.1            edgeR_3.30.3            limma_3.44.3           
+[13] ggeasy_0.1.3            ggpubr_0.4.0            AnnotationHub_2.20.2   
+[16] BiocFileCache_1.12.1    dbplyr_2.1.1            BiocGenerics_0.34.0    
+[19] pander_0.6.4            magrittr_2.0.1          forcats_0.5.1          
+[22] stringr_1.4.0           dplyr_1.0.7             purrr_0.3.4            
+[25] readr_1.4.0             tidyr_1.1.3             tibble_3.1.2           
+[28] ggplot2_3.3.5           tidyverse_1.3.1        
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.7        whisker_0.4       knitr_1.33        magrittr_2.0.1   
- [5] R6_2.5.0          rlang_0.4.11      fansi_0.5.0       stringr_1.4.0    
- [9] tools_4.0.2       xfun_0.24         utf8_1.2.1        git2r_0.28.0     
-[13] jquerylib_0.1.4   htmltools_0.5.1.1 ellipsis_0.3.2    rprojroot_2.0.2  
-[17] yaml_2.2.1        digest_0.6.27     tibble_3.1.2      lifecycle_1.0.0  
-[21] crayon_1.4.1      later_1.2.0       sass_0.4.0        vctrs_0.3.8      
-[25] promises_1.2.0.1  fs_1.5.0          glue_1.4.2        evaluate_0.14    
-[29] rmarkdown_2.9     stringi_1.6.2     bslib_0.2.5.1     compiler_4.0.2   
-[33] pillar_1.6.1      jsonlite_1.7.2    httpuv_1.6.1      pkgconfig_2.0.3  </code></pre>
+  [1] readxl_1.3.1                  backports_1.2.1              
+  [3] workflowr_1.6.2               lazyeval_0.2.2               
+  [5] BiocParallel_1.22.0           digest_0.6.27                
+  [7] htmltools_0.5.1.1             fansi_0.5.0                  
+  [9] memoise_2.0.0                 openxlsx_4.2.4               
+ [11] Biostrings_2.56.0             modelr_0.1.8                 
+ [13] matrixStats_0.59.0            askpass_1.1                  
+ [15] prettyunits_1.1.1             colorspace_2.0-2             
+ [17] blob_1.2.1                    rvest_1.0.0                  
+ [19] rappdirs_0.3.3                haven_2.4.1                  
+ [21] xfun_0.24                     crayon_1.4.1                 
+ [23] RCurl_1.98-1.3                jsonlite_1.7.2               
+ [25] glue_1.4.2                    gtable_0.3.0                 
+ [27] zlibbioc_1.34.0               XVector_0.28.0               
+ [29] DelayedArray_0.14.1           car_3.0-11                   
+ [31] abind_1.4-5                   DBI_1.1.1                    
+ [33] rstatix_0.7.0                 Rcpp_1.0.7                   
+ [35] xtable_1.8-4                  progress_1.2.2               
+ [37] foreign_0.8-81                bit_4.0.4                    
+ [39] httr_1.4.2                    ellipsis_0.3.2               
+ [41] pkgconfig_2.0.3               XML_3.99-0.6                 
+ [43] farver_2.1.0                  sass_0.4.0                   
+ [45] locfit_1.5-9.4                utf8_1.2.1                   
+ [47] tidyselect_1.1.1              labeling_0.4.2               
+ [49] rlang_0.4.11                  later_1.2.0                  
+ [51] munsell_0.5.0                 BiocVersion_3.11.1           
+ [53] cellranger_1.1.0              tools_4.0.2                  
+ [55] cachem_1.0.5                  cli_3.0.0                    
+ [57] generics_0.1.0                RSQLite_2.2.7                
+ [59] broom_0.7.8                   evaluate_0.14                
+ [61] fastmap_1.1.0                 yaml_2.2.1                   
+ [63] knitr_1.33                    bit64_4.0.5                  
+ [65] fs_1.5.0                      zip_2.2.0                    
+ [67] whisker_0.4                   mime_0.11                    
+ [69] xml2_1.3.2                    biomaRt_2.44.4               
+ [71] compiler_4.0.2                rstudioapi_0.13              
+ [73] curl_4.3.2                    interactiveDisplayBase_1.26.3
+ [75] ggsignif_0.6.2                reprex_2.0.0                 
+ [77] bslib_0.2.5.1                 stringi_1.6.2                
+ [79] highr_0.9                     lattice_0.20-44              
+ [81] ProtGenerics_1.20.0           Matrix_1.3-4                 
+ [83] vctrs_0.3.8                   pillar_1.6.1                 
+ [85] lifecycle_1.0.0               BiocManager_1.30.16          
+ [87] jquerylib_0.1.4               data.table_1.14.0            
+ [89] cowplot_1.1.1                 bitops_1.0-7                 
+ [91] httpuv_1.6.1                  rtracklayer_1.48.0           
+ [93] R6_2.5.0                      promises_1.2.0.1             
+ [95] gridExtra_2.3                 rio_0.5.27                   
+ [97] assertthat_0.2.1              SummarizedExperiment_1.18.2  
+ [99] openssl_1.4.4                 rprojroot_2.0.2              
+[101] withr_2.4.2                   GenomicAlignments_1.24.0     
+[103] Rsamtools_2.4.0               GenomeInfoDbData_1.2.3       
+[105] hms_1.1.0                     grid_4.0.2                   
+[107] rmarkdown_2.9                 carData_3.0-4                
+[109] git2r_0.28.0                  shiny_1.6.0                  
+[111] lubridate_1.7.10             </code></pre>
 </div>
 </div>
 
@@ -747,6 +997,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 <script>
 $(document).ready(function ()  {

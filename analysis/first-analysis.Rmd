@@ -1,16 +1,205 @@
 ---
-title: "first-analysis"
+title: "initialQC"
 author: "Karissa Barthelson"
 date: "2021-10-22"
 output: workflowr::wflow_html
 editor_options:
   chunk_output_type: console
 ---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  autodep = TRUE,
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = "center"
+)
+```
+
+```{r loadLibs}
+library(tidyverse)
+library(magrittr)
+library(pander)
+library(AnnotationHub)
+library(ggpubr)
+library(ggeasy)
+library(edgeR)
+library(scales)
+```
+
+```{r setOptions}
+theme_set(theme_bw())
+panderOptions("big.mark", ",")
+panderOptions("table.split.table", Inf)
+panderOptions("table.style", "rmarkdown")
+```
 
 ## Introduction
-test
+```{r annotations}
+# Note that this chunk takes a while to run, and requires internet connection
+ah <- AnnotationHub() %>%
+	subset(species == "Homo sapiens") %>%
+	subset(rdataclass == "EnsDb")
+
+ensDb <- ah[["AH75011"]] # for release 98, which is the genome version I aligned to
+grTrans <- transcripts(ensDb)
+trLengths <- exonsBy(ensDb, "tx") %>%
+	width() %>%
+	vapply(sum, integer(1))
+mcols(grTrans)$length <- trLengths[names(grTrans)]
+gcGene <- grTrans %>%
+  mcols() %>%
+  as.data.frame() %>%
+  dplyr::select(gene_id, tx_id, gc_content, length) %>%
+  as_tibble() %>%
+  group_by(gene_id) %>%
+  summarise(
+    gc_content = sum(gc_content*length) / sum(length),
+    length = ceiling(median(length))
+  )
+grGenes <- genes(ensDb)
+mcols(grGenes) %<>%
+  as.data.frame() %>%
+  left_join(gcGene) %>%
+  as.data.frame() %>%
+  DataFrame()
+```
+  
+  In order to perform adequate QC, an `EnsDb` object was obtained for Ensembl release `r ensemblVersion(ensDb)` using the  `AnnotationHub` package.
+This provided the GC content and length for each of the `r comma(length(grTrans))` transcripts contained in that release.
+
+
+```{r dataImport}
+meta <- 
+  read_csv("data/confidentialData/ROSMAP-IN_assay_RNAseq_metadata.csv") %>% 
+  dplyr::select(specimenID, RIN, rnaBatch, libraryBatch, sequencingBatch) %>% 
+  left_join(read_csv("data/confidentialData/ROSMAP-IN_invitro_biospecimen_metadata.csv")) %>% 
+  left_join(read_csv("data/confidentialData/ROSMAP-IN_individual_metadata.csv")) %>% 
+  mutate(experimentor = str_extract(.$specimenID, 
+                                    pattern = "(AH|VL)"), 
+         temp = str_remove(.$specimenID, 
+                           pattern = "(AH|VL)") %>% 
+           str_remove(pattern = "_BR[0-9]+"), 
+         sample = paste0(experimentor, ".s", temp)
+  ) %>% 
+  dplyr::select(sample, experimentor, everything())# make some new cols to match the names in the gene counts matrix
+
+
+featureCounts <- 
+  read_delim("data/confidentialData/counts.out", delim = "\t", skip = 1) %>%
+  set_names(basename(names(.))) %>% 
+  as.data.frame() %>%
+  dplyr::select(-c(Chr, Start, End, Length, Strand)) %>% 
+  as_tibble %>% 
+  column_to_rownames("Geneid")
+
+# tidy up colnames
+colnames(featureCounts) %<>% 
+  str_remove(".Aligned.sortedByCoord.out.bam")
+```
+
+## Filtering lowly expressed genes
+
+Genes which are lowly expressed are uninformative for DE analysis. I will follow the 10/min.lib.size rule to filter lowly expressed genes. The effect of filtering is be shown in the density plots below. 
 
 ```{r}
+minCPM <- 1
+minSamples <- 33
 
+a <- featureCounts %>% 
+  cpm(log = TRUE) %>%
+  as.data.frame() %>% 
+  pivot_longer(
+    cols = everything(),
+    names_to = "sample",
+    values_to = "logCPM"
+  ) %>%
+  split(f = .$sample) %>%
+  lapply(function(x){
+    d <- density(x$logCPM)
+    tibble(
+      sample = unique(x$sample),
+      x = d$x,
+      y = d$y
+    )
+  }) %>%
+  bind_rows() %>%
+  left_join(meta) %>% 
+  ggplot(aes(x, y, colour = diagnosis, group = sample)) +
+  geom_line() +
+  labs(
+    x = "logCPM",
+    y = "Density",
+    colour = "diagnosis"
+  )+
+  ggtitle("Before filtering")
+
+b <- featureCounts %>% 
+  .[rowSums(cpm(.) >= 2) >= minSamples,] %>% 
+  cpm(log = TRUE) %>%
+  as.data.frame() %>% 
+  pivot_longer(
+    cols = everything(),
+    names_to = "sample",
+    values_to = "logCPM"
+  ) %>%
+  split(f = .$sample) %>%
+  lapply(function(x){
+    d <- density(x$logCPM)
+    tibble(
+      sample = unique(x$sample),
+      x = d$x,
+      y = d$y
+    )
+  }) %>%
+  bind_rows() %>%
+  left_join(meta) %>% 
+  ggplot(aes(x, y, colour = diagnosis, group = sample)) +
+  geom_line() +
+  labs(
+    x = "logCPM",
+    y = "Density",
+    colour = "Genotype"
+  )+
+  ggtitle("After filtering") 
+ggarrange(a, b, common.legend = TRUE)
 ```
+
+```{r dge}
+dge <- featureCounts %>% 
+  as.matrix() %>% 
+  DGEList(
+    samples = tibble(sample = colnames(.)) %>%
+      left_join(meta) %>% 
+      as_tibble(),
+    genes = grGenes[rownames(.)] %>%
+      as.data.frame() %>%
+      dplyr::select(
+        chromosome = seqnames, start, end, 
+        gene_id, gene_name, gene_biotype, description, entrezid
+      ) %>% 
+      left_join(gcGene) %>% 
+      as_tibble()
+  ) %>%
+  calcNormFactors()
+```
+
+## Check library sizes
+
+Libary sizes vary considerably, which appears to be due to samples being sequenced across multiple runs. Library sizes range between  `r pander(comma(range(dge$samples$lib.size)))`. Although concerning, this will be accounted for using the `TMM normalisation`.
+```{r}
+dge$samples %>% 
+  ggplot(aes(x = specimenIdSource, y = lib.size, fill = sequencingBatch)) + 
+  geom_col() +
+  easy_rotate_x_labels(angle = -45) +
+  facet_wrap(~diagnosis, scales = "free_x") +
+  scale_y_continuous(labels = comma) +
+  labs(
+    x = "Sample", 
+    y = "RNA-seq library size", 
+    fill = "RNA-seq batch"
+  )
+```
+
+
 

@@ -5,10 +5,8 @@ navbar:
   left:
   - text: Home
     href: index.html
-  - text: About
-    href: about.html
-  - text: License
-    href: license.html
+  - text: QC
+    href: first-analysis.html
   right:
   - icon: fa-github
     text: Source code
@@ -19,3 +17,4 @@ output:
     toc_float: yes
     theme: yeti
     highlight: textmate
+    code_folding: hide
