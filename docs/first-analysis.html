@@ -482,16 +482,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretree2d20818ef3c1a2291b9e21d080320617a5a2e9e4targetblank2d20818a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/2d20818ef3c1a2291b9e21d080320617a5a2e9e4" target="_blank">2d20818</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretree403670c1344e85ee6a3a0efa0eada46e22bb524ctargetblank403670ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/403670c1344e85ee6a3a0efa0eada46e22bb524c" target="_blank">403670c</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretree2d20818ef3c1a2291b9e21d080320617a5a2e9e4targetblank2d20818a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretree403670c1344e85ee6a3a0efa0eada46e22bb524ctargetblank403670ca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/2d20818ef3c1a2291b9e21d080320617a5a2e9e4" target="_blank">2d20818</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/403670c1344e85ee6a3a0efa0eada46e22bb524c" target="_blank">403670c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -504,11 +504,7 @@ Ignored files:
     Ignored:    data/confidentialData/
 
 Unstaged changes:
-    Modified:   .gitignore
-    Modified:   analysis/_site.yml
-    Deleted:    analysis/about.Rmd
     Modified:   analysis/first-analysis.Rmd
-    Modified:   data/README.md
 
 </code></pre>
 <p>
@@ -547,6 +543,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/karissa-b/2021-rosmap-ire/blob/dcd0ecfb39e94a48e83ea93e9f662e2a0f3b16c7/analysis/first-analysis.Rmd" target="_blank">dcd0ecf</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-22
+</td>
+<td>
+anther commit
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/karissa-b/2021-rosmap-ire/dcd0ecfb39e94a48e83ea93e9f662e2a0f3b16c7/docs/first-analysis.html" target="_blank">dcd0ecf</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-22
+</td>
+<td>
+anther commit
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -697,7 +727,8 @@ library(AnnotationHub)
 library(ggpubr)
 library(ggeasy)
 library(edgeR)
-library(scales)</code></pre>
+library(scales)
+library(ngsReports)</code></pre>
 <pre class="r"><code>theme_set(theme_bw())
 panderOptions(&quot;big.mark&quot;, &quot;,&quot;)
 panderOptions(&quot;table.split.table&quot;, Inf)
@@ -759,6 +790,442 @@ featureCounts &lt;-
 colnames(featureCounts) %&lt;&gt;% 
   str_remove(&quot;.Aligned.sortedByCoord.out.bam&quot;)</code></pre>
 </div>
+<div id="raw-data-qc" class="section level1">
+<h1>raw data QC</h1>
+<pre class="r"><code>fastqc_raw &lt;- list.files(
+    path = &quot;data/confidentialData/fastqc_raw/&quot;,
+    pattern = &quot;zip&quot;, 
+    recursive = TRUE,
+    full.names = TRUE
+    ) %&gt;% 
+    FastqcDataList()</code></pre>
+<div id="gc-content" class="section level2">
+<h2>GC content</h2>
+<p>Strange peaks are observed with 100% GC content. After a quick google search, it appears these are sequeniccng artefacts.</p>
+<pre class="r"><code>plotGcContent(
+  x = fastqc_raw, 
+  plotType = &quot;line&quot;,
+  gcType = &quot;Transcriptome&quot;
+) +
+  theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="figure/first-analysis.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
+Past versions of unnamed-chunk-2-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/karissa-b/2021-rosmap-ire/blob/403670c1344e85ee6a3a0efa0eada46e22bb524c/docs/figure/first-analysis.Rmd/unnamed-chunk-2-1.png" target="_blank">403670c</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="over-represented-sequences" class="section level2">
+<h2>Over-represented sequences</h2>
+<p>There doesn’t appear to be any over-represented sequences which are worrying. The top ones are mostly adaptors which are removed in the snakemake pipeline.</p>
+<pre class="r"><code>getModule(fastqc_raw, &quot;Overrep&quot;) %&gt;% 
+    group_by(Sequence, Possible_Source) %&gt;% 
+    summarise(`Found In` = n(), `Highest Percentage` = max(Percentage)) %&gt;% 
+    arrange(desc(`Highest Percentage`), desc(`Found In`)) %&gt;% 
+    ungroup() %&gt;% 
+    dplyr::slice(1:30) %&gt;%
+    mutate(`Highest Percentage` = percent_format(0.01)(`Highest Percentage`/100)) %&gt;%
+    pander(
+        justify = &quot;llrr&quot;,
+        caption = paste(
+            &quot;*Top&quot;, nrow(.),&quot;Overrepresented sequences.&quot;,
+            &quot;The number of samples they were found in is shown,&quot;,
+            &quot;along with the percentage of the most &#39;contaminated&#39; sample.*&quot;
+            )
+    )</code></pre>
+<table>
+<caption><em>Top 22 Overrepresented sequences. The number of samples they were found in is shown, along with the percentage of the most ‘contaminated’ sample.</em></caption>
+<colgroup>
+<col width="51%" />
+<col width="28%" />
+<col width="6%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Sequence</th>
+<th align="left">Possible_Source</th>
+<th align="right">Found In</th>
+<th align="right">Highest Percentage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG</td>
+<td align="left">No Hit</td>
+<td align="right">37</td>
+<td align="right">3.60%</td>
+</tr>
+<tr class="even">
+<td align="left">CTTATACACATCTCCGAGCCCACGAGACGTAGAGGAATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
+<td align="left">TruSeq Adapter, Index 3 (96% over 28bp)</td>
+<td align="right">3</td>
+<td align="right">1.46%</td>
+</tr>
+<tr class="odd">
+<td align="left">CTTATACACATCTCCGAGCCCACGAGACGGACTCCTATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
+<td align="left">RNA PCR Primer, Index 27 (96% over 30bp)</td>
+<td align="right">1</td>
+<td align="right">1.10%</td>
+</tr>
+<tr class="even">
+<td align="left">CTTATACACATCTCCGAGCCCACGAGACGCTCATGAATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
+<td align="left">TruSeq Adapter, Index 8 (96% over 29bp)</td>
+<td align="right">1</td>
+<td align="right">1.01%</td>
+</tr>
+<tr class="odd">
+<td align="left">ATACACATCTCCGAGCCCACGAGACGTAGAGGAATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGG</td>
+<td align="left">TruSeq Adapter, Index 3 (96% over 28bp)</td>
+<td align="right">2</td>
+<td align="right">0.87%</td>
+</tr>
+<tr class="even">
+<td align="left">CTTATACACATCTCCGAGCCCACGAGACTAGGCATGATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
+<td align="left">TruSeq Adapter, Index 1 (96% over 28bp)</td>
+<td align="right">1</td>
+<td align="right">0.60%</td>
+</tr>
+<tr class="odd">
+<td align="left">ATACACATCTCCGAGCCCACGAGACGCTCATGAATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGG</td>
+<td align="left">TruSeq Adapter, Index 8 (96% over 29bp)</td>
+<td align="right">1</td>
+<td align="right">0.59%</td>
+</tr>
+<tr class="even">
+<td align="left">ATACACATCTCCGAGCCCACGAGACGGACTCCTATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGG</td>
+<td align="left">RNA PCR Primer, Index 27 (96% over 30bp)</td>
+<td align="right">1</td>
+<td align="right">0.58%</td>
+</tr>
+<tr class="odd">
+<td align="left">ACACATCTCCGAGCCCACGAGACGTAGAGGAATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGGGG</td>
+<td align="left">RNA PCR Primer, Index 3 (96% over 28bp)</td>
+<td align="right">1</td>
+<td align="right">0.42%</td>
+</tr>
+<tr class="even">
+<td align="left">ATACACATCTCCGAGCCCACGAGACTAGGCATGATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGG</td>
+<td align="left">TruSeq Adapter, Index 1 (96% over 28bp)</td>
+<td align="right">1</td>
+<td align="right">0.37%</td>
+</tr>
+<tr class="odd">
+<td align="left">CTTATACACATCTCCGAGCCCACGAGACAAGAGGCAATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
+<td align="left">RNA PCR Primer, Index 33 (96% over 29bp)</td>
+<td align="right">1</td>
+<td align="right">0.29%</td>
+</tr>
+<tr class="even">
+<td align="left">ACACATCTCCGAGCCCACGAGACGCTCATGAATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGGGG</td>
+<td align="left">RNA PCR Primer, Index 8 (96% over 29bp)</td>
+<td align="right">1</td>
+<td align="right">0.29%</td>
+</tr>
+<tr class="odd">
+<td align="left">ACACATCTCCGAGCCCACGAGACGGACTCCTATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGGGG</td>
+<td align="left">RNA PCR Primer, Index 27 (96% over 30bp)</td>
+<td align="right">1</td>
+<td align="right">0.27%</td>
+</tr>
+<tr class="even">
+<td align="left">CTTATACACATCTCCGAGCCCACGAGACCTCTCTACATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
+<td align="left">RNA PCR Primer, Index 39 (96% over 30bp)</td>
+<td align="right">1</td>
+<td align="right">0.26%</td>
+</tr>
+<tr class="odd">
+<td align="left">CTTATACACATCTCCGAGCCCACGAGACCGAGGCTGATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
+<td align="left">TruSeq Adapter, Index 10 (96% over 28bp)</td>
+<td align="right">2</td>
+<td align="right">0.24%</td>
+</tr>
+<tr class="even">
+<td align="left">ACACATCTCCGAGCCCACGAGACTAGGCATGATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGGGG</td>
+<td align="left">RNA PCR Primer, Index 1 (96% over 28bp)</td>
+<td align="right">1</td>
+<td align="right">0.20%</td>
+</tr>
+<tr class="odd">
+<td align="left">ATACACATCTCCGAGCCCACGAGACAAGAGGCAATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGG</td>
+<td align="left">RNA PCR Primer, Index 33 (96% over 29bp)</td>
+<td align="right">1</td>
+<td align="right">0.18%</td>
+</tr>
+<tr class="even">
+<td align="left">ATACACATCTCCGAGCCCACGAGACCTCTCTACATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGG</td>
+<td align="left">RNA PCR Primer, Index 39 (96% over 30bp)</td>
+<td align="right">1</td>
+<td align="right">0.15%</td>
+</tr>
+<tr class="odd">
+<td align="left">ATACACATCTCCGAGCCCACGAGACCGAGGCTGATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGG</td>
+<td align="left">TruSeq Adapter, Index 10 (96% over 28bp)</td>
+<td align="right">2</td>
+<td align="right">0.15%</td>
+</tr>
+<tr class="even">
+<td align="left">CTTATACACATCTCCGAGCCCACGAGACTCCTGAGCATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
+<td align="left">RNA PCR Primer, Index 26 (100% over 29bp)</td>
+<td align="right">1</td>
+<td align="right">0.14%</td>
+</tr>
+<tr class="odd">
+<td align="left">CTTATACACATCTCCGAGCCCACGAGACCGTACTAGATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
+<td align="left">TruSeq Adapter, Index 11 (96% over 28bp)</td>
+<td align="right">1</td>
+<td align="right">0.11%</td>
+</tr>
+<tr class="even">
+<td align="left">ACACATCTCCGAGCCCACGAGACCGAGGCTGATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGGGG</td>
+<td align="left">RNA PCR Primer, Index 10 (96% over 28bp)</td>
+<td align="right">1</td>
+<td align="right">0.10%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="trimmed-qc" class="section level1">
+<h1>Trimmed QC</h1>
+<pre class="r"><code>fastqc_trim &lt;- list.files(path = &quot;data/confidentialData/fastqc_trim&quot;, 
+                          pattern = &quot;zip&quot;, 
+                          full.names = TRUE) %&gt;%
+  FastqcDataList()
+
+trimStats &lt;- readTotals(fastqc_raw) %&gt;%
+  dplyr::rename(Raw = Total_Sequences) %&gt;%
+  left_join(readTotals(fastqc_trim), by = &quot;Filename&quot;) %&gt;%
+  dplyr::rename(Trimmed = Total_Sequences) %&gt;%
+  dplyr::filter(grepl(&quot;r1&quot;, Filename)) %&gt;%
+  mutate(
+    Discarded = 1 - Trimmed/Raw,
+    Retained = Trimmed / Raw
+  )</code></pre>
+<p>After adapter trimming between <em>0.03%</em> and <em>0.16%</em> of reads were discarded.</p>
+<pre class="r"><code>getModule(fastqc_trim, &quot;Overrep&quot;) %&gt;% 
+    group_by(Sequence, Possible_Source) %&gt;% 
+    summarise(`Found In` = n(), `Highest Percentage` = max(Percentage)) %&gt;% 
+    arrange(desc(`Highest Percentage`), desc(`Found In`)) %&gt;% 
+    ungroup() %&gt;% 
+    dplyr::slice(1:30) %&gt;%
+    mutate(`Highest Percentage` = percent_format(0.01)(`Highest Percentage`/100)) %&gt;%
+    pander(
+        justify = &quot;llrr&quot;,
+        caption = paste(
+            &quot;*Top&quot;, nrow(.),&quot;Overrepresented sequences.&quot;,
+            &quot;The number of samples they were found in is shown,&quot;,
+            &quot;along with the percentage of the most &#39;contaminated&#39; sample.*&quot;
+            )
+    )</code></pre>
+<table>
+<caption><em>Top 22 Overrepresented sequences. The number of samples they were found in is shown, along with the percentage of the most ‘contaminated’ sample.</em></caption>
+<colgroup>
+<col width="51%" />
+<col width="28%" />
+<col width="6%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Sequence</th>
+<th align="left">Possible_Source</th>
+<th align="right">Found In</th>
+<th align="right">Highest Percentage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG</td>
+<td align="left">No Hit</td>
+<td align="right">31</td>
+<td align="right">3.40%</td>
+</tr>
+<tr class="even">
+<td align="left">CTTATACACATCTCCGAGCCCACGAGACGTAGAGGAATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
+<td align="left">TruSeq Adapter, Index 3 (96% over 28bp)</td>
+<td align="right">3</td>
+<td align="right">1.41%</td>
+</tr>
+<tr class="odd">
+<td align="left">CTTATACACATCTCCGAGCCCACGAGACGGACTCCTATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
+<td align="left">RNA PCR Primer, Index 27 (96% over 30bp)</td>
+<td align="right">1</td>
+<td align="right">1.04%</td>
+</tr>
+<tr class="even">
+<td align="left">CTTATACACATCTCCGAGCCCACGAGACGCTCATGAATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
+<td align="left">TruSeq Adapter, Index 8 (96% over 29bp)</td>
+<td align="right">1</td>
+<td align="right">0.98%</td>
+</tr>
+<tr class="odd">
+<td align="left">ATACACATCTCCGAGCCCACGAGACGTAGAGGAATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGG</td>
+<td align="left">TruSeq Adapter, Index 3 (96% over 28bp)</td>
+<td align="right">2</td>
+<td align="right">0.84%</td>
+</tr>
+<tr class="even">
+<td align="left">CTTATACACATCTCCGAGCCCACGAGACTAGGCATGATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
+<td align="left">TruSeq Adapter, Index 1 (96% over 28bp)</td>
+<td align="right">1</td>
+<td align="right">0.57%</td>
+</tr>
+<tr class="odd">
+<td align="left">ATACACATCTCCGAGCCCACGAGACGCTCATGAATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGG</td>
+<td align="left">TruSeq Adapter, Index 8 (96% over 29bp)</td>
+<td align="right">1</td>
+<td align="right">0.57%</td>
+</tr>
+<tr class="even">
+<td align="left">ATACACATCTCCGAGCCCACGAGACGGACTCCTATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGG</td>
+<td align="left">RNA PCR Primer, Index 27 (96% over 30bp)</td>
+<td align="right">1</td>
+<td align="right">0.56%</td>
+</tr>
+<tr class="odd">
+<td align="left">ACACATCTCCGAGCCCACGAGACGTAGAGGAATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGGGG</td>
+<td align="left">RNA PCR Primer, Index 3 (96% over 28bp)</td>
+<td align="right">1</td>
+<td align="right">0.40%</td>
+</tr>
+<tr class="even">
+<td align="left">ATACACATCTCCGAGCCCACGAGACTAGGCATGATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGG</td>
+<td align="left">TruSeq Adapter, Index 1 (96% over 28bp)</td>
+<td align="right">1</td>
+<td align="right">0.35%</td>
+</tr>
+<tr class="odd">
+<td align="left">CTTATACACATCTCCGAGCCCACGAGACAAGAGGCAATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
+<td align="left">RNA PCR Primer, Index 33 (96% over 29bp)</td>
+<td align="right">1</td>
+<td align="right">0.28%</td>
+</tr>
+<tr class="even">
+<td align="left">ACACATCTCCGAGCCCACGAGACGCTCATGAATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGGGG</td>
+<td align="left">RNA PCR Primer, Index 8 (96% over 29bp)</td>
+<td align="right">1</td>
+<td align="right">0.28%</td>
+</tr>
+<tr class="odd">
+<td align="left">ACACATCTCCGAGCCCACGAGACGGACTCCTATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGGGG</td>
+<td align="left">RNA PCR Primer, Index 27 (96% over 30bp)</td>
+<td align="right">1</td>
+<td align="right">0.26%</td>
+</tr>
+<tr class="even">
+<td align="left">CTTATACACATCTCCGAGCCCACGAGACCTCTCTACATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
+<td align="left">RNA PCR Primer, Index 39 (96% over 30bp)</td>
+<td align="right">1</td>
+<td align="right">0.25%</td>
+</tr>
+<tr class="odd">
+<td align="left">CTTATACACATCTCCGAGCCCACGAGACCGAGGCTGATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
+<td align="left">TruSeq Adapter, Index 10 (96% over 28bp)</td>
+<td align="right">2</td>
+<td align="right">0.23%</td>
+</tr>
+<tr class="even">
+<td align="left">ACACATCTCCGAGCCCACGAGACTAGGCATGATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGGGG</td>
+<td align="left">RNA PCR Primer, Index 1 (96% over 28bp)</td>
+<td align="right">1</td>
+<td align="right">0.19%</td>
+</tr>
+<tr class="odd">
+<td align="left">ATACACATCTCCGAGCCCACGAGACAAGAGGCAATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGG</td>
+<td align="left">RNA PCR Primer, Index 33 (96% over 29bp)</td>
+<td align="right">1</td>
+<td align="right">0.17%</td>
+</tr>
+<tr class="even">
+<td align="left">ATACACATCTCCGAGCCCACGAGACCTCTCTACATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGG</td>
+<td align="left">RNA PCR Primer, Index 39 (96% over 30bp)</td>
+<td align="right">1</td>
+<td align="right">0.14%</td>
+</tr>
+<tr class="odd">
+<td align="left">ATACACATCTCCGAGCCCACGAGACCGAGGCTGATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGG</td>
+<td align="left">TruSeq Adapter, Index 10 (96% over 28bp)</td>
+<td align="right">2</td>
+<td align="right">0.14%</td>
+</tr>
+<tr class="even">
+<td align="left">CTTATACACATCTCCGAGCCCACGAGACTCCTGAGCATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
+<td align="left">RNA PCR Primer, Index 26 (100% over 29bp)</td>
+<td align="right">1</td>
+<td align="right">0.13%</td>
+</tr>
+<tr class="odd">
+<td align="left">GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG</td>
+<td align="left">No Hit</td>
+<td align="right">1</td>
+<td align="right">0.11%</td>
+</tr>
+<tr class="even">
+<td align="left">CTTATACACATCTCCGAGCCCACGAGACCGTACTAGATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
+<td align="left">TruSeq Adapter, Index 11 (96% over 28bp)</td>
+<td align="right">1</td>
+<td align="right">0.11%</td>
+</tr>
+</tbody>
+</table>
+<div id="gc-content-1" class="section level2">
+<h2>GC content</h2>
+<pre class="r"><code>ggarrange(
+  plotGcContent(
+    x = fastqc_raw, 
+    plotType = &quot;line&quot;,
+    gcType = &quot;Transcriptome&quot;
+  ) +
+    theme(legend.position = &quot;none&quot;) +
+    ggtitle(&quot;Before trimming/filtering&quot;), 
+  plotGcContent(
+  x = fastqc_trim, 
+  plotType = &quot;line&quot;,
+  gcType = &quot;Transcriptome&quot;
+) +
+  theme(legend.position = &quot;none&quot;)+
+  ggtitle(&quot;After trimming/filtering&quot;)
+) </code></pre>
+<p><img src="figure/first-analysis.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>No evident changes were observed to GC content after trimming and quality filtering.</p>
+</div>
+</div>
+<div id="align-qc" class="section level1">
+<h1>Align QC</h1>
+<p>Trimmed reads were aligned to the human genome (Ensembl relealease 98) using <code>STAR 2.7.0d</code> and summarised to each gene using <code>featureCounts</code>. These counts were to be used for all gene-level analysis.</p>
 <div id="filtering-lowly-expressed-genes" class="section level2">
 <h2>Filtering lowly expressed genes</h2>
 <p>Genes which are lowly expressed are uninformative for DE analysis. I will follow the 10/min.lib.size rule to filter lowly expressed genes. The effect of filtering is be shown in the density plots below.</p>
@@ -822,7 +1289,7 @@ b &lt;- featureCounts %&gt;%
   )+
   ggtitle(&quot;After filtering&quot;) 
 ggarrange(a, b, common.legend = TRUE)</code></pre>
-<p><img src="figure/first-analysis.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/first-analysis.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>dge &lt;- featureCounts %&gt;% 
   as.matrix() %&gt;% 
   DGEList(
@@ -842,7 +1309,7 @@ ggarrange(a, b, common.legend = TRUE)</code></pre>
 </div>
 <div id="check-library-sizes" class="section level2">
 <h2>Check library sizes</h2>
-<p>Libary sizes vary considerably, which appears to be due to samples being sequenced across multiple runs. Library sizes range between <em>4,697,354</em> and <em>20,163,546</em>. Although concerning, this will be accounted for using the <code>TMM normalisation</code>.</p>
+<p>Libary sizes vary considerably, which appears to be due to samples being sequenced across multiple runs. Library sizes range between <em>4,697,354</em> and <em>20,163,546</em>. Although concerning, this will be accounted for using <code>TMM normalisation</code>.</p>
 <pre class="r"><code>dge$samples %&gt;% 
   ggplot(aes(x = specimenIdSource, y = lib.size, fill = sequencingBatch)) + 
   geom_col() +
@@ -854,7 +1321,7 @@ ggarrange(a, b, common.legend = TRUE)</code></pre>
     y = &quot;RNA-seq library size&quot;, 
     fill = &quot;RNA-seq batch&quot;
   )</code></pre>
-<p><img src="figure/first-analysis.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/first-analysis.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -882,71 +1349,83 @@ other attached packages:
  [1] ensembldb_2.12.1        AnnotationFilter_1.12.0 GenomicFeatures_1.40.1 
  [4] AnnotationDbi_1.50.3    Biobase_2.48.0          GenomicRanges_1.40.0   
  [7] GenomeInfoDb_1.24.2     IRanges_2.22.2          S4Vectors_0.26.1       
-[10] scales_1.1.1            edgeR_3.30.3            limma_3.44.3           
-[13] ggeasy_0.1.3            ggpubr_0.4.0            AnnotationHub_2.20.2   
-[16] BiocFileCache_1.12.1    dbplyr_2.1.1            BiocGenerics_0.34.0    
-[19] pander_0.6.4            magrittr_2.0.1          forcats_0.5.1          
-[22] stringr_1.4.0           dplyr_1.0.7             purrr_0.3.4            
-[25] readr_1.4.0             tidyr_1.1.3             tibble_3.1.2           
-[28] ggplot2_3.3.5           tidyverse_1.3.1        
+[10] ngsReports_1.4.2        scales_1.1.1            edgeR_3.30.3           
+[13] limma_3.44.3            ggeasy_0.1.3            ggpubr_0.4.0           
+[16] AnnotationHub_2.20.2    BiocFileCache_1.12.1    dbplyr_2.1.1           
+[19] BiocGenerics_0.34.0     pander_0.6.4            magrittr_2.0.1         
+[22] forcats_0.5.1           stringr_1.4.0           dplyr_1.0.7            
+[25] purrr_0.3.4             readr_1.4.0             tidyr_1.1.3            
+[28] tibble_3.1.2            ggplot2_3.3.5           tidyverse_1.3.1        
+[31] workflowr_1.6.2        
 
 loaded via a namespace (and not attached):
   [1] readxl_1.3.1                  backports_1.2.1              
-  [3] workflowr_1.6.2               lazyeval_0.2.2               
+  [3] plyr_1.8.6                    lazyeval_0.2.2               
   [5] BiocParallel_1.22.0           digest_0.6.27                
   [7] htmltools_0.5.1.1             fansi_0.5.0                  
-  [9] memoise_2.0.0                 openxlsx_4.2.4               
- [11] Biostrings_2.56.0             modelr_0.1.8                 
- [13] matrixStats_0.59.0            askpass_1.1                  
- [15] prettyunits_1.1.1             colorspace_2.0-2             
- [17] blob_1.2.1                    rvest_1.0.0                  
- [19] rappdirs_0.3.3                haven_2.4.1                  
- [21] xfun_0.24                     crayon_1.4.1                 
- [23] RCurl_1.98-1.3                jsonlite_1.7.2               
- [25] glue_1.4.2                    gtable_0.3.0                 
- [27] zlibbioc_1.34.0               XVector_0.28.0               
- [29] DelayedArray_0.14.1           car_3.0-11                   
- [31] abind_1.4-5                   DBI_1.1.1                    
- [33] rstatix_0.7.0                 Rcpp_1.0.7                   
- [35] xtable_1.8-4                  progress_1.2.2               
- [37] foreign_0.8-81                bit_4.0.4                    
- [39] httr_1.4.2                    ellipsis_0.3.2               
- [41] pkgconfig_2.0.3               XML_3.99-0.6                 
- [43] farver_2.1.0                  sass_0.4.0                   
- [45] locfit_1.5-9.4                utf8_1.2.1                   
- [47] tidyselect_1.1.1              labeling_0.4.2               
- [49] rlang_0.4.11                  later_1.2.0                  
- [51] munsell_0.5.0                 BiocVersion_3.11.1           
- [53] cellranger_1.1.0              tools_4.0.2                  
- [55] cachem_1.0.5                  cli_3.0.0                    
- [57] generics_0.1.0                RSQLite_2.2.7                
- [59] broom_0.7.8                   evaluate_0.14                
- [61] fastmap_1.1.0                 yaml_2.2.1                   
- [63] knitr_1.33                    bit64_4.0.5                  
- [65] fs_1.5.0                      zip_2.2.0                    
- [67] whisker_0.4                   mime_0.11                    
- [69] xml2_1.3.2                    biomaRt_2.44.4               
- [71] compiler_4.0.2                rstudioapi_0.13              
- [73] curl_4.3.2                    interactiveDisplayBase_1.26.3
- [75] ggsignif_0.6.2                reprex_2.0.0                 
- [77] bslib_0.2.5.1                 stringi_1.6.2                
- [79] highr_0.9                     lattice_0.20-44              
- [81] ProtGenerics_1.20.0           Matrix_1.3-4                 
- [83] vctrs_0.3.8                   pillar_1.6.1                 
- [85] lifecycle_1.0.0               BiocManager_1.30.16          
- [87] jquerylib_0.1.4               data.table_1.14.0            
- [89] cowplot_1.1.1                 bitops_1.0-7                 
- [91] httpuv_1.6.1                  rtracklayer_1.48.0           
- [93] R6_2.5.0                      promises_1.2.0.1             
- [95] gridExtra_2.3                 rio_0.5.27                   
- [97] assertthat_0.2.1              SummarizedExperiment_1.18.2  
- [99] openssl_1.4.4                 rprojroot_2.0.2              
-[101] withr_2.4.2                   GenomicAlignments_1.24.0     
-[103] Rsamtools_2.4.0               GenomeInfoDbData_1.2.3       
-[105] hms_1.1.0                     grid_4.0.2                   
-[107] rmarkdown_2.9                 carData_3.0-4                
-[109] git2r_0.28.0                  shiny_1.6.0                  
-[111] lubridate_1.7.10             </code></pre>
+  [9] memoise_2.0.0                 cluster_2.1.2                
+ [11] openxlsx_4.2.4                Biostrings_2.56.0            
+ [13] modelr_0.1.8                  matrixStats_0.59.0           
+ [15] askpass_1.1                   prettyunits_1.1.1            
+ [17] jpeg_0.1-8.1                  colorspace_2.0-2             
+ [19] blob_1.2.1                    rvest_1.0.0                  
+ [21] rappdirs_0.3.3                ggrepel_0.9.1                
+ [23] haven_2.4.1                   xfun_0.24                    
+ [25] crayon_1.4.1                  RCurl_1.98-1.3               
+ [27] jsonlite_1.7.2                zoo_1.8-9                    
+ [29] glue_1.4.2                    gtable_0.3.0                 
+ [31] zlibbioc_1.34.0               XVector_0.28.0               
+ [33] DelayedArray_0.14.1           car_3.0-11                   
+ [35] abind_1.4-5                   DBI_1.1.1                    
+ [37] rstatix_0.7.0                 Rcpp_1.0.7                   
+ [39] progress_1.2.2                viridisLite_0.4.0            
+ [41] xtable_1.8-4                  flashClust_1.01-2            
+ [43] foreign_0.8-81                bit_4.0.4                    
+ [45] DT_0.18                       truncnorm_1.0-8              
+ [47] htmlwidgets_1.5.3             httr_1.4.2                   
+ [49] RColorBrewer_1.1-2            ellipsis_0.3.2               
+ [51] farver_2.1.0                  XML_3.99-0.6                 
+ [53] pkgconfig_2.0.3               sass_0.4.0                   
+ [55] locfit_1.5-9.4                utf8_1.2.1                   
+ [57] labeling_0.4.2                tidyselect_1.1.1             
+ [59] rlang_0.4.11                  reshape2_1.4.4               
+ [61] later_1.2.0                   munsell_0.5.0                
+ [63] BiocVersion_3.11.1            cellranger_1.1.0             
+ [65] tools_4.0.2                   cachem_1.0.5                 
+ [67] cli_3.0.0                     generics_0.1.0               
+ [69] RSQLite_2.2.7                 broom_0.7.8                  
+ [71] evaluate_0.14                 fastmap_1.1.0                
+ [73] ggdendro_0.1.22               yaml_2.2.1                   
+ [75] knitr_1.33                    bit64_4.0.5                  
+ [77] fs_1.5.0                      zip_2.2.0                    
+ [79] whisker_0.4                   mime_0.11                    
+ [81] leaps_3.1                     xml2_1.3.2                   
+ [83] biomaRt_2.44.4                compiler_4.0.2               
+ [85] rstudioapi_0.13               png_0.1-7                    
+ [87] plotly_4.9.4.1                curl_4.3.2                   
+ [89] interactiveDisplayBase_1.26.3 ggsignif_0.6.2               
+ [91] reprex_2.0.0                  bslib_0.2.5.1                
+ [93] stringi_1.6.2                 highr_0.9                    
+ [95] lattice_0.20-44               ProtGenerics_1.20.0          
+ [97] Matrix_1.3-4                  vctrs_0.3.8                  
+ [99] pillar_1.6.1                  lifecycle_1.0.0              
+[101] BiocManager_1.30.16           jquerylib_0.1.4              
+[103] cowplot_1.1.1                 data.table_1.14.0            
+[105] bitops_1.0-7                  rtracklayer_1.48.0           
+[107] httpuv_1.6.1                  latticeExtra_0.6-29          
+[109] hwriter_1.3.2                 R6_2.5.0                     
+[111] promises_1.2.0.1              ShortRead_1.46.0             
+[113] gridExtra_2.3                 rio_0.5.27                   
+[115] MASS_7.3-54                   assertthat_0.2.1             
+[117] SummarizedExperiment_1.18.2   openssl_1.4.4                
+[119] rprojroot_2.0.2               withr_2.4.2                  
+[121] GenomicAlignments_1.24.0      Rsamtools_2.4.0              
+[123] GenomeInfoDbData_1.2.3        hms_1.1.0                    
+[125] grid_4.0.2                    rmarkdown_2.9                
+[127] carData_3.0-4                 git2r_0.28.0                 
+[129] scatterplot3d_0.3-41          shiny_1.6.0                  
+[131] lubridate_1.7.10              FactoMineR_2.4               </code></pre>
+</div>
 </div>
 </div>
 
