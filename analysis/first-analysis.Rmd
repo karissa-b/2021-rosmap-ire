@@ -125,7 +125,7 @@ plotGcContent(
 
 ## Over-represented sequences 
 
-There doesn't appear to be any over-represented sequences which are worrying. The top ones are mostly adaptors which are removed in the snakemake pipeline. 
+There doesn't appear to be any over-represented sequences which are worrying. The top ones are mostly adaptors which are removed in the `snakemake` pipeline. 
 
 ```{r}
 getModule(fastqc_raw, "Overrep") %>% 
@@ -145,7 +145,7 @@ getModule(fastqc_raw, "Overrep") %>%
     )
 ```
 
-# Trimmed QC
+# Trimmed data QC
 
 ```{r trimStats}
 fastqc_trim <- list.files(path = "data/confidentialData/fastqc_trim", 
@@ -159,33 +159,14 @@ trimStats <- readTotals(fastqc_raw) %>%
   dplyr::rename(Trimmed = Total_Sequences) %>%
   dplyr::filter(grepl("r1", Filename)) %>%
   mutate(
-    Discarded = 1 - Trimmed/Raw,
+    Discarded = 1 - Trimmed / Raw,
     Retained = Trimmed / Raw
   )
 ```
 
-After adapter trimming between `r pander(range(percent_format(0.01)(trimStats$Discarded)))` of reads were discarded.
 
-```{r}
-getModule(fastqc_trim, "Overrep") %>% 
-    group_by(Sequence, Possible_Source) %>% 
-    summarise(`Found In` = n(), `Highest Percentage` = max(Percentage)) %>% 
-    arrange(desc(`Highest Percentage`), desc(`Found In`)) %>% 
-    ungroup() %>% 
-    dplyr::slice(1:30) %>%
-    mutate(`Highest Percentage` = percent_format(0.01)(`Highest Percentage`/100)) %>%
-    pander(
-        justify = "llrr",
-        caption = paste(
-            "*Top", nrow(.),"Overrepresented sequences.",
-            "The number of samples they were found in is shown,",
-            "along with the percentage of the most 'contaminated' sample.*"
-            )
-    )
-```
+The raw reads were processed with [fastp](https://github.com/OpenGene/fastphttps://github.com/OpenGene/fastp). Reads which contained an average quality score of < 15 were omitted, as were reads which were shorter than 20nt after adaptor removal. I allowed fastp to detect adaptors automatically. After adapter trimming between `r pander(range(percent_format(0.01)(trimStats$Discarded)))` of reads were discarded. No over-represented sequences remained, and the %GC appears to have improved. 
 
-
-## GC content
 ```{r}
 ggarrange(
   plotGcContent(
@@ -205,12 +186,24 @@ ggarrange(
 ) 
 ```
 
-No evident changes were observed to GC content after trimming and quality filtering.
-
-
 # Align QC
 
 Trimmed reads were aligned to the human genome (Ensembl relealease 98) using `STAR 2.7.0d` and summarised to each gene using `featureCounts`. These counts were to be used for all gene-level analysis. 
+```{r}
+fastqc_align <- list.files(path = "data/confidentialData/fastqc_align", 
+                          pattern = "zip", 
+                          full.names = TRUE) %>%
+  FastqcDataList()
+```
+
+```{r}
+plotGcContent(
+  x = fastqc_align, 
+  plotType = "line",
+  gcType = "Transcriptome"
+) +
+  theme(legend.position = "none")
+```
 
 
 ## Filtering lowly expressed genes
@@ -301,7 +294,7 @@ dge <- featureCounts %>%
 
 ## Check library sizes
 
-Libary sizes vary considerably, which appears to be due to samples being sequenced across multiple runs. Library sizes range between  `r pander(comma(range(dge$samples$lib.size)))`. Although concerning, this will be accounted for using  `TMM normalisation`.
+Libary sizes vary considerably, which appears to be due to samples being sequenced across multiple runs. Library sizes range between `r pander(comma(range(dge$samples$lib.size)))`. Although concerning, this should be accounted for using `TMM normalisation`.
 ```{r}
 dge$samples %>% 
   ggplot(aes(x = specimenIdSource, y = lib.size, fill = sequencingBatch)) + 

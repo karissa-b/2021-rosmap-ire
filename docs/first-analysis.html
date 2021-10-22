@@ -482,16 +482,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretree403670c1344e85ee6a3a0efa0eada46e22bb524ctargetblank403670ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/403670c1344e85ee6a3a0efa0eada46e22bb524c" target="_blank">403670c</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretreefa46de3b22ecbee19e57e1a04891585c5cb3277ctargetblankfa46de3a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/fa46de3b22ecbee19e57e1a04891585c5cb3277c" target="_blank">fa46de3</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretree403670c1344e85ee6a3a0efa0eada46e22bb524ctargetblank403670ca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretreefa46de3b22ecbee19e57e1a04891585c5cb3277ctargetblankfa46de3a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/403670c1344e85ee6a3a0efa0eada46e22bb524c" target="_blank">403670c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/fa46de3b22ecbee19e57e1a04891585c5cb3277c" target="_blank">fa46de3</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -500,6 +500,7 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .Rapp.history
     Ignored:    .Rproj.user/
+    Ignored:    analysis/figure/
     Ignored:    data/.DS_Store
     Ignored:    data/confidentialData/
 
@@ -543,6 +544,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/karissa-b/2021-rosmap-ire/blob/fa46de3b22ecbee19e57e1a04891585c5cb3277c/analysis/first-analysis.Rmd" target="_blank">fa46de3</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-22
+</td>
+<td>
+day 1
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/karissa-b/2021-rosmap-ire/fa46de3b22ecbee19e57e1a04891585c5cb3277c/docs/first-analysis.html" target="_blank">fa46de3</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-22
+</td>
+<td>
+day 1
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -833,6 +868,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/karissa-b/2021-rosmap-ire/blob/fa46de3b22ecbee19e57e1a04891585c5cb3277c/docs/figure/first-analysis.Rmd/unnamed-chunk-2-1.png" target="_blank">fa46de3</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-22
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/karissa-b/2021-rosmap-ire/blob/403670c1344e85ee6a3a0efa0eada46e22bb524c/docs/figure/first-analysis.Rmd/unnamed-chunk-2-1.png" target="_blank">403670c</a>
 </td>
 <td>
@@ -849,7 +895,7 @@ Karissa Barthelson
 </div>
 <div id="over-represented-sequences" class="section level2">
 <h2>Over-represented sequences</h2>
-<p>There doesn’t appear to be any over-represented sequences which are worrying. The top ones are mostly adaptors which are removed in the snakemake pipeline.</p>
+<p>There doesn’t appear to be any over-represented sequences which are worrying. The top ones are mostly adaptors which are removed in the <code>snakemake</code> pipeline.</p>
 <pre class="r"><code>getModule(fastqc_raw, &quot;Overrep&quot;) %&gt;% 
     group_by(Sequence, Possible_Source) %&gt;% 
     summarise(`Found In` = n(), `Highest Percentage` = max(Percentage)) %&gt;% 
@@ -1018,8 +1064,8 @@ Karissa Barthelson
 </table>
 </div>
 </div>
-<div id="trimmed-qc" class="section level1">
-<h1>Trimmed QC</h1>
+<div id="trimmed-data-qc" class="section level1">
+<h1>Trimmed data QC</h1>
 <pre class="r"><code>fastqc_trim &lt;- list.files(path = &quot;data/confidentialData/fastqc_trim&quot;, 
                           pattern = &quot;zip&quot;, 
                           full.names = TRUE) %&gt;%
@@ -1031,178 +1077,10 @@ trimStats &lt;- readTotals(fastqc_raw) %&gt;%
   dplyr::rename(Trimmed = Total_Sequences) %&gt;%
   dplyr::filter(grepl(&quot;r1&quot;, Filename)) %&gt;%
   mutate(
-    Discarded = 1 - Trimmed/Raw,
+    Discarded = 1 - Trimmed / Raw,
     Retained = Trimmed / Raw
   )</code></pre>
-<p>After adapter trimming between <em>0.03%</em> and <em>0.16%</em> of reads were discarded.</p>
-<pre class="r"><code>getModule(fastqc_trim, &quot;Overrep&quot;) %&gt;% 
-    group_by(Sequence, Possible_Source) %&gt;% 
-    summarise(`Found In` = n(), `Highest Percentage` = max(Percentage)) %&gt;% 
-    arrange(desc(`Highest Percentage`), desc(`Found In`)) %&gt;% 
-    ungroup() %&gt;% 
-    dplyr::slice(1:30) %&gt;%
-    mutate(`Highest Percentage` = percent_format(0.01)(`Highest Percentage`/100)) %&gt;%
-    pander(
-        justify = &quot;llrr&quot;,
-        caption = paste(
-            &quot;*Top&quot;, nrow(.),&quot;Overrepresented sequences.&quot;,
-            &quot;The number of samples they were found in is shown,&quot;,
-            &quot;along with the percentage of the most &#39;contaminated&#39; sample.*&quot;
-            )
-    )</code></pre>
-<table>
-<caption><em>Top 22 Overrepresented sequences. The number of samples they were found in is shown, along with the percentage of the most ‘contaminated’ sample.</em></caption>
-<colgroup>
-<col width="51%" />
-<col width="28%" />
-<col width="6%" />
-<col width="13%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">Sequence</th>
-<th align="left">Possible_Source</th>
-<th align="right">Found In</th>
-<th align="right">Highest Percentage</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG</td>
-<td align="left">No Hit</td>
-<td align="right">31</td>
-<td align="right">3.40%</td>
-</tr>
-<tr class="even">
-<td align="left">CTTATACACATCTCCGAGCCCACGAGACGTAGAGGAATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
-<td align="left">TruSeq Adapter, Index 3 (96% over 28bp)</td>
-<td align="right">3</td>
-<td align="right">1.41%</td>
-</tr>
-<tr class="odd">
-<td align="left">CTTATACACATCTCCGAGCCCACGAGACGGACTCCTATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
-<td align="left">RNA PCR Primer, Index 27 (96% over 30bp)</td>
-<td align="right">1</td>
-<td align="right">1.04%</td>
-</tr>
-<tr class="even">
-<td align="left">CTTATACACATCTCCGAGCCCACGAGACGCTCATGAATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
-<td align="left">TruSeq Adapter, Index 8 (96% over 29bp)</td>
-<td align="right">1</td>
-<td align="right">0.98%</td>
-</tr>
-<tr class="odd">
-<td align="left">ATACACATCTCCGAGCCCACGAGACGTAGAGGAATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGG</td>
-<td align="left">TruSeq Adapter, Index 3 (96% over 28bp)</td>
-<td align="right">2</td>
-<td align="right">0.84%</td>
-</tr>
-<tr class="even">
-<td align="left">CTTATACACATCTCCGAGCCCACGAGACTAGGCATGATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
-<td align="left">TruSeq Adapter, Index 1 (96% over 28bp)</td>
-<td align="right">1</td>
-<td align="right">0.57%</td>
-</tr>
-<tr class="odd">
-<td align="left">ATACACATCTCCGAGCCCACGAGACGCTCATGAATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGG</td>
-<td align="left">TruSeq Adapter, Index 8 (96% over 29bp)</td>
-<td align="right">1</td>
-<td align="right">0.57%</td>
-</tr>
-<tr class="even">
-<td align="left">ATACACATCTCCGAGCCCACGAGACGGACTCCTATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGG</td>
-<td align="left">RNA PCR Primer, Index 27 (96% over 30bp)</td>
-<td align="right">1</td>
-<td align="right">0.56%</td>
-</tr>
-<tr class="odd">
-<td align="left">ACACATCTCCGAGCCCACGAGACGTAGAGGAATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGGGG</td>
-<td align="left">RNA PCR Primer, Index 3 (96% over 28bp)</td>
-<td align="right">1</td>
-<td align="right">0.40%</td>
-</tr>
-<tr class="even">
-<td align="left">ATACACATCTCCGAGCCCACGAGACTAGGCATGATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGG</td>
-<td align="left">TruSeq Adapter, Index 1 (96% over 28bp)</td>
-<td align="right">1</td>
-<td align="right">0.35%</td>
-</tr>
-<tr class="odd">
-<td align="left">CTTATACACATCTCCGAGCCCACGAGACAAGAGGCAATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
-<td align="left">RNA PCR Primer, Index 33 (96% over 29bp)</td>
-<td align="right">1</td>
-<td align="right">0.28%</td>
-</tr>
-<tr class="even">
-<td align="left">ACACATCTCCGAGCCCACGAGACGCTCATGAATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGGGG</td>
-<td align="left">RNA PCR Primer, Index 8 (96% over 29bp)</td>
-<td align="right">1</td>
-<td align="right">0.28%</td>
-</tr>
-<tr class="odd">
-<td align="left">ACACATCTCCGAGCCCACGAGACGGACTCCTATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGGGG</td>
-<td align="left">RNA PCR Primer, Index 27 (96% over 30bp)</td>
-<td align="right">1</td>
-<td align="right">0.26%</td>
-</tr>
-<tr class="even">
-<td align="left">CTTATACACATCTCCGAGCCCACGAGACCTCTCTACATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
-<td align="left">RNA PCR Primer, Index 39 (96% over 30bp)</td>
-<td align="right">1</td>
-<td align="right">0.25%</td>
-</tr>
-<tr class="odd">
-<td align="left">CTTATACACATCTCCGAGCCCACGAGACCGAGGCTGATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
-<td align="left">TruSeq Adapter, Index 10 (96% over 28bp)</td>
-<td align="right">2</td>
-<td align="right">0.23%</td>
-</tr>
-<tr class="even">
-<td align="left">ACACATCTCCGAGCCCACGAGACTAGGCATGATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGGGG</td>
-<td align="left">RNA PCR Primer, Index 1 (96% over 28bp)</td>
-<td align="right">1</td>
-<td align="right">0.19%</td>
-</tr>
-<tr class="odd">
-<td align="left">ATACACATCTCCGAGCCCACGAGACAAGAGGCAATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGG</td>
-<td align="left">RNA PCR Primer, Index 33 (96% over 29bp)</td>
-<td align="right">1</td>
-<td align="right">0.17%</td>
-</tr>
-<tr class="even">
-<td align="left">ATACACATCTCCGAGCCCACGAGACCTCTCTACATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGG</td>
-<td align="left">RNA PCR Primer, Index 39 (96% over 30bp)</td>
-<td align="right">1</td>
-<td align="right">0.14%</td>
-</tr>
-<tr class="odd">
-<td align="left">ATACACATCTCCGAGCCCACGAGACCGAGGCTGATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGGGGG</td>
-<td align="left">TruSeq Adapter, Index 10 (96% over 28bp)</td>
-<td align="right">2</td>
-<td align="right">0.14%</td>
-</tr>
-<tr class="even">
-<td align="left">CTTATACACATCTCCGAGCCCACGAGACTCCTGAGCATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
-<td align="left">RNA PCR Primer, Index 26 (100% over 29bp)</td>
-<td align="right">1</td>
-<td align="right">0.13%</td>
-</tr>
-<tr class="odd">
-<td align="left">GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG</td>
-<td align="left">No Hit</td>
-<td align="right">1</td>
-<td align="right">0.11%</td>
-</tr>
-<tr class="even">
-<td align="left">CTTATACACATCTCCGAGCCCACGAGACCGTACTAGATCTCGTATGCCGTCTTCTGCTTGAAAAAAAAAAGGGGG</td>
-<td align="left">TruSeq Adapter, Index 11 (96% over 28bp)</td>
-<td align="right">1</td>
-<td align="right">0.11%</td>
-</tr>
-</tbody>
-</table>
-<div id="gc-content-1" class="section level2">
-<h2>GC content</h2>
+<p>The raw reads were processed with <a href="https://github.com/OpenGene/fastphttps://github.com/OpenGene/fastp">fastp</a>. Reads which contained an average quality score of &lt; 15 were omitted, as were reads which were shorter than 20nt after adaptor removal. I allowed fastp to detect adaptors automatically. After adapter trimming between <em>2.21%</em> and <em>8.67%</em> of reads were discarded. No over-represented sequences remained, and the %GC appears to have improved.</p>
 <pre class="r"><code>ggarrange(
   plotGcContent(
     x = fastqc_raw, 
@@ -1219,13 +1097,59 @@ trimStats &lt;- readTotals(fastqc_raw) %&gt;%
   theme(legend.position = &quot;none&quot;)+
   ggtitle(&quot;After trimming/filtering&quot;)
 ) </code></pre>
-<p><img src="figure/first-analysis.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>No evident changes were observed to GC content after trimming and quality filtering.</p>
-</div>
+<p><img src="figure/first-analysis.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="align-qc" class="section level1">
 <h1>Align QC</h1>
 <p>Trimmed reads were aligned to the human genome (Ensembl relealease 98) using <code>STAR 2.7.0d</code> and summarised to each gene using <code>featureCounts</code>. These counts were to be used for all gene-level analysis.</p>
+<pre class="r"><code>fastqc_align &lt;- list.files(path = &quot;data/confidentialData/fastqc_align&quot;, 
+                          pattern = &quot;zip&quot;, 
+                          full.names = TRUE) %&gt;%
+  FastqcDataList()</code></pre>
+<pre class="r"><code>plotGcContent(
+  x = fastqc_align, 
+  plotType = &quot;line&quot;,
+  gcType = &quot;Transcriptome&quot;
+) +
+  theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="figure/first-analysis.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/karissa-b/2021-rosmap-ire/blob/fa46de3b22ecbee19e57e1a04891585c5cb3277c/docs/figure/first-analysis.Rmd/unnamed-chunk-6-1.png" target="_blank">fa46de3</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div id="filtering-lowly-expressed-genes" class="section level2">
 <h2>Filtering lowly expressed genes</h2>
 <p>Genes which are lowly expressed are uninformative for DE analysis. I will follow the 10/min.lib.size rule to filter lowly expressed genes. The effect of filtering is be shown in the density plots below.</p>
@@ -1289,7 +1213,44 @@ b &lt;- featureCounts %&gt;%
   )+
   ggtitle(&quot;After filtering&quot;) 
 ggarrange(a, b, common.legend = TRUE)</code></pre>
-<p><img src="figure/first-analysis.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/first-analysis.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
+Past versions of unnamed-chunk-7-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/karissa-b/2021-rosmap-ire/blob/fa46de3b22ecbee19e57e1a04891585c5cb3277c/docs/figure/first-analysis.Rmd/unnamed-chunk-7-1.png" target="_blank">fa46de3</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-22
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>dge &lt;- featureCounts %&gt;% 
   as.matrix() %&gt;% 
   DGEList(
@@ -1309,7 +1270,7 @@ ggarrange(a, b, common.legend = TRUE)</code></pre>
 </div>
 <div id="check-library-sizes" class="section level2">
 <h2>Check library sizes</h2>
-<p>Libary sizes vary considerably, which appears to be due to samples being sequenced across multiple runs. Library sizes range between <em>4,697,354</em> and <em>20,163,546</em>. Although concerning, this will be accounted for using <code>TMM normalisation</code>.</p>
+<p>Libary sizes vary considerably, which appears to be due to samples being sequenced across multiple runs. Library sizes range between <em>4,978,272</em> and <em>20,875,388</em>. Although concerning, this should be accounted for using <code>TMM normalisation</code>.</p>
 <pre class="r"><code>dge$samples %&gt;% 
   ggplot(aes(x = specimenIdSource, y = lib.size, fill = sequencingBatch)) + 
   geom_col() +
@@ -1321,7 +1282,7 @@ ggarrange(a, b, common.legend = TRUE)</code></pre>
     y = &quot;RNA-seq library size&quot;, 
     fill = &quot;RNA-seq batch&quot;
   )</code></pre>
-<p><img src="figure/first-analysis.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/first-analysis.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
