@@ -1,7 +1,7 @@
-name: "2021-rosmap-ire"
+name: 2021-rosmap-ire
 output_dir: ../docs
 navbar:
-  title: "2021-rosmap-ire"
+  title: 2021-rosmap-ire
   left:
   - text: Home
     href: index.html
@@ -9,6 +9,10 @@ navbar:
     href: about.html
   - text: License
     href: license.html
+  right:
+  - icon: fa-github
+    text: Source code
+    href: https://github.com/karissa-b/2021-rosmap-ire
 output:
   workflowr::wflow_html:
     toc: yes
