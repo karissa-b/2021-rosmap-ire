@@ -29,6 +29,7 @@ library(edgeR)
 library(scales)
 library(ngsReports)
 library(pheatmap)
+library(sva)
 ```
 
 ```{r setOptions}
@@ -84,7 +85,14 @@ meta <-
          temp = str_remove(.$specimenID, 
                            pattern = "(AH|VL)") %>% 
            str_remove(pattern = "_BR[0-9]+"), 
-         sample = paste0(experimentor, ".s", temp)
+         sample = paste0(experimentor, ".s", temp), 
+         apoeGenotype = case_when(
+           apoeGenotype == 22 ~ "E2/E2", 
+           apoeGenotype == 23 ~ "E2/E3", 
+           apoeGenotype == 33 ~ "E3/E3", 
+           apoeGenotype == 34 ~ "E3/E4",
+           apoeGenotype == 44 ~ "E4/E4", 
+         )
   ) %>% 
   dplyr::select(sample, experimentor, everything())# make some new cols to match the names in the gene counts matrix
 
@@ -210,11 +218,9 @@ plotGcContent(
 
 # Filtering lowly expressed genes
 
-Genes which are lowly expressed are uninformative for DE analysis. I will follow the 10/min.lib.size rule to filter lowly expressed genes. The effect of filtering is be shown in the density plots below. 
+Genes which are lowly expressed are uninformative for DE analysis. Here, I will consider a gene to be lowly expressed if it contains a CPM of less than 2 in at least 33 samples (i.e. the number of AD samples). The effect of filtering is be shown in the density plots below. 
 
 ```{r}
-minCPM <- 1
-minSamples <- 33
 
 a <- featureCounts %>% 
   cpm(log = TRUE) %>%
@@ -245,7 +251,7 @@ a <- featureCounts %>%
   ggtitle("Before filtering")
 
 b <- featureCounts %>% 
-  .[rowSums(cpm(.) >= 2) >= minSamples,] %>% 
+  .[rowSums(cpm(.) >= 2) >= 33,] %>% 
   cpm(log = TRUE) %>%
   as.data.frame() %>% 
   pivot_longer(
@@ -315,7 +321,7 @@ dge$samples %>%
 ```{r dgeFilt}
 dge <- featureCounts %>% 
   as.matrix() %>% 
-  .[rowSums(cpm(.) >= 2) >= minSamples,] %>% 
+  .[rowSums(cpm(.) >= 2) >= 33,] %>% 
   DGEList(
     samples = tibble(sample = colnames(.)) %>%
       left_join(meta) %>% 
@@ -408,8 +414,85 @@ dge <- dge[,samps2keep]
 
 ```
 
-Therefore, for this analysis, I will omit the technical replicate which had the lower RIN for each iPSC sample. This leaves `r dim(dge)[2]` samples out of the original `r dim(meta)[1]`. 
+Therefore, for this analysis, I will omit the technical replicate which had the lower RIN for each iPSC sample. This leaves `r dim(dge)[2]` samples out of the original `r dim(meta)[1]`. This is a different strategy to [Lagomarsino et al. 2021](https://doi.org/10.1016/j.neuron.2021.08.003), who averaged out their replicates. I dont think this is the best way to deal with this, as the RNA was degraded in one of the technical replicates. This may influence how the reads are generated during the sequencing, and avergaing it out across a better quality sample may bring about false results.  
+
+# PCA after omitting samples
+
+The PCA was repeated after omitting the problematic RNA-seq libraries. Samples still seperate by library batch. So I will need to correct for this. 
+
+```{r fig.height=10}
+ggarrange(
+  cpm(dge, log = TRUE) %>%
+  t() %>%
+  prcomp() %>% 
+  autoplot(data = tibble(sample = rownames(.$x)) %>%
+             left_join(dge$samples),
+           colour = "diagnosis", 
+           size = 4) +
+  scale_colour_viridis_d(end = 0.8) +
+    ggtitle("Diagnosis"),
+
+  cpm(dge, log = TRUE) %>%
+    t() %>%
+    prcomp() %>% 
+    autoplot(data = tibble(sample = rownames(.$x)) %>%
+               left_join(dge$samples),
+             colour = "sex", 
+             size = 4) +
+    scale_colour_viridis_d(end = 0.8) +
+    ggtitle("Sex"),
+  
+  cpm(dge, log = TRUE) %>%
+    t() %>%
+    prcomp() %>% 
+    autoplot(data = tibble(sample = rownames(.$x)) %>%
+               left_join(dge$samples),
+             colour = "libraryBatch", 
+             size = 4) +
+    scale_colour_viridis_d(end = 0.9) +
+    ggtitle("RNA-seq library batch"),
+  
+  cpm(dge, log = TRUE) %>%
+    t() %>%
+    prcomp() %>% 
+    autoplot(data = tibble(sample = rownames(.$x)) %>%
+               left_join(dge$samples),
+             colour = "RIN", 
+             size = 4) +
+    scale_color_viridis_c() +
+    ggtitle("RNA Integrity Number (RIN)")
+)
+```
 
 
+# ComBat to remove batch effects
+
+Still playing around with this. Maybe try RUV?
+```{r}
+# define the batch effect to remove. 
+batch <- dge$samples$libraryBatch
+
+# define the null model matix, which only contains an intercept
+adjustedCounts <- ComBat_seq(dge$counts, 
+           batch = batch, 
+           covar_mod  = dge$samples %>% 
+             mutate(Braak = as.factor(Braak), 
+                    CERAD = as.factor(CERAD)) %>% 
+             dplyr::select(diagnosis, sex, apoeGenotype, yearsEducation, CERAD, Braak) %>%
+             as.data.frame()
+           )
+
+adjustedCounts %>% 
+  cpm(log = TRUE) %>%
+    t() %>%
+    prcomp() %>% 
+    autoplot(data = tibble(sample = rownames(.$x)) %>%
+               left_join(dge$samples),
+             colour = "diagnosis", 
+             shape = "sex",
+             size = 4) +
+    scale_color_viridis_d() +
+    theme(aspect.ratio = 1)
+```
 
 

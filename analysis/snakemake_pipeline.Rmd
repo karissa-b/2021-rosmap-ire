@@ -1,0 +1,19 @@
+---
+title: "snakemake_pipeline"
+author: "Karissa Barthelson"
+date: "2021-10-23"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Introduction
+
+This document shows the `Snakemake` pipeline used to pre-process the raw fastq files to a gene counts matrix. I still need to add the default.yaml file, which contains all the versions etc. 
+
+
+
+```{r}
+cat(readLines("Snakefile"), sep = "\n")
+```
+

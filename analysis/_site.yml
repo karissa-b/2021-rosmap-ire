@@ -5,6 +5,8 @@ navbar:
   left:
   - text: Home
     href: index.html
+  - text: Pre-processing
+    href: snakemake_pipeline.html
   - text: QC
     href: first-analysis.html
   right:

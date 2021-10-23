@@ -336,6 +336,9 @@ div.tocify {
   <a href="index.html">Home</a>
 </li>
 <li>
+  <a href="snakemake_pipeline.html">Pre-processing</a>
+</li>
+<li>
   <a href="first-analysis.html">QC</a>
 </li>
       </ul>
@@ -482,28 +485,35 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretree6acc95655ef8ba1e9dbaa394073da2b5d5e59439targetblank6acc956a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/6acc95655ef8ba1e9dbaa394073da2b5d5e59439" target="_blank">6acc956</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretree189974b018f63d0e3cc03109d2fd18fc84ad3519targetblank189974ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/189974b018f63d0e3cc03109d2fd18fc84ad3519" target="_blank">189974b</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretree6acc95655ef8ba1e9dbaa394073da2b5d5e59439targetblank6acc956a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretree189974b018f63d0e3cc03109d2fd18fc84ad3519targetblank189974ba" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/6acc95655ef8ba1e9dbaa394073da2b5d5e59439" target="_blank">6acc956</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/189974b018f63d0e3cc03109d2fd18fc84ad3519" target="_blank">189974b</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
+    Ignored:    .DS_Store
     Ignored:    .Rapp.history
     Ignored:    .Rproj.user/
+    Ignored:    code/.DS_Store
     Ignored:    data/.DS_Store
     Ignored:    data/confidentialData/
 
+Untracked files:
+    Untracked:  Snakefile
+    Untracked:  analysis/snakemake_pipeline.Rmd
+
 Unstaged changes:
+    Modified:   analysis/_site.yml
     Modified:   analysis/first-analysis.Rmd
 
 </code></pre>
@@ -543,6 +553,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/karissa-b/2021-rosmap-ire/blob/189974b018f63d0e3cc03109d2fd18fc84ad3519/analysis/first-analysis.Rmd" target="_blank">189974b</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-23
+</td>
+<td>
+more QC
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/karissa-b/2021-rosmap-ire/189974b018f63d0e3cc03109d2fd18fc84ad3519/docs/first-analysis.html" target="_blank">189974b</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-23
+</td>
+<td>
+more QC
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -833,7 +877,8 @@ library(ggeasy)
 library(edgeR)
 library(scales)
 library(ngsReports)
-library(pheatmap)</code></pre>
+library(pheatmap)
+library(sva)</code></pre>
 <pre class="r"><code>theme_set(theme_bw())
 panderOptions(&quot;big.mark&quot;, &quot;,&quot;)
 panderOptions(&quot;table.split.table&quot;, Inf)
@@ -878,7 +923,14 @@ mcols(grGenes) %&lt;&gt;%
          temp = str_remove(.$specimenID, 
                            pattern = &quot;(AH|VL)&quot;) %&gt;% 
            str_remove(pattern = &quot;_BR[0-9]+&quot;), 
-         sample = paste0(experimentor, &quot;.s&quot;, temp)
+         sample = paste0(experimentor, &quot;.s&quot;, temp), 
+         apoeGenotype = case_when(
+           apoeGenotype == 22 ~ &quot;E2/E2&quot;, 
+           apoeGenotype == 23 ~ &quot;E2/E3&quot;, 
+           apoeGenotype == 33 ~ &quot;E3/E3&quot;, 
+           apoeGenotype == 34 ~ &quot;E3/E4&quot;,
+           apoeGenotype == 44 ~ &quot;E4/E4&quot;, 
+         )
   ) %&gt;% 
   dplyr::select(sample, experimentor, everything())# make some new cols to match the names in the gene counts matrix
 
@@ -1271,11 +1323,8 @@ Karissa Barthelson
 </div>
 <div id="filtering-lowly-expressed-genes" class="section level1">
 <h1>Filtering lowly expressed genes</h1>
-<p>Genes which are lowly expressed are uninformative for DE analysis. I will follow the 10/min.lib.size rule to filter lowly expressed genes. The effect of filtering is be shown in the density plots below.</p>
-<pre class="r"><code>minCPM &lt;- 1
-minSamples &lt;- 33
-
-a &lt;- featureCounts %&gt;% 
+<p>Genes which are lowly expressed are uninformative for DE analysis. Here, I will consider a gene to be lowly expressed if it contains a CPM of less than 2 in at least 33 samples (i.e. the number of AD samples). The effect of filtering is be shown in the density plots below.</p>
+<pre class="r"><code>a &lt;- featureCounts %&gt;% 
   cpm(log = TRUE) %&gt;%
   as.data.frame() %&gt;% 
   pivot_longer(
@@ -1304,7 +1353,7 @@ a &lt;- featureCounts %&gt;%
   ggtitle(&quot;Before filtering&quot;)
 
 b &lt;- featureCounts %&gt;% 
-  .[rowSums(cpm(.) &gt;= 2) &gt;= minSamples,] %&gt;% 
+  .[rowSums(cpm(.) &gt;= 2) &gt;= 33,] %&gt;% 
   cpm(log = TRUE) %&gt;%
   as.data.frame() %&gt;% 
   pivot_longer(
@@ -1455,7 +1504,7 @@ Karissa Barthelson
 <h1>PCA</h1>
 <pre class="r"><code>dge &lt;- featureCounts %&gt;% 
   as.matrix() %&gt;% 
-  .[rowSums(cpm(.) &gt;= 2) &gt;= minSamples,] %&gt;% 
+  .[rowSums(cpm(.) &gt;= 2) &gt;= 33,] %&gt;% 
   DGEList(
     samples = tibble(sample = colnames(.)) %&gt;%
       left_join(meta) %&gt;% 
@@ -1590,6 +1639,43 @@ dge$samples %&gt;%
   ggtitle(&quot;Library sizes of samples which had technical replicates,\ncoloured by RNA integrity&quot;, 
           subtitle = &quot;Samples are grouped by library batch&quot;)</code></pre>
 <p><img src="figure/first-analysis.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
+Past versions of unnamed-chunk-11-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/karissa-b/2021-rosmap-ire/blob/189974b018f63d0e3cc03109d2fd18fc84ad3519/docs/figure/first-analysis.Rmd/unnamed-chunk-11-1.png" target="_blank">189974b</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Inspection of the two replicates for each iPSC neuron samples shows that most of the time (except for BR14, which had fairly similar RINs), there is onw “high quality” library, and one with lesser quality.</p>
 <pre class="r"><code>dge$samples %&gt;%  
   dplyr::filter(specimenIdSource %in% techRep_brID) %&gt;% 
@@ -1600,12 +1686,130 @@ dge$samples %&gt;%
   labs(y = &quot;Library size (millions)&quot;) +
   easy_rotate_x_labels(angle = -45)</code></pre>
 <p><img src="figure/first-analysis.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-12-1">
+Past versions of unnamed-chunk-12-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-12-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/karissa-b/2021-rosmap-ire/blob/189974b018f63d0e3cc03109d2fd18fc84ad3519/docs/figure/first-analysis.Rmd/unnamed-chunk-12-1.png" target="_blank">189974b</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>samps2keep &lt;- dge$samples %&gt;% 
   group_by(specimenIdSource) %&gt;% 
   dplyr::slice(which.max(RIN)) %&gt;% 
   .$sample
 dge &lt;- dge[,samps2keep]</code></pre>
-<p>Therefore, for this analysis, I will omit the technical replicate which had the lower RIN for each iPSC sample. This leaves 49 samples out of the original 66.</p>
+<p>Therefore, for this analysis, I will omit the technical replicate which had the lower RIN for each iPSC sample. This leaves 49 samples out of the original 66. This is a different strategy to <a href="https://doi.org/10.1016/j.neuron.2021.08.003">Lagomarsino et al. 2021</a>, who averaged out their replicates. I dont think this is the best way to deal with this, as the RNA was degraded in one of the technical replicates. This may influence how the reads are generated during the sequencing, and avergaing it out across a better quality sample may bring about false results.</p>
+</div>
+<div id="pca-after-omitting-samples" class="section level1">
+<h1>PCA after omitting samples</h1>
+<p>The PCA was repeated after omitting the problematic RNA-seq libraries. Samples still seperate by library batch. So I will need to correct for this.</p>
+<pre class="r"><code>ggarrange(
+  cpm(dge, log = TRUE) %&gt;%
+  t() %&gt;%
+  prcomp() %&gt;% 
+  autoplot(data = tibble(sample = rownames(.$x)) %&gt;%
+             left_join(dge$samples),
+           colour = &quot;diagnosis&quot;, 
+           size = 4) +
+  scale_colour_viridis_d(end = 0.8) +
+    ggtitle(&quot;Diagnosis&quot;),
+
+  cpm(dge, log = TRUE) %&gt;%
+    t() %&gt;%
+    prcomp() %&gt;% 
+    autoplot(data = tibble(sample = rownames(.$x)) %&gt;%
+               left_join(dge$samples),
+             colour = &quot;sex&quot;, 
+             size = 4) +
+    scale_colour_viridis_d(end = 0.8) +
+    ggtitle(&quot;Sex&quot;),
+  
+  cpm(dge, log = TRUE) %&gt;%
+    t() %&gt;%
+    prcomp() %&gt;% 
+    autoplot(data = tibble(sample = rownames(.$x)) %&gt;%
+               left_join(dge$samples),
+             colour = &quot;libraryBatch&quot;, 
+             size = 4) +
+    scale_colour_viridis_d(end = 0.9) +
+    ggtitle(&quot;RNA-seq library batch&quot;),
+  
+  cpm(dge, log = TRUE) %&gt;%
+    t() %&gt;%
+    prcomp() %&gt;% 
+    autoplot(data = tibble(sample = rownames(.$x)) %&gt;%
+               left_join(dge$samples),
+             colour = &quot;RIN&quot;, 
+             size = 4) +
+    scale_color_viridis_c() +
+    ggtitle(&quot;RNA Integrity Number (RIN)&quot;)
+)</code></pre>
+<p><img src="figure/first-analysis.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="combat-to-remove-batch-effects" class="section level1">
+<h1>ComBat to remove batch effects</h1>
+<p>Still playing around with this. Maybe try RUV?</p>
+<pre class="r"><code># define the batch effect to remove. 
+batch &lt;- dge$samples$libraryBatch
+
+# define the null model matix, which only contains an intercept
+adjustedCounts &lt;- ComBat_seq(dge$counts, 
+           batch = batch, 
+           covar_mod  = dge$samples %&gt;% 
+             mutate(Braak = as.factor(Braak), 
+                    CERAD = as.factor(CERAD)) %&gt;% 
+             dplyr::select(diagnosis, sex, apoeGenotype, yearsEducation, CERAD, Braak) %&gt;%
+             as.data.frame()
+           )</code></pre>
+<pre><code>Found 5 batches
+Using null model in ComBat-seq.
+Adjusting for 15 covariate(s) or covariate level(s)
+Estimating dispersions
+Fitting the GLM model
+Shrinkage off - using GLM estimates for parameters
+Adjusting the data</code></pre>
+<pre class="r"><code>adjustedCounts %&gt;% 
+  cpm(log = TRUE) %&gt;%
+    t() %&gt;%
+    prcomp() %&gt;% 
+    autoplot(data = tibble(sample = rownames(.$x)) %&gt;%
+               left_join(dge$samples),
+             colour = &quot;diagnosis&quot;, 
+             shape = &quot;sex&quot;,
+             size = 4) +
+    scale_color_viridis_d() +
+    theme(aspect.ratio = 1)</code></pre>
+<p><img src="figure/first-analysis.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1633,83 +1837,85 @@ other attached packages:
  [1] ensembldb_2.12.1        AnnotationFilter_1.12.0 GenomicFeatures_1.40.1 
  [4] AnnotationDbi_1.50.3    Biobase_2.48.0          GenomicRanges_1.40.0   
  [7] GenomeInfoDb_1.24.2     IRanges_2.22.2          S4Vectors_0.26.1       
-[10] pheatmap_1.0.12         ngsReports_1.4.2        scales_1.1.1           
-[13] edgeR_3.30.3            limma_3.44.3            ggeasy_0.1.3           
-[16] ggrepel_0.9.1           ggfortify_0.4.12        ggpubr_0.4.0           
-[19] AnnotationHub_2.20.2    BiocFileCache_1.12.1    dbplyr_2.1.1           
-[22] BiocGenerics_0.34.0     pander_0.6.4            magrittr_2.0.1         
-[25] forcats_0.5.1           stringr_1.4.0           dplyr_1.0.7            
-[28] purrr_0.3.4             readr_1.4.0             tidyr_1.1.3            
-[31] tibble_3.1.2            ggplot2_3.3.5           tidyverse_1.3.1        
-[34] workflowr_1.6.2        
+[10] sva_3.36.0              BiocParallel_1.22.0     genefilter_1.70.0      
+[13] mgcv_1.8-36             nlme_3.1-152            pheatmap_1.0.12        
+[16] ngsReports_1.4.2        scales_1.1.1            edgeR_3.30.3           
+[19] limma_3.44.3            ggeasy_0.1.3            ggrepel_0.9.1          
+[22] ggfortify_0.4.12        ggpubr_0.4.0            AnnotationHub_2.20.2   
+[25] BiocFileCache_1.12.1    dbplyr_2.1.1            BiocGenerics_0.34.0    
+[28] pander_0.6.4            magrittr_2.0.1          forcats_0.5.1          
+[31] stringr_1.4.0           dplyr_1.0.7             purrr_0.3.4            
+[34] readr_1.4.0             tidyr_1.1.3             tibble_3.1.2           
+[37] ggplot2_3.3.5           tidyverse_1.3.1         workflowr_1.6.2        
 
 loaded via a namespace (and not attached):
   [1] readxl_1.3.1                  backports_1.2.1              
   [3] plyr_1.8.6                    lazyeval_0.2.2               
-  [5] BiocParallel_1.22.0           digest_0.6.27                
+  [5] splines_4.0.2                 digest_0.6.27                
   [7] htmltools_0.5.1.1             fansi_0.5.0                  
   [9] memoise_2.0.0                 cluster_2.1.2                
- [11] openxlsx_4.2.4                Biostrings_2.56.0            
- [13] modelr_0.1.8                  matrixStats_0.59.0           
- [15] askpass_1.1                   prettyunits_1.1.1            
- [17] jpeg_0.1-8.1                  colorspace_2.0-2             
- [19] blob_1.2.1                    rvest_1.0.0                  
- [21] rappdirs_0.3.3                haven_2.4.1                  
- [23] xfun_0.24                     crayon_1.4.1                 
- [25] RCurl_1.98-1.3                jsonlite_1.7.2               
- [27] zoo_1.8-9                     glue_1.4.2                   
- [29] gtable_0.3.0                  zlibbioc_1.34.0              
- [31] XVector_0.28.0                DelayedArray_0.14.1          
- [33] car_3.0-11                    abind_1.4-5                  
- [35] DBI_1.1.1                     rstatix_0.7.0                
- [37] Rcpp_1.0.7                    progress_1.2.2               
- [39] viridisLite_0.4.0             xtable_1.8-4                 
- [41] flashClust_1.01-2             foreign_0.8-81               
- [43] bit_4.0.4                     DT_0.18                      
- [45] truncnorm_1.0-8               htmlwidgets_1.5.3            
- [47] httr_1.4.2                    RColorBrewer_1.1-2           
- [49] ellipsis_0.3.2                farver_2.1.0                 
- [51] XML_3.99-0.6                  pkgconfig_2.0.3              
- [53] sass_0.4.0                    locfit_1.5-9.4               
- [55] utf8_1.2.1                    labeling_0.4.2               
- [57] tidyselect_1.1.1              rlang_0.4.11                 
- [59] reshape2_1.4.4                later_1.2.0                  
- [61] munsell_0.5.0                 BiocVersion_3.11.1           
- [63] cellranger_1.1.0              tools_4.0.2                  
- [65] cachem_1.0.5                  cli_3.0.0                    
- [67] generics_0.1.0                RSQLite_2.2.7                
- [69] broom_0.7.8                   evaluate_0.14                
- [71] fastmap_1.1.0                 ggdendro_0.1.22              
- [73] yaml_2.2.1                    knitr_1.33                   
- [75] bit64_4.0.5                   fs_1.5.0                     
- [77] zip_2.2.0                     whisker_0.4                  
- [79] mime_0.11                     leaps_3.1                    
- [81] xml2_1.3.2                    biomaRt_2.44.4               
- [83] compiler_4.0.2                rstudioapi_0.13              
- [85] png_0.1-7                     plotly_4.9.4.1               
- [87] curl_4.3.2                    interactiveDisplayBase_1.26.3
- [89] ggsignif_0.6.2                reprex_2.0.0                 
- [91] bslib_0.2.5.1                 stringi_1.6.2                
- [93] highr_0.9                     lattice_0.20-44              
- [95] ProtGenerics_1.20.0           Matrix_1.3-4                 
- [97] vctrs_0.3.8                   pillar_1.6.1                 
- [99] lifecycle_1.0.0               BiocManager_1.30.16          
-[101] jquerylib_0.1.4               cowplot_1.1.1                
-[103] data.table_1.14.0             bitops_1.0-7                 
-[105] rtracklayer_1.48.0            httpuv_1.6.1                 
-[107] latticeExtra_0.6-29           hwriter_1.3.2                
-[109] R6_2.5.0                      ShortRead_1.46.0             
-[111] promises_1.2.0.1              gridExtra_2.3                
-[113] rio_0.5.27                    MASS_7.3-54                  
-[115] assertthat_0.2.1              SummarizedExperiment_1.18.2  
-[117] openssl_1.4.4                 rprojroot_2.0.2              
-[119] withr_2.4.2                   GenomicAlignments_1.24.0     
-[121] Rsamtools_2.4.0               GenomeInfoDbData_1.2.3       
-[123] hms_1.1.0                     grid_4.0.2                   
-[125] rmarkdown_2.9                 carData_3.0-4                
-[127] git2r_0.28.0                  scatterplot3d_0.3-41         
-[129] shiny_1.6.0                   lubridate_1.7.10             
-[131] FactoMineR_2.4               </code></pre>
+ [11] openxlsx_4.2.4                annotate_1.66.0              
+ [13] Biostrings_2.56.0             modelr_0.1.8                 
+ [15] matrixStats_0.59.0            askpass_1.1                  
+ [17] prettyunits_1.1.1             jpeg_0.1-8.1                 
+ [19] colorspace_2.0-2              blob_1.2.1                   
+ [21] rvest_1.0.0                   rappdirs_0.3.3               
+ [23] haven_2.4.1                   xfun_0.24                    
+ [25] crayon_1.4.1                  RCurl_1.98-1.3               
+ [27] jsonlite_1.7.2                survival_3.2-11              
+ [29] zoo_1.8-9                     glue_1.4.2                   
+ [31] gtable_0.3.0                  zlibbioc_1.34.0              
+ [33] XVector_0.28.0                DelayedArray_0.14.1          
+ [35] car_3.0-11                    abind_1.4-5                  
+ [37] DBI_1.1.1                     rstatix_0.7.0                
+ [39] Rcpp_1.0.7                    progress_1.2.2               
+ [41] viridisLite_0.4.0             xtable_1.8-4                 
+ [43] flashClust_1.01-2             foreign_0.8-81               
+ [45] bit_4.0.4                     DT_0.18                      
+ [47] truncnorm_1.0-8               htmlwidgets_1.5.3            
+ [49] httr_1.4.2                    RColorBrewer_1.1-2           
+ [51] ellipsis_0.3.2                farver_2.1.0                 
+ [53] XML_3.99-0.6                  pkgconfig_2.0.3              
+ [55] sass_0.4.0                    locfit_1.5-9.4               
+ [57] utf8_1.2.1                    labeling_0.4.2               
+ [59] tidyselect_1.1.1              rlang_0.4.11                 
+ [61] reshape2_1.4.4                later_1.2.0                  
+ [63] munsell_0.5.0                 BiocVersion_3.11.1           
+ [65] cellranger_1.1.0              tools_4.0.2                  
+ [67] cachem_1.0.5                  cli_3.0.0                    
+ [69] generics_0.1.0                RSQLite_2.2.7                
+ [71] broom_0.7.8                   evaluate_0.14                
+ [73] fastmap_1.1.0                 ggdendro_0.1.22              
+ [75] yaml_2.2.1                    knitr_1.33                   
+ [77] bit64_4.0.5                   fs_1.5.0                     
+ [79] zip_2.2.0                     whisker_0.4                  
+ [81] mime_0.11                     leaps_3.1                    
+ [83] xml2_1.3.2                    biomaRt_2.44.4               
+ [85] compiler_4.0.2                rstudioapi_0.13              
+ [87] png_0.1-7                     plotly_4.9.4.1               
+ [89] curl_4.3.2                    interactiveDisplayBase_1.26.3
+ [91] ggsignif_0.6.2                reprex_2.0.0                 
+ [93] bslib_0.2.5.1                 stringi_1.6.2                
+ [95] highr_0.9                     lattice_0.20-44              
+ [97] ProtGenerics_1.20.0           Matrix_1.3-4                 
+ [99] vctrs_0.3.8                   pillar_1.6.1                 
+[101] lifecycle_1.0.0               BiocManager_1.30.16          
+[103] jquerylib_0.1.4               cowplot_1.1.1                
+[105] data.table_1.14.0             bitops_1.0-7                 
+[107] rtracklayer_1.48.0            httpuv_1.6.1                 
+[109] latticeExtra_0.6-29           hwriter_1.3.2                
+[111] R6_2.5.0                      ShortRead_1.46.0             
+[113] promises_1.2.0.1              gridExtra_2.3                
+[115] rio_0.5.27                    MASS_7.3-54                  
+[117] assertthat_0.2.1              SummarizedExperiment_1.18.2  
+[119] openssl_1.4.4                 rprojroot_2.0.2              
+[121] withr_2.4.2                   GenomicAlignments_1.24.0     
+[123] Rsamtools_2.4.0               GenomeInfoDbData_1.2.3       
+[125] hms_1.1.0                     grid_4.0.2                   
+[127] rmarkdown_2.9                 carData_3.0-4                
+[129] git2r_0.28.0                  scatterplot3d_0.3-41         
+[131] shiny_1.6.0                   lubridate_1.7.10             
+[133] FactoMineR_2.4               </code></pre>
 </div>
 </div>
 
