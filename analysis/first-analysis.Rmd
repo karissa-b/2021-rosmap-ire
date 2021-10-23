@@ -28,6 +28,7 @@ library(ggeasy)
 library(edgeR)
 library(scales)
 library(ngsReports)
+library(pheatmap)
 ```
 
 ```{r setOptions}
@@ -362,6 +363,52 @@ cpm(dge, log = TRUE) %>%
                      )
 ```
 
+# Why do the technical replicates look so different?
+
+One would expect that technical replicates would look mostly similar since they were derived from the same sample of iPSC neurons. But the PCA plot above shows that this is not the case. From inspection of the metadata about the samples, looks like the RNA integrity number (RIN) is fairly low in one of the library preparation batches. 
+
+```{r}
+techRep_brID <- dge$samples$specimenIdSource[dge$samples %>% dplyr::select("specimenIdSource") %>% duplicated()]
+
+techRep_sampleID <- dge$samples %>% 
+  dplyr::filter(specimenIdSource %in% techRep_brID) %>% 
+  .$sample
+ 
+dge$samples %>%  
+  dplyr::filter(specimenIdSource %in% techRep_brID) %>% 
+  ggplot(aes(x = sample, y = lib.size/1e6, fill = RIN)) +
+  geom_col() +
+  facet_wrap(~libraryBatch, scales = "free_x") +
+  scale_fill_viridis_c() +
+  labs(y = "Library size (millions)") +
+  easy_rotate_x_labels(angle = -45) +
+  ggtitle("Library sizes of samples which had technical replicates,\ncoloured by RNA integrity", 
+          subtitle = "Samples are grouped by library batch")
+```
+
+Inspection of the two replicates for each iPSC neuron samples shows that most of the time (except for BR14, which had fairly similar RINs), there is onw "high quality" library, and one with lesser quality. 
+
+```{r}
+dge$samples %>%  
+  dplyr::filter(specimenIdSource %in% techRep_brID) %>% 
+  ggplot(aes(x = sample, y = lib.size/1e6, fill = RIN)) +
+  geom_col() +
+  facet_wrap(~specimenIdSource, scales = "free_x") +
+  scale_fill_viridis_c() +
+  labs(y = "Library size (millions)") +
+  easy_rotate_x_labels(angle = -45)
+```
+
+```{r}
+samps2keep <- dge$samples %>% 
+  group_by(specimenIdSource) %>% 
+  dplyr::slice(which.max(RIN)) %>% 
+  .$sample
+dge <- dge[,samps2keep]
+
+```
+
+Therefore, for this analysis, I will omit the technical replicate which had the lower RIN for each iPSC sample. This leaves `r dim(dge)[2]` samples out of the original `r dim(meta)[1]`. 
 
 
 

@@ -482,16 +482,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretreeeed2e7f249329ecc97fda181230b5eb3d83c408ftargetblankeed2e7fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/eed2e7f249329ecc97fda181230b5eb3d83c408f" target="_blank">eed2e7f</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretree6acc95655ef8ba1e9dbaa394073da2b5d5e59439targetblank6acc956a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/6acc95655ef8ba1e9dbaa394073da2b5d5e59439" target="_blank">6acc956</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretreeeed2e7f249329ecc97fda181230b5eb3d83c408ftargetblankeed2e7fa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretree6acc95655ef8ba1e9dbaa394073da2b5d5e59439targetblank6acc956a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/eed2e7f249329ecc97fda181230b5eb3d83c408f" target="_blank">eed2e7f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/6acc95655ef8ba1e9dbaa394073da2b5d5e59439" target="_blank">6acc956</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -543,6 +543,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/karissa-b/2021-rosmap-ire/blob/6acc95655ef8ba1e9dbaa394073da2b5d5e59439/analysis/first-analysis.Rmd" target="_blank">6acc956</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-23
+</td>
+<td>
+added PCA
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/karissa-b/2021-rosmap-ire/6acc95655ef8ba1e9dbaa394073da2b5d5e59439/docs/first-analysis.html" target="_blank">6acc956</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-23
+</td>
+<td>
+added PCA
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -798,7 +832,8 @@ library(ggrepel)
 library(ggeasy)
 library(edgeR)
 library(scales)
-library(ngsReports)</code></pre>
+library(ngsReports)
+library(pheatmap)</code></pre>
 <pre class="r"><code>theme_set(theme_bw())
 panderOptions(&quot;big.mark&quot;, &quot;,&quot;)
 panderOptions(&quot;table.split.table&quot;, Inf)
@@ -1445,6 +1480,43 @@ Karissa Barthelson
            size = 4,
            shape = &quot;sex&quot;)</code></pre>
 <p><img src="figure/first-analysis.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
+Past versions of unnamed-chunk-9-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-9-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/karissa-b/2021-rosmap-ire/blob/6acc95655ef8ba1e9dbaa394073da2b5d5e59439/docs/figure/first-analysis.Rmd/unnamed-chunk-9-1.png" target="_blank">6acc956</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>I next want to see how similar the technical replicates are. In the plot below, only samples which were sequenced twice are labelled. Most technical replicates do not cluster together, meaning they are not overly similar.</p>
 <pre class="r"><code>cpm(dge, log = TRUE) %&gt;%
   t() %&gt;%
@@ -1460,6 +1532,80 @@ Karissa Barthelson
                        dplyr::filter(specimenIdSource %in% dge$samples$specimenIdSource[dge$samples %&gt;% dplyr::select(&quot;specimenIdSource&quot;) %&gt;% duplicated()])
                      )</code></pre>
 <p><img src="figure/first-analysis.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
+Past versions of unnamed-chunk-10-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-10-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/karissa-b/2021-rosmap-ire/blob/6acc95655ef8ba1e9dbaa394073da2b5d5e59439/docs/figure/first-analysis.Rmd/unnamed-chunk-10-1.png" target="_blank">6acc956</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-23
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="why-do-the-technical-replicates-look-so-different" class="section level1">
+<h1>Why do the technical replicates look so different?</h1>
+<p>One would expect that technical replicates would look mostly similar since they were derived from the same sample of iPSC neurons. But the PCA plot above shows that this is not the case. From inspection of the metadata about the samples, looks like the RNA integrity number (RIN) is fairly low in one of the library preparation batches.</p>
+<pre class="r"><code>techRep_brID &lt;- dge$samples$specimenIdSource[dge$samples %&gt;% dplyr::select(&quot;specimenIdSource&quot;) %&gt;% duplicated()]
+
+techRep_sampleID &lt;- dge$samples %&gt;% 
+  dplyr::filter(specimenIdSource %in% techRep_brID) %&gt;% 
+  .$sample
+ 
+dge$samples %&gt;%  
+  dplyr::filter(specimenIdSource %in% techRep_brID) %&gt;% 
+  ggplot(aes(x = sample, y = lib.size/1e6, fill = RIN)) +
+  geom_col() +
+  facet_wrap(~libraryBatch, scales = &quot;free_x&quot;) +
+  scale_fill_viridis_c() +
+  labs(y = &quot;Library size (millions)&quot;) +
+  easy_rotate_x_labels(angle = -45) +
+  ggtitle(&quot;Library sizes of samples which had technical replicates,\ncoloured by RNA integrity&quot;, 
+          subtitle = &quot;Samples are grouped by library batch&quot;)</code></pre>
+<p><img src="figure/first-analysis.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Inspection of the two replicates for each iPSC neuron samples shows that most of the time (except for BR14, which had fairly similar RINs), there is onw “high quality” library, and one with lesser quality.</p>
+<pre class="r"><code>dge$samples %&gt;%  
+  dplyr::filter(specimenIdSource %in% techRep_brID) %&gt;% 
+  ggplot(aes(x = sample, y = lib.size/1e6, fill = RIN)) +
+  geom_col() +
+  facet_wrap(~specimenIdSource, scales = &quot;free_x&quot;) +
+  scale_fill_viridis_c() +
+  labs(y = &quot;Library size (millions)&quot;) +
+  easy_rotate_x_labels(angle = -45)</code></pre>
+<p><img src="figure/first-analysis.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>samps2keep &lt;- dge$samples %&gt;% 
+  group_by(specimenIdSource) %&gt;% 
+  dplyr::slice(which.max(RIN)) %&gt;% 
+  .$sample
+dge &lt;- dge[,samps2keep]</code></pre>
+<p>Therefore, for this analysis, I will omit the technical replicate which had the lower RIN for each iPSC sample. This leaves 49 samples out of the original 66.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1487,14 +1633,15 @@ other attached packages:
  [1] ensembldb_2.12.1        AnnotationFilter_1.12.0 GenomicFeatures_1.40.1 
  [4] AnnotationDbi_1.50.3    Biobase_2.48.0          GenomicRanges_1.40.0   
  [7] GenomeInfoDb_1.24.2     IRanges_2.22.2          S4Vectors_0.26.1       
-[10] ngsReports_1.4.2        scales_1.1.1            edgeR_3.30.3           
-[13] limma_3.44.3            ggeasy_0.1.3            ggrepel_0.9.1          
-[16] ggfortify_0.4.12        ggpubr_0.4.0            AnnotationHub_2.20.2   
-[19] BiocFileCache_1.12.1    dbplyr_2.1.1            BiocGenerics_0.34.0    
-[22] pander_0.6.4            magrittr_2.0.1          forcats_0.5.1          
-[25] stringr_1.4.0           dplyr_1.0.7             purrr_0.3.4            
-[28] readr_1.4.0             tidyr_1.1.3             tibble_3.1.2           
-[31] ggplot2_3.3.5           tidyverse_1.3.1         workflowr_1.6.2        
+[10] pheatmap_1.0.12         ngsReports_1.4.2        scales_1.1.1           
+[13] edgeR_3.30.3            limma_3.44.3            ggeasy_0.1.3           
+[16] ggrepel_0.9.1           ggfortify_0.4.12        ggpubr_0.4.0           
+[19] AnnotationHub_2.20.2    BiocFileCache_1.12.1    dbplyr_2.1.1           
+[22] BiocGenerics_0.34.0     pander_0.6.4            magrittr_2.0.1         
+[25] forcats_0.5.1           stringr_1.4.0           dplyr_1.0.7            
+[28] purrr_0.3.4             readr_1.4.0             tidyr_1.1.3            
+[31] tibble_3.1.2            ggplot2_3.3.5           tidyverse_1.3.1        
+[34] workflowr_1.6.2        
 
 loaded via a namespace (and not attached):
   [1] readxl_1.3.1                  backports_1.2.1              
