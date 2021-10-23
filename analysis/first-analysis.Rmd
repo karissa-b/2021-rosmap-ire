@@ -22,6 +22,8 @@ library(magrittr)
 library(pander)
 library(AnnotationHub)
 library(ggpubr)
+library(ggfortify)
+library(ggrepel)
 library(ggeasy)
 library(edgeR)
 library(scales)
@@ -205,8 +207,7 @@ plotGcContent(
   theme(legend.position = "none")
 ```
 
-
-## Filtering lowly expressed genes
+# Filtering lowly expressed genes
 
 Genes which are lowly expressed are uninformative for DE analysis. I will follow the 10/min.lib.size rule to filter lowly expressed genes. The effect of filtering is be shown in the density plots below. 
 
@@ -292,7 +293,7 @@ dge <- featureCounts %>%
   calcNormFactors()
 ```
 
-## Check library sizes
+# Check library sizes
 
 Libary sizes vary considerably, which appears to be due to samples being sequenced across multiple runs. Library sizes range between `r pander(comma(range(dge$samples$lib.size)))`. Although concerning, this should be accounted for using `TMM normalisation`.
 ```{r}
@@ -308,6 +309,60 @@ dge$samples %>%
     fill = "RNA-seq batch"
   )
 ```
+
+# PCA
+```{r dgeFilt}
+dge <- featureCounts %>% 
+  as.matrix() %>% 
+  .[rowSums(cpm(.) >= 2) >= minSamples,] %>% 
+  DGEList(
+    samples = tibble(sample = colnames(.)) %>%
+      left_join(meta) %>% 
+      as_tibble(),
+    genes = grGenes[rownames(.)] %>%
+      as.data.frame() %>%
+      dplyr::select(
+        chromosome = seqnames, start, end, 
+        gene_id, gene_name, gene_biotype, description, entrezid
+      ) %>% 
+      left_join(gcGene) %>% 
+      as_tibble()
+  ) %>%
+  calcNormFactors()
+```
+
+I next performed a PCA on the logCPM values after filtering lowly expressed genes. I want to see how similar the samples look. Two distinct clusters are observed across PC2 (explaining ~19% of the total variation in the dataset). 
+
+```{r}
+cpm(dge, log = TRUE) %>%
+  t() %>%
+  prcomp() %>% 
+  autoplot(data = tibble(sample = rownames(.$x)) %>%
+             left_join(dge$samples),
+           colour = "experimentor", 
+           size = 4,
+           shape = "sex")
+```
+
+I next want to see how similar the technical replicates are. In the plot below, only samples which were sequenced twice are labelled. Most technical replicates do not cluster together, meaning they are not overly similar. 
+
+```{r}
+cpm(dge, log = TRUE) %>%
+  t() %>%
+  prcomp() %>% 
+  autoplot(data = tibble(sample = rownames(.$x)) %>%
+             left_join(dge$samples),
+             size = 2,
+             shape = "sex") +
+    geom_label_repel(aes(label = specimenIdSource, 
+                         colour = specimenIdSource), 
+                     max.overlaps = 15,
+                     data = . %>% 
+                       dplyr::filter(specimenIdSource %in% dge$samples$specimenIdSource[dge$samples %>% dplyr::select("specimenIdSource") %>% duplicated()])
+                     )
+```
+
+
 
 
 
