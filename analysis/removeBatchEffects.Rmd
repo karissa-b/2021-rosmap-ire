@@ -1,0 +1,42 @@
+---
+title: "removeBatchEffects"
+author: "Karissa Barthelson"
+date: "2021-10-25"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Introduction
+```{r libs}
+library(tidyverse)
+library(magrittr)
+library(edgeR)
+library(sva)
+library(pander)
+library(scales)
+library(pheatmap)
+library(ggpubr)
+library(ggfortify)
+library(ggrepel)
+library(ggeasy)
+```
+
+
+In this analysis, I will explore the effects of removing the batch effects present during the generation of this dataset. In the [initial QC doc](first-analysis.html), I noted that library preparation/RNA-seq batch still appears to drive some of the variation in this dataset. [Lagomarsino et al. 2021](https://doi.org/10.1016/j.neuron.2021.08.003) noted that they used ComBat from the sva package to remove batch effects. So I will try this too. 
+
+```{r importDGE}
+dge <- readRDS("data/confidentialData/dge.rds")
+```
+
+I imported the `dge` object  generated in the [initial QC doc](first-analysis.html). This `dge` object contains the expression values per sample after: 
+
+* filtering lowly expressed genes (i.e. genes which have a logCPM < 2)
+* Omitting one of the techncal replicates of each iPSC sample which had the lower RIN
+
+# ComBat to remove batch effects
+
+```{r}
+# define the batch effect to remove. 
+```
+

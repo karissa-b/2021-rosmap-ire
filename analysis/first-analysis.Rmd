@@ -29,7 +29,6 @@ library(edgeR)
 library(scales)
 library(ngsReports)
 library(pheatmap)
-library(sva)
 ```
 
 ```{r setOptions}
@@ -416,11 +415,63 @@ dge <- dge[,samps2keep]
 
 Therefore, for this analysis, I will omit the technical replicate which had the lower RIN for each iPSC sample. This leaves `r dim(dge)[2]` samples out of the original `r dim(meta)[1]`. This is a different strategy to [Lagomarsino et al. 2021](https://doi.org/10.1016/j.neuron.2021.08.003), who averaged out their replicates. I dont think this is the best way to deal with this, as the RNA was degraded in one of the technical replicates. This may influence how the reads are generated during the sequencing, and avergaing it out across a better quality sample may bring about false results.  
 
+# Assessment of differentiated cell lines. 
+
+[Lagomarsino et al. 2021](https://doi.org/10.1016/j.neuron.2021.08.003) noted in their methods section that a few samples may show abnormally high levels of Oct2, Oct3 or LEFTY2. This implies that these cell lines may contain a high proportion of undifferentiated cells and should be removed. These three genes were filtered from the analysus in the filtering step, meaning they are lowly expressed and considered undetectable. 
+
+The graphs below show the expression of these genes from the unfiltered expression levels. A few of the cell lines show some expression of LEFTY2. However, I am unsure at this stage whether the expression is high enough to consider the cell line as undifferentiated. I will note the sample IDs for now, and assess whether they appear to be outliers when performing differential expression analysis. 
+ 
+```{r}
+undifferentiatedMarkerGeneIDs <- c("ENSG00000112499", "ENSG00000146477", "ENSG00000143768")
+
+featureCounts %>% 
+  cpm(log=T) %>% 
+  as.data.frame() %>% 
+  .[undifferentiatedMarkerGeneIDs,] %>% 
+  rownames_to_column("gene_id") %>% 
+  gather(key = "sample", value = "logCPM", contains("s")) %>% 
+  left_join(grGenes %>% as_tibble() %>% dplyr::select(gene_id, gene_name)) %>% 
+  as_tibble() %>% 
+  left_join(meta) %>% 
+  ggplot(aes(x = sample, y = logCPM, fill = sample %in% samps2keep)) +
+  geom_col()+
+  facet_wrap(~gene_name) +
+  easy_rotate_x_labels(angle = -45) 
+
+featureCounts %>% 
+  cpm(log=T) %>% 
+  as.data.frame() %>% 
+  .[undifferentiatedMarkerGeneIDs,] %>% 
+  rownames_to_column("gene_id") %>% 
+  gather(key = "sample", value = "logCPM", contains("s")) %>% 
+  left_join(grGenes %>% as_tibble() %>% dplyr::select(gene_id, gene_name)) %>% 
+  as_tibble() %>% 
+  left_join(meta) %>% 
+  ggplot(aes(x = sample, y = logCPM)) +
+  geom_col(aes(alpha = sample %in% samps2keep,
+               fill = rnaBatch))+
+  facet_wrap(~gene_name) +
+  easy_rotate_x_labels(angle = -45) 
+  #theme(legend.position = "none")
+
+sampswithLeftyExpression <- featureCounts %>% 
+  cpm(log=T) %>% 
+  as.data.frame() %>% 
+  .[undifferentiatedMarkerGeneIDs,] %>% 
+  rownames_to_column("gene_id") %>% 
+  gather(key = "sample", value = "logCPM", contains("s")) %>% 
+  left_join(grGenes %>% as_tibble() %>% dplyr::select(gene_id, gene_name)) %>% 
+  as_tibble() %>% 
+  left_join(meta) %>% 
+  dplyr::filter(logCPM > 1) %>% 
+  .$sample
+```
+
+
 # PCA after omitting samples
+The PCA was repeated after omitting the problematic RNA-seq libraries. Samples still seperate by library batch. So I will need to correct for this
 
-The PCA was repeated after omitting the problematic RNA-seq libraries. Samples still seperate by library batch. So I will need to correct for this.
-
-```{r fig.height=10}
+```{r PCAafterOmit}
 cpm(dge, log = TRUE) %>%
   t() %>%
   prcomp() %>% 
@@ -429,7 +480,8 @@ cpm(dge, log = TRUE) %>%
            colour = "diagnosis", 
            size = 4) +
   scale_colour_viridis_d(end = 0.8) +
-    ggtitle("Diagnosis")
+  theme(aspect.ratio = 1) +
+  ggtitle("Diagnosis")
 
 cpm(dge, log = TRUE) %>%
   t() %>%
@@ -439,6 +491,7 @@ cpm(dge, log = TRUE) %>%
            colour = "sex", 
            size = 4) +
   scale_colour_viridis_d(end = 0.8) +
+  theme(aspect.ratio = 1) +
   ggtitle("Sex")
   
 cpm(dge, log = TRUE) %>%
@@ -449,6 +502,7 @@ cpm(dge, log = TRUE) %>%
            colour = "libraryBatch", 
            size = 4) +
   scale_colour_viridis_d(end = 0.9) +
+  theme(aspect.ratio = 1) +
   ggtitle("RNA-seq library batch")
 
 cpm(dge, log = TRUE) %>%
@@ -459,41 +513,78 @@ cpm(dge, log = TRUE) %>%
            colour = "RIN", 
            size = 4) +
   scale_color_viridis_c() +
+  theme(aspect.ratio = 1) +
   ggtitle("RNA Integrity Number (RIN)")
 ```
 
-
-# ComBat to remove batch effects
-
 ```{r}
-# define the batch effect to remove. 
-batch <- dge$samples$libraryBatch
-
-adjustedCounts <- ComBat_seq(counts = dge$counts, 
-                             batch = batch, 
-                             covar_mod  = dge$samples %>% 
-                               mutate(Braak = as.factor(Braak), 
-                                      CERAD = as.factor(CERAD)) %>% 
-                               dplyr::select(diagnosis, sex, apoeGenotype, 
-                                             yearsEducation, CERAD, Braak) %>%
-                               as.data.frame()
-)
-
-# repeat the PCA
-adjustedCounts %>% 
-  cpm(log = TRUE) %>%
+cpm(dge, log = TRUE) %>%
   t() %>%
   prcomp() %>% 
-  autoplot(data = tibble(sample = rownames(.$x)) %>%
-             left_join(dge$samples),
-           colour = "diagnosis", 
-           shape = "sex",
-           size = 4) +
-  scale_color_viridis_d() +
-  theme(aspect.ratio = 1)
+  .$x %>% 
+  as.data.frame() %>% 
+  rownames_to_column("sample") %>% 
+  left_join(dge$samples) %>% 
+  mutate(`Library Size (millions) ` = lib.size/1e6) %>% 
+  ggplot(aes(x = PC1, y = `Library Size (millions) `)) +
+  geom_point(aes( colour = diagnosis, shape = sex), 
+             size = 4) +
+  geom_smooth(method = "lm") +
+  theme_bw()
+
+cpm(dge, log = TRUE) %>%
+  t() %>%
+  prcomp() %>% 
+  .$x %>% 
+  as.data.frame() %>% 
+  rownames_to_column("sample") %>% 
+  left_join(dge$samples) %>% 
+  mutate(`Library Size (millions) ` = lib.size/1e6) %>% 
+  ggplot(aes(x = PC2, y = `Library Size (millions) `)) +
+  geom_point(aes(colour = diagnosis, shape = sex), 
+             size = 4) +
+  geom_smooth(method = "lm") +
+  theme_bw()
+
+cpm(dge, log = TRUE) %>%
+  t() %>%
+  prcomp() %>% 
+  .$x %>% 
+  as.data.frame() %>% 
+  rownames_to_column("sample") %>% 
+  left_join(dge$samples) %>% 
+  mutate(`Library Size (millions) ` = lib.size/1e6) %>% 
+  ggplot(aes(x = PC1, y = RIN)) +
+  geom_point(aes( colour = diagnosis, shape = sex), 
+             size = 6) +
+  geom_smooth(method = "lm") +
+  theme_bw()
+cpm(dge, log = TRUE) %>%
+  t() %>%
+  prcomp() %>% 
+  .$x %>% 
+  as.data.frame() %>% 
+  rownames_to_column("sample") %>% 
+  left_join(dge$samples) %>% 
+  mutate(`Library Size (millions) ` = lib.size/1e6) %>% 
+  ggplot(aes(x = PC2, y = RIN)) +
+  geom_point(aes( colour = diagnosis, shape = sex), 
+             size = 6) +
+  geom_smooth(method = "lm") +
+  theme_bw() 
 ```
 
+Might be a trend happening between the second pricipal component and the RIN of the sample. 
 
+
+# Conclusion
+
+I next need to remove batch effects. This will be explored in the [Batch effects analysis](removeBatchEffects.html).   
+
+
+```{r exportData}
+saveRDS(dge, "data/confidentialData/dge.rds")
+```
 
 
 

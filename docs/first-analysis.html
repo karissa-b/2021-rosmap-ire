@@ -485,16 +485,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretreed04ae021c6203085b980261ec26d5040457251cftargetblankd04ae02a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/d04ae021c6203085b980261ec26d5040457251cf" target="_blank">d04ae02</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretreed915949dbd7a42f6eb1104f2c6129b32a9b658a2targetblankd915949a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/d915949dbd7a42f6eb1104f2c6129b32a9b658a2" target="_blank">d915949</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretreed04ae021c6203085b980261ec26d5040457251cftargetblankd04ae02a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretreed915949dbd7a42f6eb1104f2c6129b32a9b658a2targetblankd915949a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/d04ae021c6203085b980261ec26d5040457251cf" target="_blank">d04ae02</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/d915949dbd7a42f6eb1104f2c6129b32a9b658a2" target="_blank">d915949</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -508,9 +508,11 @@ Ignored files:
     Ignored:    data/.DS_Store
     Ignored:    data/confidentialData/
 
+Untracked files:
+    Untracked:  analysis/removeBatchEffects.Rmd
+
 Unstaged changes:
     Modified:   analysis/first-analysis.Rmd
-    Modified:   analysis/snakemake_pipeline.Rmd
 
 </code></pre>
 <p>
@@ -549,6 +551,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/karissa-b/2021-rosmap-ire/blob/d915949dbd7a42f6eb1104f2c6129b32a9b658a2/analysis/first-analysis.Rmd" target="_blank">d915949</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-25
+</td>
+<td>
+more an
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/karissa-b/2021-rosmap-ire/d915949dbd7a42f6eb1104f2c6129b32a9b658a2/docs/first-analysis.html" target="_blank">d915949</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-25
+</td>
+<td>
+more an
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -907,8 +943,7 @@ library(ggeasy)
 library(edgeR)
 library(scales)
 library(ngsReports)
-library(pheatmap)
-library(sva)</code></pre>
+library(pheatmap)</code></pre>
 <pre class="r"><code>theme_set(theme_bw())
 panderOptions(&quot;big.mark&quot;, &quot;,&quot;)
 panderOptions(&quot;table.split.table&quot;, Inf)
@@ -1760,18 +1795,25 @@ Karissa Barthelson
 dge &lt;- dge[,samps2keep]</code></pre>
 <p>Therefore, for this analysis, I will omit the technical replicate which had the lower RIN for each iPSC sample. This leaves 49 samples out of the original 66. This is a different strategy to <a href="https://doi.org/10.1016/j.neuron.2021.08.003">Lagomarsino et al. 2021</a>, who averaged out their replicates. I dont think this is the best way to deal with this, as the RNA was degraded in one of the technical replicates. This may influence how the reads are generated during the sequencing, and avergaing it out across a better quality sample may bring about false results.</p>
 </div>
-<div id="pca-after-omitting-samples" class="section level1">
-<h1>PCA after omitting samples</h1>
-<p>The PCA was repeated after omitting the problematic RNA-seq libraries. Samples still seperate by library batch. So I will need to correct for this.</p>
-<pre class="r"><code>cpm(dge, log = TRUE) %&gt;%
-  t() %&gt;%
-  prcomp() %&gt;% 
-  autoplot(data = tibble(sample = rownames(.$x)) %&gt;%
-             left_join(dge$samples),
-           colour = &quot;diagnosis&quot;, 
-           size = 4) +
-  scale_colour_viridis_d(end = 0.8) +
-    ggtitle(&quot;Diagnosis&quot;)</code></pre>
+<div id="assessment-of-differentiated-cell-lines." class="section level1">
+<h1>Assessment of differentiated cell lines.</h1>
+<p><a href="https://doi.org/10.1016/j.neuron.2021.08.003">Lagomarsino et al. 2021</a> noted in their methods section that a few samples may show abnormally high levels of Oct2, Oct3 or LEFTY2. This implies that these cell lines may contain a high proportion of undifferentiated cells and should be removed. These three genes were filtered from the analysus in the filtering step, meaning they are lowly expressed and considered undetectable.</p>
+<p>The graphs below show the expression of these genes from the unfiltered expression levels. A few of the cell lines show some expression of LEFTY2. However, I am unsure at this stage whether the expression is high enough to consider the cell line as undifferentiated. I will note the sample IDs for now, and assess whether they appear to be outliers when performing differential expression analysis.</p>
+<pre class="r"><code>undifferentiatedMarkerGeneIDs &lt;- c(&quot;ENSG00000112499&quot;, &quot;ENSG00000146477&quot;, &quot;ENSG00000143768&quot;)
+
+featureCounts %&gt;% 
+  cpm(log=T) %&gt;% 
+  as.data.frame() %&gt;% 
+  .[undifferentiatedMarkerGeneIDs,] %&gt;% 
+  rownames_to_column(&quot;gene_id&quot;) %&gt;% 
+  gather(key = &quot;sample&quot;, value = &quot;logCPM&quot;, contains(&quot;s&quot;)) %&gt;% 
+  left_join(grGenes %&gt;% as_tibble() %&gt;% dplyr::select(gene_id, gene_name)) %&gt;% 
+  as_tibble() %&gt;% 
+  left_join(meta) %&gt;% 
+  ggplot(aes(x = sample, y = logCPM, fill = sample %in% samps2keep)) +
+  geom_col()+
+  facet_wrap(~gene_name) +
+  easy_rotate_x_labels(angle = -45) </code></pre>
 <p><img src="figure/first-analysis.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-14-1">
@@ -1797,6 +1839,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/karissa-b/2021-rosmap-ire/blob/d915949dbd7a42f6eb1104f2c6129b32a9b658a2/docs/figure/first-analysis.Rmd/unnamed-chunk-14-1.png" target="_blank">d915949</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-25
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/karissa-b/2021-rosmap-ire/blob/d04ae021c6203085b980261ec26d5040457251cf/docs/figure/first-analysis.Rmd/unnamed-chunk-14-1.png" target="_blank">d04ae02</a>
 </td>
 <td>
@@ -1810,6 +1863,86 @@ Karissa Barthelson
 </table>
 </div>
 </div>
+<pre class="r"><code>featureCounts %&gt;% 
+  cpm(log=T) %&gt;% 
+  as.data.frame() %&gt;% 
+  .[undifferentiatedMarkerGeneIDs,] %&gt;% 
+  rownames_to_column(&quot;gene_id&quot;) %&gt;% 
+  gather(key = &quot;sample&quot;, value = &quot;logCPM&quot;, contains(&quot;s&quot;)) %&gt;% 
+  left_join(grGenes %&gt;% as_tibble() %&gt;% dplyr::select(gene_id, gene_name)) %&gt;% 
+  as_tibble() %&gt;% 
+  left_join(meta) %&gt;% 
+  ggplot(aes(x = sample, y = logCPM)) +
+  geom_col(aes(alpha = sample %in% samps2keep,
+               fill = rnaBatch))+
+  facet_wrap(~gene_name) +
+  easy_rotate_x_labels(angle = -45) </code></pre>
+<p><img src="figure/first-analysis.Rmd/unnamed-chunk-14-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-14-2">
+Past versions of unnamed-chunk-14-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-14-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/karissa-b/2021-rosmap-ire/blob/d915949dbd7a42f6eb1104f2c6129b32a9b658a2/docs/figure/first-analysis.Rmd/unnamed-chunk-14-2.png" target="_blank">d915949</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-25
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>  #theme(legend.position = &quot;none&quot;)
+
+sampswithLeftyExpression &lt;- featureCounts %&gt;% 
+  cpm(log=T) %&gt;% 
+  as.data.frame() %&gt;% 
+  .[undifferentiatedMarkerGeneIDs,] %&gt;% 
+  rownames_to_column(&quot;gene_id&quot;) %&gt;% 
+  gather(key = &quot;sample&quot;, value = &quot;logCPM&quot;, contains(&quot;s&quot;)) %&gt;% 
+  left_join(grGenes %&gt;% as_tibble() %&gt;% dplyr::select(gene_id, gene_name)) %&gt;% 
+  as_tibble() %&gt;% 
+  left_join(meta) %&gt;% 
+  dplyr::filter(logCPM &gt; 1) %&gt;% 
+  .$sample</code></pre>
+</div>
+<div id="pca-after-omitting-samples" class="section level1">
+<h1>PCA after omitting samples</h1>
+<p>The PCA was repeated after omitting the problematic RNA-seq libraries. Samples still seperate by library batch. So I will need to correct for this</p>
+<pre class="r"><code>cpm(dge, log = TRUE) %&gt;%
+  t() %&gt;%
+  prcomp() %&gt;% 
+  autoplot(data = tibble(sample = rownames(.$x)) %&gt;%
+             left_join(dge$samples),
+           colour = &quot;diagnosis&quot;, 
+           size = 4) +
+  scale_colour_viridis_d(end = 0.8) +
+  theme(aspect.ratio = 1) +
+  ggtitle(&quot;Diagnosis&quot;)</code></pre>
+<p><img src="figure/first-analysis.Rmd/PCAafterOmit-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>cpm(dge, log = TRUE) %&gt;%
   t() %&gt;%
   prcomp() %&gt;% 
@@ -1818,8 +1951,9 @@ Karissa Barthelson
            colour = &quot;sex&quot;, 
            size = 4) +
   scale_colour_viridis_d(end = 0.8) +
+  theme(aspect.ratio = 1) +
   ggtitle(&quot;Sex&quot;)</code></pre>
-<p><img src="figure/first-analysis.Rmd/unnamed-chunk-14-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/first-analysis.Rmd/PCAafterOmit-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>cpm(dge, log = TRUE) %&gt;%
   t() %&gt;%
   prcomp() %&gt;% 
@@ -1828,8 +1962,9 @@ Karissa Barthelson
            colour = &quot;libraryBatch&quot;, 
            size = 4) +
   scale_colour_viridis_d(end = 0.9) +
+  theme(aspect.ratio = 1) +
   ggtitle(&quot;RNA-seq library batch&quot;)</code></pre>
-<p><img src="figure/first-analysis.Rmd/unnamed-chunk-14-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/first-analysis.Rmd/PCAafterOmit-3.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>cpm(dge, log = TRUE) %&gt;%
   t() %&gt;%
   prcomp() %&gt;% 
@@ -1838,42 +1973,22 @@ Karissa Barthelson
            colour = &quot;RIN&quot;, 
            size = 4) +
   scale_color_viridis_c() +
+  theme(aspect.ratio = 1) +
   ggtitle(&quot;RNA Integrity Number (RIN)&quot;)</code></pre>
-<p><img src="figure/first-analysis.Rmd/unnamed-chunk-14-4.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="combat-to-remove-batch-effects" class="section level1">
-<h1>ComBat to remove batch effects</h1>
-<pre class="r"><code># define the batch effect to remove. 
-batch &lt;- dge$samples$libraryBatch
-
-adjustedCounts &lt;- ComBat_seq(counts = dge$counts, 
-                             batch = batch, 
-                             covar_mod  = dge$samples %&gt;% 
-                               mutate(Braak = as.factor(Braak), 
-                                      CERAD = as.factor(CERAD)) %&gt;% 
-                               dplyr::select(diagnosis, sex, apoeGenotype, 
-                                             yearsEducation, CERAD, Braak) %&gt;%
-                               as.data.frame()
-)</code></pre>
-<pre><code>Found 5 batches
-Using null model in ComBat-seq.
-Adjusting for 15 covariate(s) or covariate level(s)
-Estimating dispersions
-Fitting the GLM model
-Shrinkage off - using GLM estimates for parameters
-Adjusting the data</code></pre>
-<pre class="r"><code># repeat the PCA
-adjustedCounts %&gt;% 
-  cpm(log = TRUE) %&gt;%
+<p><img src="figure/first-analysis.Rmd/PCAafterOmit-4.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>cpm(dge, log = TRUE) %&gt;%
   t() %&gt;%
   prcomp() %&gt;% 
-  autoplot(data = tibble(sample = rownames(.$x)) %&gt;%
-             left_join(dge$samples),
-           colour = &quot;diagnosis&quot;, 
-           shape = &quot;sex&quot;,
-           size = 4) +
-  scale_color_viridis_d() +
-  theme(aspect.ratio = 1)</code></pre>
+  .$x %&gt;% 
+  as.data.frame() %&gt;% 
+  rownames_to_column(&quot;sample&quot;) %&gt;% 
+  left_join(dge$samples) %&gt;% 
+  mutate(`Library Size (millions) ` = lib.size/1e6) %&gt;% 
+  ggplot(aes(x = PC1, y = `Library Size (millions) `)) +
+  geom_point(aes( colour = diagnosis, shape = sex), 
+             size = 4) +
+  geom_smooth(method = &quot;lm&quot;) +
+  theme_bw()</code></pre>
 <p><img src="figure/first-analysis.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-15-1">
@@ -1912,6 +2027,54 @@ Karissa Barthelson
 </table>
 </div>
 </div>
+<pre class="r"><code>cpm(dge, log = TRUE) %&gt;%
+  t() %&gt;%
+  prcomp() %&gt;% 
+  .$x %&gt;% 
+  as.data.frame() %&gt;% 
+  rownames_to_column(&quot;sample&quot;) %&gt;% 
+  left_join(dge$samples) %&gt;% 
+  mutate(`Library Size (millions) ` = lib.size/1e6) %&gt;% 
+  ggplot(aes(x = PC2, y = `Library Size (millions) `)) +
+  geom_point(aes(colour = diagnosis, shape = sex), 
+             size = 4) +
+  geom_smooth(method = &quot;lm&quot;) +
+  theme_bw()</code></pre>
+<p><img src="figure/first-analysis.Rmd/unnamed-chunk-15-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>cpm(dge, log = TRUE) %&gt;%
+  t() %&gt;%
+  prcomp() %&gt;% 
+  .$x %&gt;% 
+  as.data.frame() %&gt;% 
+  rownames_to_column(&quot;sample&quot;) %&gt;% 
+  left_join(dge$samples) %&gt;% 
+  mutate(`Library Size (millions) ` = lib.size/1e6) %&gt;% 
+  ggplot(aes(x = PC1, y = RIN)) +
+  geom_point(aes( colour = diagnosis, shape = sex), 
+             size = 6) +
+  geom_smooth(method = &quot;lm&quot;) +
+  theme_bw()</code></pre>
+<p><img src="figure/first-analysis.Rmd/unnamed-chunk-15-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>cpm(dge, log = TRUE) %&gt;%
+  t() %&gt;%
+  prcomp() %&gt;% 
+  .$x %&gt;% 
+  as.data.frame() %&gt;% 
+  rownames_to_column(&quot;sample&quot;) %&gt;% 
+  left_join(dge$samples) %&gt;% 
+  mutate(`Library Size (millions) ` = lib.size/1e6) %&gt;% 
+  ggplot(aes(x = PC2, y = RIN)) +
+  geom_point(aes( colour = diagnosis, shape = sex), 
+             size = 6) +
+  geom_smooth(method = &quot;lm&quot;) +
+  theme_bw() </code></pre>
+<p><img src="figure/first-analysis.Rmd/unnamed-chunk-15-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Might be a trend happening between the second pricipal component and the RIN of the sample.</p>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<p>I next need to remove batch effects. This will be explored in the <a href="removeBatchEffects.html">Batch effects analysis</a>.</p>
+<pre class="r"><code>saveRDS(dge, &quot;data/confidentialData/dge.rds&quot;)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1939,24 +2102,23 @@ other attached packages:
  [1] ensembldb_2.12.1        AnnotationFilter_1.12.0 GenomicFeatures_1.40.1 
  [4] AnnotationDbi_1.50.3    Biobase_2.48.0          GenomicRanges_1.40.0   
  [7] GenomeInfoDb_1.24.2     IRanges_2.22.2          S4Vectors_0.26.1       
-[10] sva_3.36.0              BiocParallel_1.22.0     genefilter_1.70.0      
-[13] mgcv_1.8-36             nlme_3.1-152            pheatmap_1.0.12        
-[16] ngsReports_1.4.2        scales_1.1.1            edgeR_3.30.3           
-[19] limma_3.44.3            ggeasy_0.1.3            ggrepel_0.9.1          
-[22] ggfortify_0.4.12        ggpubr_0.4.0            AnnotationHub_2.20.2   
-[25] BiocFileCache_1.12.1    dbplyr_2.1.1            BiocGenerics_0.34.0    
-[28] pander_0.6.4            magrittr_2.0.1          forcats_0.5.1          
-[31] stringr_1.4.0           dplyr_1.0.7             purrr_0.3.4            
-[34] readr_1.4.0             tidyr_1.1.3             tibble_3.1.2           
-[37] ggplot2_3.3.5           tidyverse_1.3.1         workflowr_1.6.2        
+[10] pheatmap_1.0.12         ngsReports_1.4.2        scales_1.1.1           
+[13] edgeR_3.30.3            limma_3.44.3            ggeasy_0.1.3           
+[16] ggrepel_0.9.1           ggfortify_0.4.12        ggpubr_0.4.0           
+[19] AnnotationHub_2.20.2    BiocFileCache_1.12.1    dbplyr_2.1.1           
+[22] BiocGenerics_0.34.0     pander_0.6.4            magrittr_2.0.1         
+[25] forcats_0.5.1           stringr_1.4.0           dplyr_1.0.7            
+[28] purrr_0.3.4             readr_1.4.0             tidyr_1.1.3            
+[31] tibble_3.1.2            ggplot2_3.3.5           tidyverse_1.3.1        
+[34] workflowr_1.6.2        
 
 loaded via a namespace (and not attached):
   [1] readxl_1.3.1                  backports_1.2.1              
   [3] plyr_1.8.6                    lazyeval_0.2.2               
-  [5] splines_4.0.2                 digest_0.6.27                
-  [7] htmltools_0.5.1.1             fansi_0.5.0                  
-  [9] memoise_2.0.0                 cluster_2.1.2                
- [11] openxlsx_4.2.4                annotate_1.66.0              
+  [5] splines_4.0.2                 BiocParallel_1.22.0          
+  [7] digest_0.6.27                 htmltools_0.5.1.1            
+  [9] fansi_0.5.0                   memoise_2.0.0                
+ [11] cluster_2.1.2                 openxlsx_4.2.4               
  [13] Biostrings_2.56.0             modelr_0.1.8                 
  [15] matrixStats_0.59.0            askpass_1.1                  
  [17] prettyunits_1.1.1             jpeg_0.1-8.1                 
@@ -1964,33 +2126,33 @@ loaded via a namespace (and not attached):
  [21] rvest_1.0.0                   rappdirs_0.3.3               
  [23] haven_2.4.1                   xfun_0.24                    
  [25] crayon_1.4.1                  RCurl_1.98-1.3               
- [27] jsonlite_1.7.2                survival_3.2-11              
- [29] zoo_1.8-9                     glue_1.4.2                   
- [31] gtable_0.3.0                  zlibbioc_1.34.0              
- [33] XVector_0.28.0                DelayedArray_0.14.1          
- [35] car_3.0-11                    abind_1.4-5                  
- [37] DBI_1.1.1                     rstatix_0.7.0                
- [39] Rcpp_1.0.7                    progress_1.2.2               
- [41] viridisLite_0.4.0             xtable_1.8-4                 
- [43] flashClust_1.01-2             foreign_0.8-81               
- [45] bit_4.0.4                     DT_0.18                      
- [47] truncnorm_1.0-8               htmlwidgets_1.5.3            
- [49] httr_1.4.2                    RColorBrewer_1.1-2           
- [51] ellipsis_0.3.2                farver_2.1.0                 
- [53] XML_3.99-0.6                  pkgconfig_2.0.3              
- [55] sass_0.4.0                    locfit_1.5-9.4               
- [57] utf8_1.2.1                    labeling_0.4.2               
- [59] tidyselect_1.1.1              rlang_0.4.11                 
- [61] reshape2_1.4.4                later_1.2.0                  
- [63] munsell_0.5.0                 BiocVersion_3.11.1           
- [65] cellranger_1.1.0              tools_4.0.2                  
- [67] cachem_1.0.5                  cli_3.0.0                    
- [69] generics_0.1.0                RSQLite_2.2.7                
- [71] broom_0.7.8                   evaluate_0.14                
- [73] fastmap_1.1.0                 ggdendro_0.1.22              
- [75] yaml_2.2.1                    knitr_1.33                   
- [77] bit64_4.0.5                   fs_1.5.0                     
- [79] zip_2.2.0                     whisker_0.4                  
+ [27] jsonlite_1.7.2                zoo_1.8-9                    
+ [29] glue_1.4.2                    gtable_0.3.0                 
+ [31] zlibbioc_1.34.0               XVector_0.28.0               
+ [33] DelayedArray_0.14.1           car_3.0-11                   
+ [35] abind_1.4-5                   DBI_1.1.1                    
+ [37] rstatix_0.7.0                 Rcpp_1.0.7                   
+ [39] progress_1.2.2                viridisLite_0.4.0            
+ [41] xtable_1.8-4                  flashClust_1.01-2            
+ [43] foreign_0.8-81                bit_4.0.4                    
+ [45] DT_0.18                       truncnorm_1.0-8              
+ [47] htmlwidgets_1.5.3             httr_1.4.2                   
+ [49] RColorBrewer_1.1-2            ellipsis_0.3.2               
+ [51] farver_2.1.0                  XML_3.99-0.6                 
+ [53] pkgconfig_2.0.3               sass_0.4.0                   
+ [55] locfit_1.5-9.4                utf8_1.2.1                   
+ [57] labeling_0.4.2                tidyselect_1.1.1             
+ [59] rlang_0.4.11                  reshape2_1.4.4               
+ [61] later_1.2.0                   munsell_0.5.0                
+ [63] BiocVersion_3.11.1            cellranger_1.1.0             
+ [65] tools_4.0.2                   cachem_1.0.5                 
+ [67] cli_3.0.0                     generics_0.1.0               
+ [69] RSQLite_2.2.7                 broom_0.7.8                  
+ [71] evaluate_0.14                 fastmap_1.1.0                
+ [73] ggdendro_0.1.22               yaml_2.2.1                   
+ [75] knitr_1.33                    bit64_4.0.5                  
+ [77] fs_1.5.0                      zip_2.2.0                    
+ [79] nlme_3.1-152                  whisker_0.4                  
  [81] mime_0.11                     leaps_3.1                    
  [83] xml2_1.3.2                    biomaRt_2.44.4               
  [85] compiler_4.0.2                rstudioapi_0.13              
@@ -2013,11 +2175,11 @@ loaded via a namespace (and not attached):
 [119] openssl_1.4.4                 rprojroot_2.0.2              
 [121] withr_2.4.2                   GenomicAlignments_1.24.0     
 [123] Rsamtools_2.4.0               GenomeInfoDbData_1.2.3       
-[125] hms_1.1.0                     grid_4.0.2                   
-[127] rmarkdown_2.9                 carData_3.0-4                
-[129] git2r_0.28.0                  scatterplot3d_0.3-41         
-[131] shiny_1.6.0                   lubridate_1.7.10             
-[133] FactoMineR_2.4               </code></pre>
+[125] mgcv_1.8-36                   hms_1.1.0                    
+[127] grid_4.0.2                    rmarkdown_2.9                
+[129] carData_3.0-4                 git2r_0.28.0                 
+[131] scatterplot3d_0.3-41          shiny_1.6.0                  
+[133] lubridate_1.7.10              FactoMineR_2.4               </code></pre>
 </div>
 </div>
 
