@@ -418,11 +418,10 @@ Therefore, for this analysis, I will omit the technical replicate which had the 
 
 # PCA after omitting samples
 
-The PCA was repeated after omitting the problematic RNA-seq libraries. Samples still seperate by library batch. So I will need to correct for this. 
+The PCA was repeated after omitting the problematic RNA-seq libraries. Samples still seperate by library batch. So I will need to correct for this.
 
 ```{r fig.height=10}
-ggarrange(
-  cpm(dge, log = TRUE) %>%
+cpm(dge, log = TRUE) %>%
   t() %>%
   prcomp() %>% 
   autoplot(data = tibble(sample = rownames(.$x)) %>%
@@ -430,69 +429,71 @@ ggarrange(
            colour = "diagnosis", 
            size = 4) +
   scale_colour_viridis_d(end = 0.8) +
-    ggtitle("Diagnosis"),
+    ggtitle("Diagnosis")
 
-  cpm(dge, log = TRUE) %>%
-    t() %>%
-    prcomp() %>% 
-    autoplot(data = tibble(sample = rownames(.$x)) %>%
-               left_join(dge$samples),
-             colour = "sex", 
-             size = 4) +
-    scale_colour_viridis_d(end = 0.8) +
-    ggtitle("Sex"),
+cpm(dge, log = TRUE) %>%
+  t() %>%
+  prcomp() %>% 
+  autoplot(data = tibble(sample = rownames(.$x)) %>%
+             left_join(dge$samples),
+           colour = "sex", 
+           size = 4) +
+  scale_colour_viridis_d(end = 0.8) +
+  ggtitle("Sex")
   
-  cpm(dge, log = TRUE) %>%
-    t() %>%
-    prcomp() %>% 
-    autoplot(data = tibble(sample = rownames(.$x)) %>%
-               left_join(dge$samples),
-             colour = "libraryBatch", 
-             size = 4) +
-    scale_colour_viridis_d(end = 0.9) +
-    ggtitle("RNA-seq library batch"),
-  
-  cpm(dge, log = TRUE) %>%
-    t() %>%
-    prcomp() %>% 
-    autoplot(data = tibble(sample = rownames(.$x)) %>%
-               left_join(dge$samples),
-             colour = "RIN", 
-             size = 4) +
-    scale_color_viridis_c() +
-    ggtitle("RNA Integrity Number (RIN)")
-)
+cpm(dge, log = TRUE) %>%
+  t() %>%
+  prcomp() %>% 
+  autoplot(data = tibble(sample = rownames(.$x)) %>%
+             left_join(dge$samples),
+           colour = "libraryBatch", 
+           size = 4) +
+  scale_colour_viridis_d(end = 0.9) +
+  ggtitle("RNA-seq library batch")
+
+cpm(dge, log = TRUE) %>%
+  t() %>%
+  prcomp() %>% 
+  autoplot(data = tibble(sample = rownames(.$x)) %>%
+             left_join(dge$samples),
+           colour = "RIN", 
+           size = 4) +
+  scale_color_viridis_c() +
+  ggtitle("RNA Integrity Number (RIN)")
 ```
 
 
 # ComBat to remove batch effects
 
-Still playing around with this. Maybe try RUV?
 ```{r}
 # define the batch effect to remove. 
 batch <- dge$samples$libraryBatch
 
-# define the null model matix, which only contains an intercept
-adjustedCounts <- ComBat_seq(dge$counts, 
-           batch = batch, 
-           covar_mod  = dge$samples %>% 
-             mutate(Braak = as.factor(Braak), 
-                    CERAD = as.factor(CERAD)) %>% 
-             dplyr::select(diagnosis, sex, apoeGenotype, yearsEducation, CERAD, Braak) %>%
-             as.data.frame()
-           )
+adjustedCounts <- ComBat_seq(counts = dge$counts, 
+                             batch = batch, 
+                             covar_mod  = dge$samples %>% 
+                               mutate(Braak = as.factor(Braak), 
+                                      CERAD = as.factor(CERAD)) %>% 
+                               dplyr::select(diagnosis, sex, apoeGenotype, 
+                                             yearsEducation, CERAD, Braak) %>%
+                               as.data.frame()
+)
 
+# repeat the PCA
 adjustedCounts %>% 
   cpm(log = TRUE) %>%
-    t() %>%
-    prcomp() %>% 
-    autoplot(data = tibble(sample = rownames(.$x)) %>%
-               left_join(dge$samples),
-             colour = "diagnosis", 
-             shape = "sex",
-             size = 4) +
-    scale_color_viridis_d() +
-    theme(aspect.ratio = 1)
+  t() %>%
+  prcomp() %>% 
+  autoplot(data = tibble(sample = rownames(.$x)) %>%
+             left_join(dge$samples),
+           colour = "diagnosis", 
+           shape = "sex",
+           size = 4) +
+  scale_color_viridis_d() +
+  theme(aspect.ratio = 1)
 ```
+
+
+
 
 
