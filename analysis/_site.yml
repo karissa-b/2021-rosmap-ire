@@ -9,6 +9,8 @@ navbar:
     href: snakemake_pipeline.html
   - text: QC
     href: first-analysis.html
+  - text: Remove batch effects
+    href: removeBatchEffects.html
   right:
   - icon: fa-github
     text: Source code

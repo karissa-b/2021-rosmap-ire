@@ -341,6 +341,9 @@ div.tocify {
 <li>
   <a href="first-analysis.html">QC</a>
 </li>
+<li>
+  <a href="removeBatchEffects.html">Remove batch effects</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -394,7 +397,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-10-25
+<strong>Last updated:</strong> 2021-10-27
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -418,7 +421,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -485,16 +488,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretreed915949dbd7a42f6eb1104f2c6129b32a9b658a2targetblankd915949a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/d915949dbd7a42f6eb1104f2c6129b32a9b658a2" target="_blank">d915949</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretree0e4608868d091856a8715286986e3d3f859947fatargetblank0e46088a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/0e4608868d091856a8715286986e3d3f859947fa" target="_blank">0e46088</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretreed915949dbd7a42f6eb1104f2c6129b32a9b658a2targetblankd915949a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretree0e4608868d091856a8715286986e3d3f859947fatargetblank0e46088a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/d915949dbd7a42f6eb1104f2c6129b32a9b658a2" target="_blank">d915949</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/0e4608868d091856a8715286986e3d3f859947fa" target="_blank">0e46088</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -503,16 +506,15 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rapp.history
+    Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    code/.DS_Store
     Ignored:    data/.DS_Store
     Ignored:    data/confidentialData/
 
-Untracked files:
-    Untracked:  analysis/removeBatchEffects.Rmd
-
 Unstaged changes:
-    Modified:   analysis/first-analysis.Rmd
+    Modified:   analysis/_site.yml
+    Modified:   analysis/removeBatchEffects.Rmd
 
 </code></pre>
 <p>
@@ -525,77 +527,198 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/removeBatchEffects.Rmd</code>) and HTML (<code>docs/removeBatchEffects.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/karissa-b/2021-rosmap-ire/blob/0e4608868d091856a8715286986e3d3f859947fa/analysis/removeBatchEffects.Rmd" target="_blank">0e46088</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-25
+</td>
+<td>
+initial QC done?
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/karissa-b/2021-rosmap-ire/0e4608868d091856a8715286986e3d3f859947fa/docs/removeBatchEffects.html" target="_blank">0e46088</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-25
+</td>
+<td>
+initial QC done?
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
 </div>
-<div id="introduction" class="section level2">
-<h2>Introduction</h2>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
-<pre><code>✓ ggplot2 3.3.5     ✓ purrr   0.3.4
-✓ tibble  3.1.2     ✓ dplyr   1.0.7
-✓ tidyr   1.1.3     ✓ stringr 1.4.0
-✓ readr   1.4.0     ✓ forcats 0.5.1</code></pre>
-<pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-x dplyr::filter() masks stats::filter()
-x dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>library(magrittr)</code></pre>
-<pre><code>
-Attaching package: &#39;magrittr&#39;</code></pre>
-<pre><code>The following object is masked from &#39;package:purrr&#39;:
-
-    set_names</code></pre>
-<pre><code>The following object is masked from &#39;package:tidyr&#39;:
-
-    extract</code></pre>
-<pre class="r"><code>library(edgeR)</code></pre>
-<pre><code>Loading required package: limma</code></pre>
-<pre class="r"><code>library(sva)</code></pre>
-<pre><code>Loading required package: mgcv</code></pre>
-<pre><code>Loading required package: nlme</code></pre>
-<pre><code>
-Attaching package: &#39;nlme&#39;</code></pre>
-<pre><code>The following object is masked from &#39;package:dplyr&#39;:
-
-    collapse</code></pre>
-<pre><code>This is mgcv 1.8-36. For overview type &#39;help(&quot;mgcv-package&quot;)&#39;.</code></pre>
-<pre><code>Loading required package: genefilter</code></pre>
-<pre><code>
-Attaching package: &#39;genefilter&#39;</code></pre>
-<pre><code>The following object is masked from &#39;package:readr&#39;:
-
-    spec</code></pre>
-<pre><code>Loading required package: BiocParallel</code></pre>
-<pre class="r"><code>library(pander)
-library(scales)</code></pre>
-<pre><code>
-Attaching package: &#39;scales&#39;</code></pre>
-<pre><code>The following object is masked from &#39;package:purrr&#39;:
-
-    discard</code></pre>
-<pre><code>The following object is masked from &#39;package:readr&#39;:
-
-    col_factor</code></pre>
-<pre class="r"><code>library(pheatmap)
+<div id="exploration-of-removal-of-batch-effects" class="section level2">
+<h2>Exploration of removal of batch effects</h2>
+<pre class="r"><code>library(tidyverse)
+library(magrittr)
+library(edgeR)
+library(sva)
+library(pander)
+library(scales)
+library(pheatmap)
 library(ggpubr)
 library(ggfortify)
 library(ggrepel)
-library(ggeasy)</code></pre>
-<p>In this analysis, I will explore the effects of removing the batch effects present during the generation of this dataset. In the <a href="first-analysis.html">initial QC doc</a>, I noted that library preparation/RNA-seq batch still appears to drive some of the variation in this dataset. <a href="https://doi.org/10.1016/j.neuron.2021.08.003">Lagomarsino et al. 2021</a> noted that they used ComBat from the sva package to remove batch effects. So I will try this too.</p>
-<pre class="r"><code>dge &lt;- readRDS(&quot;data/confidentialData/dge.rds&quot;)</code></pre>
+library(ggeasy)
+
+theme_set(theme_bw())
+panderOptions(&quot;big.mark&quot;, &quot;,&quot;)
+panderOptions(&quot;table.split.table&quot;, Inf)
+panderOptions(&quot;table.style&quot;, &quot;rmarkdown&quot;)</code></pre>
+<p>In this analysis, I will explore the effects of removing the batch effects present during the generation of this dataset. In the <a href="first-analysis.html">initial QC doc</a>, I noted that library preparation/RNA-seq batch still appears to drive some of the variation in this dataset. <a href="https://doi.org/10.1016/j.neuron.2021.08.003">Lagomarsino et al. 2021</a> noted that they used ComBat from the <code>sva</code> package to remove batch effects. So I will try this too.</p>
+<pre class="r"><code>dge &lt;- readRDS(&quot;data/confidentialData/dge.rds&quot;)
+
+# edit the covariates to be factors rather than character/integers
+dge$samples %&lt;&gt;% 
+  dplyr::select(1:11, diagnosis, apoeGenotype, pmi, sex, yearsEducation, CERAD, Braak) %&gt;% 
+  mutate(diagnosis = case_when(
+    diagnosis == &quot;no cognitive impairment&quot; ~ &quot;NCI&quot;, 
+    diagnosis == &quot;Alzheimer Disease&quot; ~ &quot;AD&quot; 
+  ) %&gt;% 
+    factor(levels = c(&quot;NCI&quot;, &quot;AD&quot;)), 
+  
+  sex = as.factor(sex), 
+  
+  apoeGenotype = factor(apoeGenotype, levels = c(&quot;E3/E3&quot;, &quot;E2/E3&quot;, &quot;E3/E4&quot; ,&quot;E4/E4&quot;, &quot;E2/E2&quot;)), 
+  CERAD = as.factor(CERAD), 
+  Braak = as.factor(Braak)
+    ) </code></pre>
 <p>I imported the <code>dge</code> object generated in the <a href="first-analysis.html">initial QC doc</a>. This <code>dge</code> object contains the expression values per sample after:</p>
 <ul>
 <li>filtering lowly expressed genes (i.e. genes which have a logCPM &lt; 2)</li>
-<li>Omitting one of the techncal replicates of each iPSC sample which had the lower RIN</li>
+<li>Omitting one of the technical replicates of each iPSC sample which had the lower RIN</li>
 </ul>
 </div>
 <div id="combat-to-remove-batch-effects" class="section level1">
 <h1>ComBat to remove batch effects</h1>
-<pre class="r"><code># define the batch effect to remove. </code></pre>
+<p>The ComBat-Seq function of the sva package is designed to remove batch effects from RNA-seq data. It uses a negative binomial regression to model the count matrix, and estimate parameters representing the batch effects. Then it provides adjusted data by mapping the original data to an expected distribution if there were no batch effects. The adjusted data preserve the integer nature of count matrix. Like ComBat, it requires known a batch variable, in this case, the library preparation batch.</p>
+<p>ComBat-Seq allows specification of biological covariates whose signals will be preserved in the adjusted data. I will compare the results in a principal component analysis with and without including covariates (i.e. diagnosis, sex). Running ComBat-seq does appear to remove most of the variation due to library batch.</p>
+<pre class="r"><code># make a list of three possible options in removing batch effects
+adjustedCounts &lt;- list(nocovar = ComBat_seq(dge$counts, 
+                                                     batch=dge$samples$libraryBatch, 
+                                                     group=NULL), 
+                       covar_diagnosisOnly = ComBat_seq(dge$counts, 
+                                                        batch=dge$samples$libraryBatch, 
+                                                        group=dge$samples$diagnosis
+                       ), allCovar = ComBat_seq(dge$counts, 
+                                                batch = dge$samples$libraryBatch, 
+                                                covar_mod = dge$samples %&gt;% 
+                                                  dplyr::select(diagnosis, sex, apoeGenotype, Braak, CERAD) %&gt;% 
+                                                  as.data.frame()
+                       )
+)</code></pre>
+<pre><code>Found 5 batches
+Using null model in ComBat-seq.
+Adjusting for 0 covariate(s) or covariate level(s)
+Estimating dispersions
+Fitting the GLM model
+Shrinkage off - using GLM estimates for parameters
+Adjusting the data
+Found 5 batches
+Using full model in ComBat-seq.
+Adjusting for 1 covariate(s) or covariate level(s)
+Estimating dispersions
+Fitting the GLM model
+Shrinkage off - using GLM estimates for parameters
+Adjusting the data
+Found 5 batches
+Using null model in ComBat-seq.
+Adjusting for 14 covariate(s) or covariate level(s)
+Estimating dispersions
+Fitting the GLM model
+Shrinkage off - using GLM estimates for parameters
+Adjusting the data</code></pre>
+<pre class="r"><code>PCAplots &lt;- adjustedCounts %&gt;% 
+  lapply(function(x) {
+    cpm(x, log = TRUE) %&gt;%
+      t() %&gt;%
+      prcomp() %&gt;% 
+      autoplot(data = tibble(sample = rownames(.$x)) %&gt;%
+                 left_join(dge$samples),
+               colour = &quot;libraryBatch&quot;, 
+               shape = &quot;diagnosis&quot;,
+               size = 4) +
+      # scale_colour_viridis_d(end = 0.9) +
+      theme(aspect.ratio = 1) +
+      ggtitle(&quot;libraryBatch&quot;)
+  }
+  )
+ggarrange(
+  PCAplots$nocovar +
+    ggtitle(&quot;No covariates&quot;), 
+  
+  PCAplots$covar_diagnosisOnly +
+  ggtitle(&quot;Diagnosis only as a covariate&quot;), 
+  
+  PCAplots$allCovar +
+  ggtitle(&quot;Covariates specified as\ndiagnosis, sex, apoeGenotype, Braak, CERAD&quot;), 
+  common.legend = TRUE
+)</code></pre>
+<p><img src="figure/removeBatchEffects.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>After some reading about ComBat, I noted that “not including covariates may introduce bias or lead to the removal of biological signal”. Therefore, if I were to use ComBat to remove batch effects, I should use the method where I retain all co-variates.</p>
+<p>However, I found this paper by <a href="https://doi.org/10.1093/biostatistics/kxv027">Nygaard et al. 2016</a>, who showed that removing batch effects <em>before</em> performing an analysis between groups (e.g. differential gene expression analysis) is actually not the most ideal method. Especially when the groups of interest are unbalanced within batches. Unfortunately, this is the case in this experiment (see graph below).</p>
+<pre class="r"><code>dge$samples %&gt;% 
+  dplyr::select(sample, libraryBatch, diagnosis, sex) %&gt;% 
+  group_by(libraryBatch, diagnosis, sex) %&gt;% 
+  summarise(n()) %&gt;% 
+  ggplot(aes(x = libraryBatch, y = `n()`)) +
+  geom_col(aes(fill = diagnosis), 
+           colour = &quot;black&quot;) +
+  facet_wrap(~sex) +
+  labs(y = &quot;Number of samples&quot;) + 
+  scale_fill_viridis_d()</code></pre>
+<p><img src="figure/removeBatchEffects.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<p>Because we have unbalanced groups of interest within batches (i.e. library prep batch), removing batch effects via ComBat should not be performed. Instead, I will include the effect of library batch in the model for differential gene expression analysis following the instructions in <code>edgeRUsersGuide</code> (section 3.4.3 Batch effects).</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -627,41 +750,42 @@ other attached packages:
 [16] forcats_0.5.1       stringr_1.4.0       dplyr_1.0.7        
 [19] purrr_0.3.4         readr_1.4.0         tidyr_1.1.3        
 [22] tibble_3.1.2        ggplot2_3.3.5       tidyverse_1.3.1    
-[25] workflowr_1.6.2    
 
 loaded via a namespace (and not attached):
- [1] colorspace_2.0-2     ggsignif_0.6.2       ellipsis_0.3.2      
- [4] rio_0.5.27           rprojroot_2.0.2      fs_1.5.0            
- [7] rstudioapi_0.13      bit64_4.0.5          AnnotationDbi_1.50.3
-[10] fansi_0.5.0          lubridate_1.7.10     xml2_1.3.2          
-[13] splines_4.0.2        cachem_1.0.5         knitr_1.33          
-[16] jsonlite_1.7.2       broom_0.7.8          annotate_1.66.0     
-[19] dbplyr_2.1.1         compiler_4.0.2       httr_1.4.2          
-[22] backports_1.2.1      assertthat_0.2.1     Matrix_1.3-4        
-[25] fastmap_1.1.0        cli_3.0.0            later_1.2.0         
-[28] htmltools_0.5.1.1    tools_4.0.2          gtable_0.3.0        
-[31] glue_1.4.2           Rcpp_1.0.7           carData_3.0-4       
-[34] Biobase_2.48.0       cellranger_1.1.0     jquerylib_0.1.4     
-[37] vctrs_0.3.8          xfun_0.24            openxlsx_4.2.4      
-[40] rvest_1.0.0          lifecycle_1.0.0      rstatix_0.7.0       
-[43] XML_3.99-0.6         hms_1.1.0            promises_1.2.0.1    
-[46] parallel_4.0.2       RColorBrewer_1.1-2   yaml_2.2.1          
-[49] curl_4.3.2           memoise_2.0.0        gridExtra_2.3       
-[52] sass_0.4.0           stringi_1.6.2        RSQLite_2.2.7       
-[55] S4Vectors_0.26.1     BiocGenerics_0.34.0  zip_2.2.0           
-[58] rlang_0.4.11         pkgconfig_2.0.3      bitops_1.0-7        
-[61] matrixStats_0.59.0   evaluate_0.14        lattice_0.20-44     
-[64] bit_4.0.4            tidyselect_1.1.1     R6_2.5.0            
-[67] IRanges_2.22.2       generics_0.1.0       DBI_1.1.1           
-[70] pillar_1.6.1         haven_2.4.1          foreign_0.8-81      
-[73] withr_2.4.2          survival_3.2-11      abind_1.4-5         
-[76] RCurl_1.98-1.3       modelr_0.1.8         crayon_1.4.1        
-[79] car_3.0-11           utf8_1.2.1           rmarkdown_2.9       
-[82] locfit_1.5-9.4       grid_4.0.2           readxl_1.3.1        
-[85] data.table_1.14.0    blob_1.2.1           git2r_0.28.0        
-[88] reprex_2.0.0         digest_0.6.27        xtable_1.8-4        
-[91] httpuv_1.6.1         stats4_4.0.2         munsell_0.5.0       
-[94] bslib_0.2.5.1       </code></pre>
+  [1] colorspace_2.0-2     ggsignif_0.6.2       ellipsis_0.3.2      
+  [4] rio_0.5.27           rprojroot_2.0.2      fs_1.5.0            
+  [7] rstudioapi_0.13      farver_2.1.0         bit64_4.0.5         
+ [10] AnnotationDbi_1.50.3 fansi_0.5.0          lubridate_1.7.10    
+ [13] xml2_1.3.2           splines_4.0.2        cachem_1.0.5        
+ [16] knitr_1.33           jsonlite_1.7.2       workflowr_1.6.2     
+ [19] broom_0.7.8          annotate_1.66.0      dbplyr_2.1.1        
+ [22] compiler_4.0.2       httr_1.4.2           backports_1.2.1     
+ [25] assertthat_0.2.1     Matrix_1.3-4         fastmap_1.1.0       
+ [28] cli_3.0.0            later_1.2.0          htmltools_0.5.1.1   
+ [31] tools_4.0.2          gtable_0.3.0         glue_1.4.2          
+ [34] Rcpp_1.0.7           carData_3.0-4        Biobase_2.48.0      
+ [37] cellranger_1.1.0     jquerylib_0.1.4      vctrs_0.3.8         
+ [40] xfun_0.24            openxlsx_4.2.4       rvest_1.0.0         
+ [43] lifecycle_1.0.0      rstatix_0.7.0        XML_3.99-0.6        
+ [46] hms_1.1.0            promises_1.2.0.1     parallel_4.0.2      
+ [49] RColorBrewer_1.1-2   yaml_2.2.1           curl_4.3.2          
+ [52] memoise_2.0.0        gridExtra_2.3        sass_0.4.0          
+ [55] stringi_1.6.2        RSQLite_2.2.7        highr_0.9           
+ [58] S4Vectors_0.26.1     BiocGenerics_0.34.0  zip_2.2.0           
+ [61] rlang_0.4.11         pkgconfig_2.0.3      bitops_1.0-7        
+ [64] matrixStats_0.59.0   evaluate_0.14        lattice_0.20-44     
+ [67] labeling_0.4.2       cowplot_1.1.1        bit_4.0.4           
+ [70] tidyselect_1.1.1     R6_2.5.0             IRanges_2.22.2      
+ [73] generics_0.1.0       DBI_1.1.1            pillar_1.6.1        
+ [76] haven_2.4.1          whisker_0.4          foreign_0.8-81      
+ [79] withr_2.4.2          survival_3.2-11      abind_1.4-5         
+ [82] RCurl_1.98-1.3       modelr_0.1.8         crayon_1.4.1        
+ [85] car_3.0-11           utf8_1.2.1           rmarkdown_2.9       
+ [88] locfit_1.5-9.4       grid_4.0.2           readxl_1.3.1        
+ [91] data.table_1.14.0    blob_1.2.1           git2r_0.28.0        
+ [94] reprex_2.0.0         digest_0.6.27        xtable_1.8-4        
+ [97] httpuv_1.6.1         stats4_4.0.2         munsell_0.5.0       
+[100] viridisLite_0.4.0    bslib_0.2.5.1       </code></pre>
 </div>
 </div>
 

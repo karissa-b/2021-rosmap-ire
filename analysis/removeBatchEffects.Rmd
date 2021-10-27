@@ -7,7 +7,16 @@ editor_options:
   chunk_output_type: console
 ---
 
-## Introduction
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  autodep = TRUE,
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = "center"
+)
+```
+## Exploration of removal of batch effects
 ```{r libs}
 library(tidyverse)
 library(magrittr)
@@ -20,23 +29,112 @@ library(ggpubr)
 library(ggfortify)
 library(ggrepel)
 library(ggeasy)
+
+theme_set(theme_bw())
+panderOptions("big.mark", ",")
+panderOptions("table.split.table", Inf)
+panderOptions("table.style", "rmarkdown")
 ```
 
-
-In this analysis, I will explore the effects of removing the batch effects present during the generation of this dataset. In the [initial QC doc](first-analysis.html), I noted that library preparation/RNA-seq batch still appears to drive some of the variation in this dataset. [Lagomarsino et al. 2021](https://doi.org/10.1016/j.neuron.2021.08.003) noted that they used ComBat from the sva package to remove batch effects. So I will try this too. 
+In this analysis, I will explore the effects of removing the batch effects present during the generation of this dataset. In the [initial QC doc](first-analysis.html), I noted that library preparation/RNA-seq batch still appears to drive some of the variation in this dataset. [Lagomarsino et al. 2021](https://doi.org/10.1016/j.neuron.2021.08.003) noted that they used ComBat from the `sva` package to remove batch effects. So I will try this too. 
 
 ```{r importDGE}
 dge <- readRDS("data/confidentialData/dge.rds")
+
+# edit the covariates to be factors rather than character/integers
+dge$samples %<>% 
+  dplyr::select(1:11, diagnosis, apoeGenotype, pmi, sex, yearsEducation, CERAD, Braak) %>% 
+  mutate(diagnosis = case_when(
+    diagnosis == "no cognitive impairment" ~ "NCI", 
+    diagnosis == "Alzheimer Disease" ~ "AD" 
+  ) %>% 
+    factor(levels = c("NCI", "AD")), 
+  
+  sex = as.factor(sex), 
+  
+  apoeGenotype = factor(apoeGenotype, levels = c("E3/E3", "E2/E3", "E3/E4" ,"E4/E4", "E2/E2")), 
+  CERAD = as.factor(CERAD), 
+  Braak = as.factor(Braak)
+    ) 
 ```
 
-I imported the `dge` object  generated in the [initial QC doc](first-analysis.html). This `dge` object contains the expression values per sample after: 
+I imported the `dge` object generated in the [initial QC doc](first-analysis.html). This `dge` object contains the expression values per sample after: 
 
 * filtering lowly expressed genes (i.e. genes which have a logCPM < 2)
-* Omitting one of the techncal replicates of each iPSC sample which had the lower RIN
+* Omitting one of the technical replicates of each iPSC sample which had the lower RIN
 
 # ComBat to remove batch effects
 
+The ComBat-Seq function of the sva package is designed to remove batch effects from RNA-seq data. It uses a negative binomial regression to model the count matrix, and estimate parameters representing the batch effects. Then it provides adjusted data by mapping the original data to an expected distribution if there were no batch effects. The adjusted data preserve the integer nature of count matrix. Like ComBat, it requires known a batch
+variable, in this case, the library preparation batch. 
+
+ComBat-Seq allows specification of biological covariates whose signals will be
+preserved in the adjusted data. I will compare the results in a principal component analysis with and without including covariates (i.e. diagnosis, sex). Running ComBat-seq does appear to remove most of the variation due to library batch. 
+
 ```{r}
-# define the batch effect to remove. 
+# make a list of three possible options in removing batch effects
+adjustedCounts <- list(nocovar = ComBat_seq(dge$counts, 
+                                                     batch=dge$samples$libraryBatch, 
+                                                     group=NULL), 
+                       covar_diagnosisOnly = ComBat_seq(dge$counts, 
+                                                        batch=dge$samples$libraryBatch, 
+                                                        group=dge$samples$diagnosis
+                       ), allCovar = ComBat_seq(dge$counts, 
+                                                batch = dge$samples$libraryBatch, 
+                                                covar_mod = dge$samples %>% 
+                                                  dplyr::select(diagnosis, sex, apoeGenotype, Braak, CERAD) %>% 
+                                                  as.data.frame()
+                       )
+)
+
 ```
 
+```{r fig.height=10}
+PCAplots <- adjustedCounts %>% 
+  lapply(function(x) {
+    cpm(x, log = TRUE) %>%
+      t() %>%
+      prcomp() %>% 
+      autoplot(data = tibble(sample = rownames(.$x)) %>%
+                 left_join(dge$samples),
+               colour = "libraryBatch", 
+               shape = "diagnosis",
+               size = 4) +
+      # scale_colour_viridis_d(end = 0.9) +
+      theme(aspect.ratio = 1) +
+      ggtitle("libraryBatch")
+  }
+  )
+ggarrange(
+  PCAplots$nocovar +
+    ggtitle("No covariates"), 
+  
+  PCAplots$covar_diagnosisOnly +
+  ggtitle("Diagnosis only as a covariate"), 
+  
+  PCAplots$allCovar +
+  ggtitle("Covariates specified as\ndiagnosis, sex, apoeGenotype, Braak, CERAD"), 
+  common.legend = TRUE
+)
+```
+
+After some reading about ComBat, I noted that "not including covariates may introduce bias or lead to the removal of biological signal". Therefore, if I were to use ComBat to remove batch effects, I should use the method where I retain all co-variates. 
+
+However, I found this paper by [Nygaard et al. 2016](https://doi.org/10.1093/biostatistics/kxv027), who showed that removing batch effects *before* performing an analysis between groups (e.g. differential gene expression analysis) is actually not the most ideal method. Especially when the groups of interest are unbalanced within batches. Unfortunately, this is the case in this experiment (see graph below). 
+
+```{r}
+dge$samples %>% 
+  dplyr::select(sample, libraryBatch, diagnosis, sex) %>% 
+  group_by(libraryBatch, diagnosis, sex) %>% 
+  summarise(n()) %>% 
+  ggplot(aes(x = libraryBatch, y = `n()`)) +
+  geom_col(aes(fill = diagnosis), 
+           colour = "black") +
+  facet_wrap(~sex) +
+  labs(y = "Number of samples") + 
+  scale_fill_viridis_d()
+```
+
+# Conclusion
+
+Because we have unbalanced groups of interest within batches (i.e. library prep batch), removing batch effects via ComBat should not be performed. Instead, I will include the effect of library batch in the model for differential gene expression analysis following the instructions in `edgeRUsersGuide` (section 3.4.3 Batch effects). 
