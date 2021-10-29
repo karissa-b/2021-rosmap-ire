@@ -328,26 +328,41 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">2021-rosmap-ire</a>
+      <a class="navbar-brand" href="index.html">2021-human-AD-iNs-IRE/</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
   <a href="index.html">Home</a>
 </li>
-<li>
-  <a href="snakemake_pipeline.html">Pre-processing</a>
-</li>
-<li>
-  <a href="first-analysis.html">QC</a>
-</li>
-<li>
-  <a href="removeBatchEffects.html">Remove batch effects</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    iPSC-neurons
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="snakemake_pipeline.html">Pre-processing</a>
+    </li>
+    <li>
+      <a href="first-analysis.html">QC</a>
+    </li>
+    <li>
+      <a href="removeBatchEffects.html">Remove batch effects</a>
+    </li>
+    <li>
+      <a href="DGE.html">DGE analysis exploration of methods</a>
+    </li>
+    <li>
+      <a href="ire_test.html">IRE enrichment analysis</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/karissa-b/2021-rosmap-ire">
+  <a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/">
     <span class="fa fa-github"></span>
      
     Source code
@@ -379,7 +394,7 @@ div.tocify {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -388,7 +403,7 @@ div.tocify {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -397,10 +412,10 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-10-27
+<strong>Last updated:</strong> 2021-10-29
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>2021-rosmap-ire/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -416,12 +431,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
 </div>
 </div>
 </div>
@@ -488,16 +503,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretree0e4608868d091856a8715286986e3d3f859947fatargetblank0e46088a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/0e4608868d091856a8715286986e3d3f859947fa" target="_blank">0e46088</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021humanADiNsIREtreee988a78fb0670075d7761a77f372a0151e4157bbtargetblanke988a78a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/tree/e988a78fb0670075d7761a77f372a0151e4157bb" target="_blank">e988a78</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretree0e4608868d091856a8715286986e3d3f859947fatargetblank0e46088a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021humanADiNsIREtreee988a78fb0670075d7761a77f372a0151e4157bbtargetblanke988a78a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/0e4608868d091856a8715286986e3d3f859947fa" target="_blank">0e46088</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/tree/e988a78fb0670075d7761a77f372a0151e4157bb" target="_blank">e988a78</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -512,9 +527,8 @@ Ignored files:
     Ignored:    data/.DS_Store
     Ignored:    data/confidentialData/
 
-Unstaged changes:
+Staged changes:
     Modified:   analysis/_site.yml
-    Modified:   analysis/removeBatchEffects.Rmd
 
 </code></pre>
 <p>
@@ -558,7 +572,58 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/karissa-b/2021-rosmap-ire/blob/0e4608868d091856a8715286986e3d3f859947fa/analysis/removeBatchEffects.Rmd" target="_blank">0e46088</a>
+<a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/blob/2faac44e7f400d080891ed765d056a1df49ec68c/analysis/removeBatchEffects.Rmd" target="_blank">2faac44</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-29
+</td>
+<td>
+more analysis. after ire
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/blob/452ecf865d27f2576e6fd9efbe1a51194d57a294/analysis/removeBatchEffects.Rmd" target="_blank">452ecf8</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-27
+</td>
+<td>
+added an exploration of removal of batch effects
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/karissa-b/2021-human-AD-iNs-IRE/452ecf865d27f2576e6fd9efbe1a51194d57a294/docs/removeBatchEffects.html" target="_blank">452ecf8</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-27
+</td>
+<td>
+added an exploration of removal of batch effects
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/blob/0e4608868d091856a8715286986e3d3f859947fa/analysis/removeBatchEffects.Rmd" target="_blank">0e46088</a>
 </td>
 <td>
 Karissa Barthelson
@@ -575,7 +640,7 @@ initial QC done?
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/karissa-b/2021-rosmap-ire/0e4608868d091856a8715286986e3d3f859947fa/docs/removeBatchEffects.html" target="_blank">0e46088</a>
+<a href="https://rawcdn.githack.com/karissa-b/2021-human-AD-iNs-IRE/0e4608868d091856a8715286986e3d3f859947fa/docs/removeBatchEffects.html" target="_blank">0e46088</a>
 </td>
 <td>
 Karissa Barthelson
@@ -639,7 +704,7 @@ dge$samples %&lt;&gt;%
 <div id="combat-to-remove-batch-effects" class="section level1">
 <h1>ComBat to remove batch effects</h1>
 <p>The ComBat-Seq function of the sva package is designed to remove batch effects from RNA-seq data. It uses a negative binomial regression to model the count matrix, and estimate parameters representing the batch effects. Then it provides adjusted data by mapping the original data to an expected distribution if there were no batch effects. The adjusted data preserve the integer nature of count matrix. Like ComBat, it requires known a batch variable, in this case, the library preparation batch.</p>
-<p>ComBat-Seq allows specification of biological covariates whose signals will be preserved in the adjusted data. I will compare the results in a principal component analysis with and without including covariates (i.e. diagnosis, sex). Running ComBat-seq does appear to remove most of the variation due to library batch.</p>
+<p>ComBat-Seq allows specification of biological covariates whose signals will be preserved in the adjusted data. I will compare the results in a principal component analysis with and without including covariates (i.e. diagnosis, sex). Running ComBat-seq does appear to remove most of the variation due to library batch. However, samples still do not overly separate by diagnosis.</p>
 <pre class="r"><code># make a list of three possible options in removing batch effects
 adjustedCounts &lt;- list(nocovar = ComBat_seq(dge$counts, 
                                                      batch=dge$samples$libraryBatch, 
@@ -702,6 +767,43 @@ ggarrange(
   common.legend = TRUE
 )</code></pre>
 <p><img src="figure/removeBatchEffects.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
+Past versions of unnamed-chunk-2-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/blob/452ecf865d27f2576e6fd9efbe1a51194d57a294/docs/figure/removeBatchEffects.Rmd/unnamed-chunk-2-1.png" target="_blank">452ecf8</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>After some reading about ComBat, I noted that “not including covariates may introduce bias or lead to the removal of biological signal”. Therefore, if I were to use ComBat to remove batch effects, I should use the method where I retain all co-variates.</p>
 <p>However, I found this paper by <a href="https://doi.org/10.1093/biostatistics/kxv027">Nygaard et al. 2016</a>, who showed that removing batch effects <em>before</em> performing an analysis between groups (e.g. differential gene expression analysis) is actually not the most ideal method. Especially when the groups of interest are unbalanced within batches. Unfortunately, this is the case in this experiment (see graph below).</p>
 <pre class="r"><code>dge$samples %&gt;% 
@@ -715,6 +817,43 @@ ggarrange(
   labs(y = &quot;Number of samples&quot;) + 
   scale_fill_viridis_d()</code></pre>
 <p><img src="figure/removeBatchEffects.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/blob/452ecf865d27f2576e6fd9efbe1a51194d57a294/docs/figure/removeBatchEffects.Rmd/unnamed-chunk-3-1.png" target="_blank">452ecf8</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-27
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="conclusion" class="section level1">
 <h1>Conclusion</h1>
@@ -750,6 +889,7 @@ other attached packages:
 [16] forcats_0.5.1       stringr_1.4.0       dplyr_1.0.7        
 [19] purrr_0.3.4         readr_1.4.0         tidyr_1.1.3        
 [22] tibble_3.1.2        ggplot2_3.3.5       tidyverse_1.3.1    
+[25] workflowr_1.6.2    
 
 loaded via a namespace (and not attached):
   [1] colorspace_2.0-2     ggsignif_0.6.2       ellipsis_0.3.2      
@@ -757,35 +897,35 @@ loaded via a namespace (and not attached):
   [7] rstudioapi_0.13      farver_2.1.0         bit64_4.0.5         
  [10] AnnotationDbi_1.50.3 fansi_0.5.0          lubridate_1.7.10    
  [13] xml2_1.3.2           splines_4.0.2        cachem_1.0.5        
- [16] knitr_1.33           jsonlite_1.7.2       workflowr_1.6.2     
- [19] broom_0.7.8          annotate_1.66.0      dbplyr_2.1.1        
- [22] compiler_4.0.2       httr_1.4.2           backports_1.2.1     
- [25] assertthat_0.2.1     Matrix_1.3-4         fastmap_1.1.0       
- [28] cli_3.0.0            later_1.2.0          htmltools_0.5.1.1   
- [31] tools_4.0.2          gtable_0.3.0         glue_1.4.2          
- [34] Rcpp_1.0.7           carData_3.0-4        Biobase_2.48.0      
- [37] cellranger_1.1.0     jquerylib_0.1.4      vctrs_0.3.8         
- [40] xfun_0.24            openxlsx_4.2.4       rvest_1.0.0         
- [43] lifecycle_1.0.0      rstatix_0.7.0        XML_3.99-0.6        
- [46] hms_1.1.0            promises_1.2.0.1     parallel_4.0.2      
- [49] RColorBrewer_1.1-2   yaml_2.2.1           curl_4.3.2          
- [52] memoise_2.0.0        gridExtra_2.3        sass_0.4.0          
- [55] stringi_1.6.2        RSQLite_2.2.7        highr_0.9           
- [58] S4Vectors_0.26.1     BiocGenerics_0.34.0  zip_2.2.0           
- [61] rlang_0.4.11         pkgconfig_2.0.3      bitops_1.0-7        
- [64] matrixStats_0.59.0   evaluate_0.14        lattice_0.20-44     
- [67] labeling_0.4.2       cowplot_1.1.1        bit_4.0.4           
- [70] tidyselect_1.1.1     R6_2.5.0             IRanges_2.22.2      
- [73] generics_0.1.0       DBI_1.1.1            pillar_1.6.1        
- [76] haven_2.4.1          whisker_0.4          foreign_0.8-81      
- [79] withr_2.4.2          survival_3.2-11      abind_1.4-5         
- [82] RCurl_1.98-1.3       modelr_0.1.8         crayon_1.4.1        
- [85] car_3.0-11           utf8_1.2.1           rmarkdown_2.9       
- [88] locfit_1.5-9.4       grid_4.0.2           readxl_1.3.1        
- [91] data.table_1.14.0    blob_1.2.1           git2r_0.28.0        
- [94] reprex_2.0.0         digest_0.6.27        xtable_1.8-4        
- [97] httpuv_1.6.1         stats4_4.0.2         munsell_0.5.0       
-[100] viridisLite_0.4.0    bslib_0.2.5.1       </code></pre>
+ [16] knitr_1.33           jsonlite_1.7.2       broom_0.7.8         
+ [19] annotate_1.66.0      dbplyr_2.1.1         compiler_4.0.2      
+ [22] httr_1.4.2           backports_1.2.1      assertthat_0.2.1    
+ [25] Matrix_1.3-4         fastmap_1.1.0        cli_3.0.0           
+ [28] later_1.2.0          htmltools_0.5.1.1    tools_4.0.2         
+ [31] gtable_0.3.0         glue_1.4.2           Rcpp_1.0.7          
+ [34] carData_3.0-4        Biobase_2.48.0       cellranger_1.1.0    
+ [37] jquerylib_0.1.4      vctrs_0.3.8          xfun_0.24           
+ [40] openxlsx_4.2.4       rvest_1.0.0          lifecycle_1.0.0     
+ [43] rstatix_0.7.0        XML_3.99-0.6         hms_1.1.0           
+ [46] promises_1.2.0.1     parallel_4.0.2       RColorBrewer_1.1-2  
+ [49] yaml_2.2.1           curl_4.3.2           memoise_2.0.0       
+ [52] gridExtra_2.3        sass_0.4.0           stringi_1.6.2       
+ [55] RSQLite_2.2.7        highr_0.9            S4Vectors_0.26.1    
+ [58] BiocGenerics_0.34.0  zip_2.2.0            rlang_0.4.11        
+ [61] pkgconfig_2.0.3      bitops_1.0-7         matrixStats_0.59.0  
+ [64] evaluate_0.14        lattice_0.20-44      labeling_0.4.2      
+ [67] cowplot_1.1.1        bit_4.0.4            tidyselect_1.1.1    
+ [70] R6_2.5.0             IRanges_2.22.2       generics_0.1.0      
+ [73] DBI_1.1.1            pillar_1.6.1         haven_2.4.1         
+ [76] whisker_0.4          foreign_0.8-81       withr_2.4.2         
+ [79] survival_3.2-11      abind_1.4-5          RCurl_1.98-1.3      
+ [82] modelr_0.1.8         crayon_1.4.1         car_3.0-11          
+ [85] utf8_1.2.1           rmarkdown_2.9        locfit_1.5-9.4      
+ [88] grid_4.0.2           readxl_1.3.1         data.table_1.14.0   
+ [91] blob_1.2.1           git2r_0.28.0         reprex_2.0.0        
+ [94] digest_0.6.27        xtable_1.8-4         httpuv_1.6.1        
+ [97] stats4_4.0.2         munsell_0.5.0        viridisLite_0.4.0   
+[100] bslib_0.2.5.1       </code></pre>
 </div>
 </div>
 

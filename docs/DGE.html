@@ -335,17 +335,29 @@ div.tocify {
         <li>
   <a href="index.html">Home</a>
 </li>
-<li>
-  <a href="snakemake_pipeline.html">Pre-processing</a>
-</li>
-<li>
-  <a href="first-analysis.html">QC</a>
-</li>
-<li>
-  <a href="removeBatchEffects.html">Remove batch effects</a>
-</li>
-<li>
-  <a href="DGE.html">DGE analysis exploration of methods</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    iPSC-neurons
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="snakemake_pipeline.html">Pre-processing</a>
+    </li>
+    <li>
+      <a href="first-analysis.html">QC</a>
+    </li>
+    <li>
+      <a href="removeBatchEffects.html">Remove batch effects</a>
+    </li>
+    <li>
+      <a href="DGE.html">DGE analysis exploration of methods</a>
+    </li>
+    <li>
+      <a href="ire_test.html">IRE enrichment analysis</a>
+    </li>
+  </ul>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -382,7 +394,7 @@ div.tocify {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -391,7 +403,7 @@ div.tocify {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -403,7 +415,7 @@ div.tocify {
 <strong>Last updated:</strong> 2021-10-29
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>2021-rosmap-ire/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -419,12 +431,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
 </div>
 </div>
 </div>
@@ -491,16 +503,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021humanADiNsIREtree452ecf865d27f2576e6fd9efbe1a51194d57a294targetblank452ecf8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/tree/452ecf865d27f2576e6fd9efbe1a51194d57a294" target="_blank">452ecf8</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021humanADiNsIREtreee988a78fb0670075d7761a77f372a0151e4157bbtargetblanke988a78a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/tree/e988a78fb0670075d7761a77f372a0151e4157bb" target="_blank">e988a78</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021humanADiNsIREtree452ecf865d27f2576e6fd9efbe1a51194d57a294targetblank452ecf8a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021humanADiNsIREtreee988a78fb0670075d7761a77f372a0151e4157bbtargetblanke988a78a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/tree/452ecf865d27f2576e6fd9efbe1a51194d57a294" target="_blank">452ecf8</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/tree/e988a78fb0670075d7761a77f372a0151e4157bb" target="_blank">e988a78</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -515,11 +527,7 @@ Ignored files:
     Ignored:    data/.DS_Store
     Ignored:    data/confidentialData/
 
-Untracked files:
-    Untracked:  analysis/DGE.Rmd
-    Untracked:  data/ireGenes.rds
-
-Unstaged changes:
+Staged changes:
     Modified:   analysis/_site.yml
 
 </code></pre>
@@ -533,9 +541,69 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/DGE.Rmd</code>) and HTML (<code>docs/DGE.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/blob/2faac44e7f400d080891ed765d056a1df49ec68c/analysis/DGE.Rmd" target="_blank">2faac44</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-29
+</td>
+<td>
+more analysis. after ire
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/karissa-b/2021-human-AD-iNs-IRE/2faac44e7f400d080891ed765d056a1df49ec68c/docs/DGE.html" target="_blank">2faac44</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-29
+</td>
+<td>
+more analysis. after ire
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -660,6 +728,43 @@ toptable_1 &lt;- fit_1_list %&gt;%
 Volcano plot of gene expression in male and female AD subjects relative to no cognitive impairment controls. No genes are found to be significantly DE (at FDR &lt; 0.05)
 </p>
 </div>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
+Past versions of unnamed-chunk-2-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/blob/2faac44e7f400d080891ed765d056a1df49ec68c/docs/figure/DGE.Rmd/unnamed-chunk-2-1.png" target="_blank">2faac44</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-29
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="check-for-gc-and-length-bias" class="section level2">
@@ -705,6 +810,43 @@ Volcano plot of gene expression in male and female AD subjects relative to no co
   labels = &quot;AUTO&quot;
 ) </code></pre>
 <p><img src="figure/DGE.Rmd/GCLen-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-GCLen-1">
+Past versions of GCLen-1.png
+</button>
+</p>
+<div id="fig-GCLen-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/blob/2faac44e7f400d080891ed765d056a1df49ec68c/docs/figure/DGE.Rmd/GCLen-1.png" target="_blank">2faac44</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-29
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="conditional-quantile-normalisation" class="section level1">
@@ -724,6 +866,43 @@ cqnplot(cqn, n = 1, xlab = &quot;GC Content&quot;, col = diagColours)
 cqnplot(cqn, n = 2, xlab = &quot;Length&quot;, col = diagColours)
 legend(&quot;bottomright&quot;, legend = levels(dge$samples$diagnosis), col = diagColours, lty = 1)</code></pre>
 <p><img src="figure/DGE.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/blob/2faac44e7f400d080891ed765d056a1df49ec68c/docs/figure/DGE.Rmd/unnamed-chunk-4-1.png" target="_blank">2faac44</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-29
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># Make a copy of the DGE so that cqn offset can be added
 dge_cqn &lt;- dge
 
@@ -758,6 +937,43 @@ ggarrange(
   
 )</code></pre>
 <p><img src="figure/DGE.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/blob/2faac44e7f400d080891ed765d056a1df49ec68c/docs/figure/DGE.Rmd/unnamed-chunk-6-1.png" target="_blank">2faac44</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-29
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="repeat-dge-after-cqn" class="section level2">
 <h2>Repeat DGE after cqn</h2>
@@ -822,6 +1038,43 @@ toptable_cqn &lt;- fit_1_list_cqn %&gt;%
 Volcano plot of gene expression in male and female AD subjects relative to no cognitive impairment controls after CQN. No genes are found to be significantly DE (at FDR &lt; 0.05)
 </p>
 </div>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
+Past versions of unnamed-chunk-8-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/blob/2faac44e7f400d080891ed765d056a1df49ec68c/docs/figure/DGE.Rmd/unnamed-chunk-8-1.png" target="_blank">2faac44</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-29
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>toptable_cqn %&gt;% 
   bind_rows(.id = &quot;coef&quot;) %&gt;% 
   ggplot(aes(y = logFC, x = logCPM, colour = FDR)) +
@@ -841,6 +1094,43 @@ Volcano plot of gene expression in male and female AD subjects relative to no co
 <p class="caption">
 MD plot of gene expression in male and female AD subjects relative to no cognitive impairment controls after CQN. No genes are found to be significantly DE (at FDR &lt; 0.05)
 </p>
+</div>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
+Past versions of unnamed-chunk-9-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-9-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/blob/2faac44e7f400d080891ed765d056a1df49ec68c/docs/figure/DGE.Rmd/unnamed-chunk-9-1.png" target="_blank">2faac44</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-29
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 <div id="check-for-gc-and-length-bias-again" class="section level3">
@@ -889,6 +1179,43 @@ MD plot of gene expression in male and female AD subjects relative to no cogniti
     ggtitle(&quot;Gene length after CQN&quot;),
   common.legend = TRUE)</code></pre>
 <p><img src="figure/DGE.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
+Past versions of unnamed-chunk-10-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-10-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/blob/2faac44e7f400d080891ed765d056a1df49ec68c/docs/figure/DGE.Rmd/unnamed-chunk-10-1.png" target="_blank">2faac44</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-29
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>ggarrange(
   # GC before cqn
   toptable_1 %&gt;% 
@@ -932,73 +1259,43 @@ MD plot of gene expression in male and female AD subjects relative to no cogniti
   common.legend = TRUE
 ) </code></pre>
 <p><img src="figure/DGE.Rmd/GCLenAgain-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>cpmPostNorm %&gt;% 
-  .[,femSamps] %&gt;% 
-  fry(
-    index = readRDS(&quot;data/ireGenes.rds&quot;) %&gt;% 
-      lapply(function(x) {
-        x %&gt;% 
-          as_tibble() %&gt;% 
-          set_colnames(&quot;gene_id&quot;) %&gt;% 
-          dplyr::filter(gene_id %in% rownames(dge$counts)) %&gt;% 
-          .$gene_id
-      }
-      ),
-    design = designs_cqn$female,
-    contrast = &quot;AD&quot;,
-    sort = &quot;directional&quot;
-  ) %&gt;%
-  rownames_to_column(&quot;gs_name&quot;) %&gt;%
-  as_tibble()</code></pre>
-<pre><code># A tibble: 4 x 7
-  gs_name  NGenes Direction PValue   FDR PValue.Mixed FDR.Mixed
-  &lt;chr&gt;     &lt;int&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;
-1 ire3_all   2161 Up         0.212 0.800        0.141     0.147
-2 ire5_all    733 Down       0.400 0.800        0.132     0.147
-3 ire3_hq     224 Up         0.604 0.805        0.116     0.147
-4 ire5_hq      58 Up         0.989 0.989        0.147     0.147</code></pre>
-<pre class="r"><code>cpmPostNorm %&gt;% 
-  .[,maleSamps] %&gt;% 
-  fry(
-    index = readRDS(&quot;data/ireGenes.rds&quot;) %&gt;% 
-      lapply(function(x) {
-        x %&gt;% 
-          as_tibble() %&gt;% 
-          set_colnames(&quot;gene_id&quot;) %&gt;% 
-          dplyr::filter(gene_id %in% rownames(dge$counts)) %&gt;% 
-          .$gene_id
-      }
-      ),
-    design = designs_cqn$male,
-    contrast = &quot;AD&quot;,
-    sort = &quot;directional&quot;
-  ) %&gt;%
-  rownames_to_column(&quot;gs_name&quot;) %&gt;%
-  as_tibble()</code></pre>
-<pre><code># A tibble: 4 x 7
-  gs_name  NGenes Direction PValue   FDR PValue.Mixed FDR.Mixed
-  &lt;chr&gt;     &lt;int&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;
-1 ire5_hq      58 Down       0.143 0.490        0.644     0.644
-2 ire5_all    733 Down       0.245 0.490        0.505     0.644
-3 ire3_hq     224 Down       0.942 0.959        0.494     0.644
-4 ire3_all   2161 Down       0.959 0.959        0.553     0.644</code></pre>
-<pre class="r"><code>temp &lt;-  readRDS(&quot;data/ireGenes.rds&quot;) %&gt;% 
-      lapply(function(x) {
-        x %&gt;% 
-          as_tibble() %&gt;% 
-          set_colnames(&quot;gene_id&quot;) %&gt;% 
-          dplyr::filter(gene_id %in% rownames(dge$counts)) %&gt;% 
-          .$gene_id
-      }
-      )
-
-cpmPostNorm[temp$ire3_all, maleSamps] %&gt;% 
-  pheatmap(
-    show_rownames = F, show_colnames = T, scale = &quot;row&quot;, 
-    annotation_col = dgeList$male$samples %&gt;% 
-      dplyr::select(libraryBatch, diagnosis)
-  )</code></pre>
-<p><img src="figure/DGE.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-GCLenAgain-1">
+Past versions of GCLenAgain-1.png
+</button>
+</p>
+<div id="fig-GCLenAgain-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/blob/2faac44e7f400d080891ed765d056a1df49ec68c/docs/figure/DGE.Rmd/GCLenAgain-1.png" target="_blank">2faac44</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-29
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1065,7 +1362,44 @@ man %&gt;%
     panel.grid.minor.x = element_blank()
   ) +
   ggtitle(&quot;No observed biases for gene expression across chromosomes&quot;)</code></pre>
-<p><img src="figure/DGE.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/DGE.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
+Past versions of unnamed-chunk-11-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/blob/2faac44e7f400d080891ed765d056a1df49ec68c/docs/figure/DGE.Rmd/unnamed-chunk-11-1.png" target="_blank">2faac44</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-29
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>man %&gt;% 
   bind_rows(.id = &quot;coef&quot;) %&gt;%  
   mutate(chromosome = factor(chromosome, levels = seq(1:22))) %&gt;% 
@@ -1086,11 +1420,23 @@ man %&gt;%
     panel.grid.minor.x = element_blank()
   )  +
   ggtitle(&quot;No observed bias for differential expression across chromosmoes&quot;)</code></pre>
-<p><img src="figure/DGE.Rmd/unnamed-chunk-12-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/DGE.Rmd/unnamed-chunk-11-2.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="conclusion" class="section level1">
 <h1>Conclusion</h1>
 <p>No evidence for DE genes are observed in this dataset, even after controlling for batch effects and sex.</p>
+<pre class="r"><code># export data for further analysis
+dge_cqn %&gt;% 
+  saveRDS(&quot;data/confidentialData/dge_cqn.rds&quot;)
+
+toptable_cqn %&gt;% 
+  saveRDS(&quot;data/confidentialData/topTab_cqn.rds&quot;)
+
+cpmPostNorm %&gt;% 
+  saveRDS(&quot;data/confidentialData/logCPM_cqn.rds&quot;)
+
+fit_1_list_cqn %&gt;% 
+  saveRDS(&quot;data/confidentialData/glmFit_cqn.rds&quot;)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1123,7 +1469,7 @@ other attached packages:
 [16] magrittr_2.0.1        forcats_0.5.1         stringr_1.4.0        
 [19] dplyr_1.0.7           purrr_0.3.4           readr_1.4.0          
 [22] tidyr_1.1.3           tibble_3.1.2          ggplot2_3.3.5        
-[25] tidyverse_1.3.1      
+[25] tidyverse_1.3.1       workflowr_1.6.2      
 
 loaded via a namespace (and not attached):
  [1] nlme_3.1-152       matrixStats_0.59.0 fs_1.5.0           lubridate_1.7.10  
@@ -1138,15 +1484,15 @@ loaded via a namespace (and not attached):
 [37] rstudioapi_0.13    farver_2.1.0       jquerylib_0.1.4    generics_0.1.0    
 [41] jsonlite_1.7.2     zip_2.2.0          car_3.0-11         Matrix_1.3-4      
 [45] Rcpp_1.0.7         munsell_0.5.0      fansi_0.5.0        abind_1.4-5       
-[49] lifecycle_1.0.0    stringi_1.6.2      yaml_2.2.1         carData_3.0-4     
-[53] grid_4.0.2         promises_1.2.0.1   crayon_1.4.1       lattice_0.20-44   
-[57] cowplot_1.1.1      haven_2.4.1        hms_1.1.0          locfit_1.5-9.4    
-[61] knitr_1.33         pillar_1.6.1       ggsignif_0.6.2     reprex_2.0.0      
-[65] glue_1.4.2         evaluate_0.14      data.table_1.14.0  modelr_0.1.8      
-[69] vctrs_0.3.8        httpuv_1.6.1       MatrixModels_0.5-0 cellranger_1.1.0  
-[73] gtable_0.3.0       assertthat_0.2.1   openxlsx_4.2.4     xfun_0.24         
-[77] broom_0.7.8        rstatix_0.7.0      later_1.2.0        viridisLite_0.4.0 
-[81] conquer_1.0.2      workflowr_1.6.2    statmod_1.4.36     ellipsis_0.3.2    </code></pre>
+[49] lifecycle_1.0.0    stringi_1.6.2      whisker_0.4        yaml_2.2.1        
+[53] carData_3.0-4      grid_4.0.2         promises_1.2.0.1   crayon_1.4.1      
+[57] lattice_0.20-44    cowplot_1.1.1      haven_2.4.1        hms_1.1.0         
+[61] locfit_1.5-9.4     knitr_1.33         pillar_1.6.1       ggsignif_0.6.2    
+[65] reprex_2.0.0       glue_1.4.2         evaluate_0.14      data.table_1.14.0 
+[69] modelr_0.1.8       vctrs_0.3.8        httpuv_1.6.1       MatrixModels_0.5-0
+[73] cellranger_1.1.0   gtable_0.3.0       assertthat_0.2.1   openxlsx_4.2.4    
+[77] xfun_0.24          broom_0.7.8        rstatix_0.7.0      later_1.2.0       
+[81] viridisLite_0.4.0  conquer_1.0.2      ellipsis_0.3.2    </code></pre>
 </div>
 </div>
 
