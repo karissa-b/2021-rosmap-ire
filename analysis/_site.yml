@@ -3,10 +3,10 @@ output_dir: ../docs
 navbar:
   title: 2021-human-AD-iNs-IRE/
   left:
+  - text: Home
+    href: index.html
     text: iPSC-neurons
     menu:
-    - text: Home
-      href: index.html
     - text: Pre-processing
       href: snakemake_pipeline.html
     - text: QC
