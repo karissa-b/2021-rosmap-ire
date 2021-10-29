@@ -250,7 +250,7 @@ $(document).ready(function () {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">2021-rosmap-ire</a>
+      <a class="navbar-brand" href="index.html">2021-human-AD-iNs-IRE/</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -266,10 +266,16 @@ $(document).ready(function () {
 <li>
   <a href="removeBatchEffects.html">Remove batch effects</a>
 </li>
+<li>
+  <a href="DGE.html">DGE analysis exploration of methods</a>
+</li>
+<li>
+  <a href="DGE.html">IRE enrichment analysis</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/karissa-b/2021-rosmap-ire">
+  <a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/">
     <span class="fa fa-github"></span>
      
     Source code
@@ -317,7 +323,7 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-10-27
+<strong>Last updated:</strong> 2021-10-29
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -348,16 +354,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretree0e4608868d091856a8715286986e3d3f859947fatargetblank0e46088a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/0e4608868d091856a8715286986e3d3f859947fa" target="_blank">0e46088</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021humanADiNsIREtree452ecf865d27f2576e6fd9efbe1a51194d57a294targetblank452ecf8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/tree/452ecf865d27f2576e6fd9efbe1a51194d57a294" target="_blank">452ecf8</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021rosmapiretree0e4608868d091856a8715286986e3d3f859947fatargetblank0e46088a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021humanADiNsIREtree452ecf865d27f2576e6fd9efbe1a51194d57a294targetblank452ecf8a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-rosmap-ire/tree/0e4608868d091856a8715286986e3d3f859947fa" target="_blank">0e46088</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/tree/452ecf865d27f2576e6fd9efbe1a51194d57a294" target="_blank">452ecf8</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -371,6 +377,11 @@ Ignored files:
     Ignored:    code/.DS_Store
     Ignored:    data/.DS_Store
     Ignored:    data/confidentialData/
+
+Untracked files:
+    Untracked:  analysis/DGE.Rmd
+    Untracked:  analysis/ire_test.Rmd
+    Untracked:  data/ireGenes.rds
 
 Unstaged changes:
     Modified:   analysis/_site.yml
@@ -418,7 +429,24 @@ Message
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/karissa-b/2021-rosmap-ire/9d7aed542969d005f5e9a73fa46956190937e02c/docs/license.html" target="_blank">9d7aed5</a>
+<a href="https://rawcdn.githack.com/karissa-b/2021-human-AD-iNs-IRE/0306966d9cae43afe60e0c64349ddc0a5f7c6d89/docs/license.html" target="_blank">0306966</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-27
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/karissa-b/2021-human-AD-iNs-IRE/9d7aed542969d005f5e9a73fa46956190937e02c/docs/license.html" target="_blank">9d7aed5</a>
 </td>
 <td>
 Karissa Barthelson
@@ -435,7 +463,7 @@ Build site.
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/karissa-b/2021-rosmap-ire/773ee176671c49ce6f1303ace3f02c023a25e71e/docs/license.html" target="_blank">773ee17</a>
+<a href="https://rawcdn.githack.com/karissa-b/2021-human-AD-iNs-IRE/773ee176671c49ce6f1303ace3f02c023a25e71e/docs/license.html" target="_blank">773ee17</a>
 </td>
 <td>
 Karissa Barthelson
@@ -452,7 +480,7 @@ Build site.
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/karissa-b/2021-rosmap-ire/6148c7b2bd89949485a682dfbd4f4c6c45a8d89d/docs/license.html" target="_blank">6148c7b</a>
+<a href="https://rawcdn.githack.com/karissa-b/2021-human-AD-iNs-IRE/6148c7b2bd89949485a682dfbd4f4c6c45a8d89d/docs/license.html" target="_blank">6148c7b</a>
 </td>
 <td>
 Karissa Barthelson
@@ -469,7 +497,7 @@ Build site.
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/karissa-b/2021-rosmap-ire/e17a17a402b1bb97e1b128f459412e3ace6cd62b/docs/license.html" target="_blank">e17a17a</a>
+<a href="https://rawcdn.githack.com/karissa-b/2021-human-AD-iNs-IRE/e17a17a402b1bb97e1b128f459412e3ace6cd62b/docs/license.html" target="_blank">e17a17a</a>
 </td>
 <td>
 Karissa Barthelson
@@ -486,7 +514,7 @@ Build site.
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/karissa-b/2021-rosmap-ire/ef764f167adacce50d2adbed215f4b2c15b2de79/docs/license.html" target="_blank">ef764f1</a>
+<a href="https://rawcdn.githack.com/karissa-b/2021-human-AD-iNs-IRE/ef764f167adacce50d2adbed215f4b2c15b2de79/docs/license.html" target="_blank">ef764f1</a>
 </td>
 <td>
 Karissa Barthelson
@@ -503,7 +531,7 @@ Build site.
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/karissa-b/2021-rosmap-ire/3bc953b0fb1c21b425488fd87a210f4bbb377618/docs/license.html" target="_blank">3bc953b</a>
+<a href="https://rawcdn.githack.com/karissa-b/2021-human-AD-iNs-IRE/3bc953b0fb1c21b425488fd87a210f4bbb377618/docs/license.html" target="_blank">3bc953b</a>
 </td>
 <td>
 Karissa Barthelson
@@ -520,7 +548,7 @@ Build site.
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/karissa-b/2021-rosmap-ire/1be195b5d3703be21b0ad770e2c60b4218417bf0/docs/license.html" target="_blank">1be195b</a>
+<a href="https://rawcdn.githack.com/karissa-b/2021-human-AD-iNs-IRE/1be195b5d3703be21b0ad770e2c60b4218417bf0/docs/license.html" target="_blank">1be195b</a>
 </td>
 <td>
 Karissa Barthelson
@@ -537,7 +565,7 @@ Build site.
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/karissa-b/2021-rosmap-ire/3a85157fb6d222059eb0660809d32c85a37c3c39/docs/license.html" target="_blank">3a85157</a>
+<a href="https://rawcdn.githack.com/karissa-b/2021-human-AD-iNs-IRE/3a85157fb6d222059eb0660809d32c85a37c3c39/docs/license.html" target="_blank">3a85157</a>
 </td>
 <td>
 Karissa Barthelson
@@ -554,7 +582,7 @@ Build site.
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/karissa-b/2021-rosmap-ire/2d20818ef3c1a2291b9e21d080320617a5a2e9e4/docs/license.html" target="_blank">2d20818</a>
+<a href="https://rawcdn.githack.com/karissa-b/2021-human-AD-iNs-IRE/2d20818ef3c1a2291b9e21d080320617a5a2e9e4/docs/license.html" target="_blank">2d20818</a>
 </td>
 <td>
 Karissa Barthelson
@@ -571,7 +599,7 @@ Build site.
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/karissa-b/2021-rosmap-ire/226971c1c905aa092ff27e3ca731a89e96b72c09/docs/license.html" target="_blank">226971c</a>
+<a href="https://rawcdn.githack.com/karissa-b/2021-human-AD-iNs-IRE/226971c1c905aa092ff27e3ca731a89e96b72c09/docs/license.html" target="_blank">226971c</a>
 </td>
 <td>
 Karissa Barthelson
@@ -588,7 +616,7 @@ Build site.
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/karissa-b/2021-rosmap-ire/c07e1e090511b146201ab2c03137b62f1c5be4fc/docs/license.html" target="_blank">c07e1e0</a>
+<a href="https://rawcdn.githack.com/karissa-b/2021-human-AD-iNs-IRE/c07e1e090511b146201ab2c03137b62f1c5be4fc/docs/license.html" target="_blank">c07e1e0</a>
 </td>
 <td>
 Karissa Barthelson
@@ -605,7 +633,7 @@ Build site.
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/karissa-b/2021-rosmap-ire/da3a49300ba9766ab6dfaab116e6539d0ffee27b/docs/license.html" target="_blank">da3a493</a>
+<a href="https://rawcdn.githack.com/karissa-b/2021-human-AD-iNs-IRE/da3a49300ba9766ab6dfaab116e6539d0ffee27b/docs/license.html" target="_blank">da3a493</a>
 </td>
 <td>
 Karissa Barthelson
@@ -622,7 +650,7 @@ Build site.
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/karissa-b/2021-rosmap-ire/9583672f1c7939d16ce52807f3d4173a443476b7/docs/license.html" target="_blank">9583672</a>
+<a href="https://rawcdn.githack.com/karissa-b/2021-human-AD-iNs-IRE/9583672f1c7939d16ce52807f3d4173a443476b7/docs/license.html" target="_blank">9583672</a>
 </td>
 <td>
 Karissa Barthelson
@@ -639,7 +667,7 @@ Build site.
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/karissa-b/2021-rosmap-ire/bbc759ca02af291c9622521f757ef8a57139e9b5/docs/license.html" target="_blank">bbc759c</a>
+<a href="https://rawcdn.githack.com/karissa-b/2021-human-AD-iNs-IRE/bbc759ca02af291c9622521f757ef8a57139e9b5/docs/license.html" target="_blank">bbc759c</a>
 </td>
 <td>
 Karissa Barthelson
@@ -656,7 +684,7 @@ Build site.
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/karissa-b/2021-rosmap-ire/a12648a4b0a681e81eda6e90c60cc364aaa8a6b8/docs/license.html" target="_blank">a12648a</a>
+<a href="https://rawcdn.githack.com/karissa-b/2021-human-AD-iNs-IRE/a12648a4b0a681e81eda6e90c60cc364aaa8a6b8/docs/license.html" target="_blank">a12648a</a>
 </td>
 <td>
 Karissa Barthelson
@@ -673,7 +701,7 @@ Build site.
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/karissa-b/2021-rosmap-ire/3a8906d3b7f9b4898eef645f4c46e484b3a34142/docs/license.html" target="_blank">3a8906d</a>
+<a href="https://rawcdn.githack.com/karissa-b/2021-human-AD-iNs-IRE/3a8906d3b7f9b4898eef645f4c46e484b3a34142/docs/license.html" target="_blank">3a8906d</a>
 </td>
 <td>
 Karissa Barthelson
@@ -690,7 +718,7 @@ Build site.
 html
 </td>
 <td>
-<a href="https://rawcdn.githack.com/karissa-b/2021-rosmap-ire/60bf21aa1afb1193cac355648109bdc5667abd43/docs/license.html" target="_blank">60bf21a</a>
+<a href="https://rawcdn.githack.com/karissa-b/2021-human-AD-iNs-IRE/60bf21aa1afb1193cac355648109bdc5667abd43/docs/license.html" target="_blank">60bf21a</a>
 </td>
 <td>
 Karissa Barthelson
@@ -707,7 +735,7 @@ Build site.
 Rmd
 </td>
 <td>
-<a href="https://github.com/karissa-b/2021-rosmap-ire/blob/d166566d3b51cb4292f9f8498f1f898ffd7d88e5/analysis/license.Rmd" target="_blank">d166566</a>
+<a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/blob/d166566d3b51cb4292f9f8498f1f898ffd7d88e5/analysis/license.Rmd" target="_blank">d166566</a>
 </td>
 <td>
 Karissa Barthelson
