@@ -3,18 +3,20 @@ output_dir: ../docs
 navbar:
   title: 2021-human-AD-iNs-IRE/
   left:
-  - text: Home
-    href: index.html
-  - text: Pre-processing
-    href: snakemake_pipeline.html
-  - text: QC
-    href: first-analysis.html
-  - text: Remove batch effects
-    href: removeBatchEffects.html
-  - text: DGE analysis exploration of methods
-    href: DGE.html
-  - text: IRE enrichment analysis
-    href: DGE.html
+    text: iPSC-neurons
+    menu:
+    - text: Home
+      href: index.html
+    - text: Pre-processing
+      href: snakemake_pipeline.html
+    - text: QC
+      href: first-analysis.html
+    - text: Remove batch effects
+      href: removeBatchEffects.html
+    - text: DGE analysis exploration of methods
+      href: DGE.html
+    - text: IRE enrichment analysis
+      href: ire_test.html
   right:
   - icon: fa-github
     text: Source code
