@@ -69,7 +69,7 @@ The ComBat-Seq function of the sva package is designed to remove batch effects f
 variable, in this case, the library preparation batch. 
 
 ComBat-Seq allows specification of biological covariates whose signals will be
-preserved in the adjusted data. I will compare the results in a principal component analysis with and without including covariates (i.e. diagnosis, sex). Running ComBat-seq does appear to remove most of the variation due to library batch. 
+preserved in the adjusted data. I will compare the results in a principal component analysis with and without including covariates (i.e. diagnosis, sex). Running ComBat-seq does appear to remove most of the variation due to library batch. However, samples still do not overly separate by diagnosis. 
 
 ```{r}
 # make a list of three possible options in removing batch effects

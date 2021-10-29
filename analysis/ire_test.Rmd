@@ -1,0 +1,242 @@
+---
+title: "ire_test"
+author: "Karissa Barthelson"
+date: "2021-10-29"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  autodep = TRUE,
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = "center"
+)
+```
+## IRE test 
+
+```{r libs}
+library(tidyverse)
+library(magrittr)
+library(edgeR)
+library(cqn)
+library(pander)
+library(scales)
+
+library(pheatmap)
+library(RColorBrewer)
+library(ggpubr)
+library(ggfortify)
+library(ggrepel)
+library(ggeasy)
+
+theme_set(theme_bw())
+panderOptions("big.mark", ",")
+panderOptions("table.split.table", Inf)
+panderOptions("table.style", "rmarkdown")
+```
+
+```{r dataImport}
+logCPM_cqn <- readRDS("data/confidentialData/logCPM_cqn.rds")
+dge_cqn <- readRDS("data/confidentialData/dge_cqn.rds")
+topTab_cqn <- readRDS("data/confidentialData/topTab_cqn.rds")
+gFit <- readRDS("data/confidentialData/glmFit_cqn.rds")
+
+# Import IRE gene sets from Hin et al. 
+
+ire <- readRDS("data/ireGenes.rds") %>% 
+      lapply(function(x) { # retain IRE genes considered detectable in the experiment
+        x %>% 
+          as_tibble() %>% 
+          set_colnames("gene_id") %>% 
+          dplyr::filter(gene_id %in% rownames(dge_cqn$counts)) %>% 
+          .$gene_id
+      }
+      )
+```
+
+Here, I will test whether genes which contain an iron-responsive element (IRE) in the UTRs of the encided transcripts show significant changes to gene expression as a group. The IRE gene sets were imported as an `.rds` file from [Nhi's github repo](https://github.com/nhihin/ire/blob/master/output/IRE_genesets.zip), and the human genesets were imported. I also only retained IRE-containing genes which were considered detectable in the experiment. 
+
+To test for enrichment within the IRE gene lists, I will use `fry` from the `limma` package. Fry can take into account inter-gene correlations, unlike other enrichment methods such as GSEA. It also considers the genes within the gene set as a group, rather than relying on hard thresholds for genes to be considered DE. Values supplied will be logCPM for each gene/sample after being adjusted for GC and length biases by cqn. As in the DGE analysis, I will process male and female samples separately to overcome any complicated interactions due to sex and genotype. Note that the design matrices used as input for `fry` account for batch effects. 
+
+```{r}
+# extract male samples
+maleSamps <- dge_cqn$samples %>% 
+  dplyr::filter(sex == "male") %>% 
+  .$sample
+
+# extract female samples
+femSamps <- dge_cqn$samples %>% 
+  dplyr::filter(sex == "female") %>% 
+  .$sample
+
+# Subset the inital DGE object by sex
+dgeList <- list(
+  female = dge_cqn[,femSamps], 
+  male = dge_cqn[,maleSamps]
+)
+# Design matrices
+designs_1 <- list(
+  female = model.matrix(~libraryBatch + diagnosis, data = dgeList$female$samples) %>% 
+  set_colnames(str_remove(colnames(.), pattern = "diagnosis")), 
+  male = model.matrix(~libraryBatch + diagnosis, data = dgeList$male$samples) %>% 
+  set_colnames(str_remove(colnames(.), pattern = "diagnosis"))
+)
+
+fry_ire <- list(
+  female = logCPM_cqn %>% 
+    .[,femSamps] %>% 
+    fry(
+      index = ire,
+      design = designs_1$female,
+      contrast = "AD",
+      sort = "directional"
+    ) %>%
+    rownames_to_column("gs_name") %>%
+    as_tibble(), 
+  
+  male = logCPM_cqn %>% 
+    .[,maleSamps] %>% 
+    fry(
+      index = ire,
+      design = designs_1$male,
+      contrast = "AD",
+      sort = "directional"
+    ) %>%
+    rownames_to_column("gs_name") %>%
+    as_tibble()
+)
+
+fry_ire %>% 
+  bind_rows(.id = "sex") %>% 
+  ggplot(aes(x = -log10(PValue.Mixed), y = gs_name)) +
+  geom_col(aes(fill = sex), colour= "black", position = "dodge") +
+  geom_vline(xintercept = -log10(0.05), linetype = 2) +
+  scale_fill_viridis_d() +
+  labs(x = expression(paste(log[10], "(p)")), 
+       y = "IRE gene set"
+        ) +
+  ggtitle("Significance of IRE gene sets in male and female AD samples", 
+          subtitle = "No gene sets reach the FDR-adujusted p-val of 0.05 (dotted line)")
+
+
+```
+
+Visualisation of the expression of IRE-containing genes indicates that samples cluster better by batch than diagnosis in both males and females. 
+
+# Heatmap visualisations
+```{r}
+# Set some colours for heatmaps
+annoCols <- list(
+    libraryBatch = brewer_pal(palette = "Set2")(length(dge_cqn$samples$libraryBatch %>%
+                                                         unique)) %>%
+      set_names(dge_cqn$samples$libraryBatch %>% unique),
+    diagnosis = c(NCI = "grey90", AD = "grey20"),
+    CERAD = brewer_pal(palette = "Greens", direction = -1)(4) %>% 
+      set_names(dge_cqn$samples$CERAD %>% levels), 
+    Braak = brewer_pal(palette = "Purples")(6) %>% 
+      set_names(dge_cqn$samples$Braak %>% levels)
+    )
+
+
+logCPM_cqn %>% 
+  .[ire$ire3_all,femSamps] %>% 
+  pheatmap(
+    show_rownames = F, show_colnames = T, 
+    treeheight_row = 0,
+    scale = "row", 
+    annotation_col = dgeList$female$samples %>% 
+      dplyr::select(libraryBatch, diagnosis, CERAD, Braak), 
+    annotation_colors = annoCols, 
+    color = colorRampPalette(rev(brewer.pal(n = 7, 
+                                            name = "RdBu")))(100), 
+    main = "3' IRE genes, females"
+  )
+
+logCPM_cqn %>% 
+  .[ire$ire5_all,femSamps] %>% 
+  pheatmap(
+    show_rownames = F, show_colnames = T, 
+    treeheight_row = 0,
+    scale = "row", 
+    annotation_col = dgeList$female$samples %>% 
+      dplyr::select(libraryBatch, diagnosis, CERAD, Braak), 
+    annotation_colors = annoCols, 
+    color = colorRampPalette(rev(brewer.pal(n = 7, 
+                                            name = "RdBu")))(100), 
+    main = "5' IRE genes, females"
+  )
+
+logCPM_cqn %>% 
+  .[ire$ire3_all,maleSamps] %>% 
+  pheatmap(
+    show_rownames = F, show_colnames = T, 
+    treeheight_row = 0,
+    scale = "row", 
+    annotation_col = dgeList$male$samples %>% 
+      dplyr::select(libraryBatch, diagnosis, CERAD, Braak), 
+    annotation_colors = annoCols, 
+    color = colorRampPalette(rev(brewer.pal(n = 7, 
+                                            name = "RdBu")))(100), 
+    main = "3' IRE genes, males"
+  )
+
+logCPM_cqn %>% 
+  .[ire$ire5_all,maleSamps] %>% 
+  pheatmap(
+    show_rownames = F, show_colnames = T, 
+    treeheight_row = 0,
+    scale = "row", 
+    annotation_col = dgeList$male$samples %>% 
+      dplyr::select(libraryBatch, diagnosis, CERAD, Braak), 
+    annotation_colors = annoCols, 
+    color = colorRampPalette(rev(brewer.pal(n = 7, 
+                                            name = "RdBu")))(100), 
+    main = "5' IRE genes, males"
+  )
+```
+
+I also visualised the direction of change of the IRE genes, even though they are non-significant. The 3' IRE genes appear to be mostly downregulated, and the 5' IRE genes appear to be mostly upregulated. 
+
+When iron levels are high, genes which have 5' IREs are upregulated as the IRP is not bound the the stem loop structure of the IRE, allowing translation to occur. Genes which have a 3' IRE are destabilised and subsequently downregulated. 
+
+This pattern is broadly observed in the transcriptome data. Even though this did not reach statistical significance. 
+
+```{r}
+topTab_cqn %>% 
+  bind_rows(.id = "sex") %>% 
+  dplyr::select(sex, gene_name, gene_id, logFC) %>% 
+  dplyr::filter(gene_id %in% ire$ire3_all) %>% 
+  spread(key = "sex", value = "logFC") %>% 
+  column_to_rownames("gene_id") %>% 
+  dplyr::select( -gene_name) %>% 
+  pheatmap(
+    show_rownames = F, show_colnames = T, 
+    treeheight_row = 0,
+    treeheight_col = 0,
+    cellwidth = 40,
+    color = colorRampPalette(rev(brewer.pal(n = 7, 
+                                            name = "RdBu")))(100), 
+    main = "LogFC of 3'IRE containing genes in females and males"
+  )
+
+topTab_cqn %>% 
+  bind_rows(.id = "sex") %>% 
+  dplyr::select(sex, gene_name, gene_id, logFC) %>% 
+  dplyr::filter(gene_id %in% ire$ire5_all) %>% 
+  spread(key = "sex", value = "logFC") %>% 
+  column_to_rownames("gene_id") %>% 
+  dplyr::select( -gene_name) %>% 
+  pheatmap(
+    show_rownames = F, show_colnames = T, 
+    treeheight_row = 0,
+    treeheight_col = 0,
+    cellwidth = 40,
+    color = colorRampPalette(rev(brewer.pal(n = 7, 
+                                            name = "RdBu")))(100), 
+    main = "LogFC of 5'IRE containing genes in females and males"
+  )
+```
+

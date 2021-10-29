@@ -1,7 +1,7 @@
 name: 2021-rosmap-ire
 output_dir: ../docs
 navbar:
-  title: 2021-rosmap-ire
+  title: 2021-human-AD-iNs-IRE/
   left:
   - text: Home
     href: index.html
@@ -11,10 +11,14 @@ navbar:
     href: first-analysis.html
   - text: Remove batch effects
     href: removeBatchEffects.html
+  - text: DGE analysis exploration of methods
+    href: DGE.html
+  - text: IRE enrichment analysis
+    href: DGE.html
   right:
   - icon: fa-github
     text: Source code
-    href: https://github.com/karissa-b/2021-rosmap-ire
+    href: https://github.com/karissa-b/2021-human-AD-iNs-IRE/
 output:
   workflowr::wflow_html:
     toc: yes

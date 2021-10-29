@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Karissa Barthelson" />
+
+<meta name="date" content="2021-10-27" />
+
+<title>DGE exploration with CQN</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">2021-human-AD-iNs-IRE/</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="snakemake_pipeline.html">Pre-processing</a>
+</li>
+<li>
+  <a href="first-analysis.html">QC</a>
+</li>
+<li>
+  <a href="removeBatchEffects.html">Remove batch effects</a>
+</li>
+<li>
+  <a href="DGE.html">DGE analysis exploration of methods</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">DGE exploration with CQN</h1>
+<h4 class="author">Karissa Barthelson</h4>
+<h4 class="date">2021-10-27</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2021-10-29
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>2021-rosmap-ire/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20211022code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20211022)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20211022code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20211022)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021humanADiNsIREtree452ecf865d27f2576e6fd9efbe1a51194d57a294targetblank452ecf8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/tree/452ecf865d27f2576e6fd9efbe1a51194d57a294" target="_blank">452ecf8</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021humanADiNsIREtree452ecf865d27f2576e6fd9efbe1a51194d57a294targetblank452ecf8a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/tree/452ecf865d27f2576e6fd9efbe1a51194d57a294" target="_blank">452ecf8</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rapp.history
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    code/.DS_Store
+    Ignored:    data/.DS_Store
+    Ignored:    data/confidentialData/
+
+Untracked files:
+    Untracked:  analysis/DGE.Rmd
+    Untracked:  data/ireGenes.rds
+
+Unstaged changes:
+    Modified:   analysis/_site.yml
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="differential-gene-expression-analysis" class="section level2">
+<h2>Differential gene expression analysis</h2>
+<pre class="r"><code>library(tidyverse)
+library(magrittr)
+library(edgeR)
+library(cqn)
+library(pander)
+library(scales)
+
+library(pheatmap)
+library(ggpubr)
+library(ggfortify)
+library(ggrepel)
+library(ggeasy)
+
+theme_set(theme_bw())
+panderOptions(&quot;big.mark&quot;, &quot;,&quot;)
+panderOptions(&quot;table.split.table&quot;, Inf)
+panderOptions(&quot;table.style&quot;, &quot;rmarkdown&quot;)</code></pre>
+<p>In this analysis, I will explore the effects of removing the batch effects present during the generation of this dataset. In the <a href="first-analysis.html">initial QC doc</a>, I noted that library preparation/RNA-seq batch still appears to drive some of the variation in this dataset. <a href="https://doi.org/10.1016/j.neuron.2021.08.003">Lagomarsino et al. 2021</a> noted that they used ComBat from the <code>sva</code> package to remove batch effects. However, <a href="https://doi.org/10.1093/biostatistics/kxv027">Nygaard et al. 2016</a> noted that this may not be the most ideal method.</p>
+<p>Therefore, I will follow the <a href="https://www.bioconductor.org/packages/release/bioc/vignettes/edgeR/inst/doc/edgeRUsersGuide.pdf">edgeR users guide</a> for removing batch effects. This method uses an additive model formular to block the effect of batch, then test for differential expression between groups of interest.</p>
+<p>In humans, there is an effect of sex on the brain transcriptome. Therefore, I will analyse males and females seperately.</p>
+<p>I imported the <code>dge</code> object generated in the <a href="first-analysis.html">initial QC doc</a>. This <code>dge</code> object contains the expression values per sample after:</p>
+<ul>
+<li>filtering lowly expressed genes (i.e. genes which have a logCPM &lt; 2)</li>
+<li>Omitting one of the technical replicates of each iPSC sample which had the lower RIN</li>
+</ul>
+<pre class="r"><code>dge &lt;- readRDS(&quot;data/confidentialData/dge.rds&quot;)
+
+# edit the covariates to be factors rather than character/integers
+dge$samples %&lt;&gt;% 
+  dplyr::select(1:11, diagnosis, apoeGenotype, pmi, sex, yearsEducation, CERAD, Braak) %&gt;% 
+  mutate(diagnosis = case_when(
+    diagnosis == &quot;no cognitive impairment&quot; ~ &quot;NCI&quot;, 
+    diagnosis == &quot;Alzheimer Disease&quot; ~ &quot;AD&quot; 
+  ) %&gt;% 
+    factor(levels = c(&quot;NCI&quot;, &quot;AD&quot;)), 
+  
+  sex = as.factor(sex), 
+  
+  apoeGenotype = factor(apoeGenotype, levels = c(&quot;E3/E3&quot;, &quot;E2/E3&quot;, &quot;E3/E4&quot; ,&quot;E4/E4&quot;, &quot;E2/E2&quot;)), 
+  CERAD = as.factor(CERAD), 
+  Braak = as.factor(Braak)
+    ) 
+
+# extract male samples
+maleSamps &lt;- dge$samples %&gt;% 
+  dplyr::filter(sex == &quot;male&quot;) %&gt;% 
+  .$sample
+
+# extract female samples
+femSamps &lt;- dge$samples %&gt;% 
+  dplyr::filter(sex == &quot;female&quot;) %&gt;% 
+  .$sample
+
+# Subset the inital DGE object by sex
+dgeList &lt;- list(
+  female = dge[,femSamps], 
+  male = dge[,maleSamps]
+)</code></pre>
+</div>
+<div id="inital-differential-gene-expression-analysis" class="section level1">
+<h1>Inital differential gene expression analysis</h1>
+<div id="only-diagnosis-in-the-model-matrix" class="section level2">
+<h2>Only diagnosis in the model matrix</h2>
+<pre class="r"><code>designs_1 &lt;- list(
+  female = model.matrix(~libraryBatch + diagnosis, data = dgeList$female$samples) %&gt;% 
+  set_colnames(str_remove(colnames(.), pattern = &quot;diagnosis&quot;)), 
+  male = model.matrix(~libraryBatch + diagnosis, data = dgeList$male$samples) %&gt;% 
+  set_colnames(str_remove(colnames(.), pattern = &quot;diagnosis&quot;))
+)
+# git the GLMs 
+fit_1_list &lt;- list(
+  female = dgeList$female %&gt;% 
+    estimateDisp(designs_1$female) %&gt;% 
+    glmFit(designs_1$female), 
+  
+    male = dgeList$male %&gt;% 
+    estimateDisp(designs_1$male) %&gt;% 
+    glmFit(designs_1$male)
+)
+  
+toptable_1 &lt;- fit_1_list %&gt;% 
+  sapply(function(x) {
+    x %&gt;% 
+      glmLRT(coef = &quot;AD&quot;) %&gt;%
+      topTags(n = Inf) %&gt;%
+      .[[&quot;table&quot;]] %&gt;%
+      as_tibble() %&gt;%
+      arrange(PValue) %&gt;%
+      mutate(
+        DE = FDR &lt; 0.05, 
+      ) %&gt;% 
+      dplyr::select(
+        gene_name, logFC, logCPM, PValue, FDR, DE, everything()  
+      )
+  }, simplify = FALSE)</code></pre>
+<div id="visualiastions" class="section level3">
+<h3>Visualiastions</h3>
+<pre class="r"><code>toptable_1 %&gt;% 
+  bind_rows(.id = &quot;coef&quot;) %&gt;% 
+  ggplot(aes(y = -log10(PValue), x = logFC, colour = DE)) +
+  geom_point(
+    alpha = 0.5
+  ) +
+  facet_wrap(~coef, ncol = 1) +
+  theme_bw() +
+  geom_label_repel(
+    aes(label = gene_name), 
+    data = .  %&gt;% dplyr::filter(FDR &lt; 0.05), 
+    show.legend = FALSE
+  ) +
+  theme(legend.position = &quot;none&quot;) +
+  scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;))</code></pre>
+<div class="figure" style="text-align: center">
+<img src="figure/DGE.Rmd/unnamed-chunk-2-1.png" alt="Volcano plot of gene expression in male and female AD subjects relative to no cognitive impairment controls. No genes are found to be significantly DE (at FDR &lt; 0.05)" width="672" />
+<p class="caption">
+Volcano plot of gene expression in male and female AD subjects relative to no cognitive impairment controls. No genes are found to be significantly DE (at FDR &lt; 0.05)
+</p>
+</div>
+</div>
+</div>
+<div id="check-for-gc-and-length-bias" class="section level2">
+<h2>Check for GC and Length bias</h2>
+<p><a href="https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3000481">Mandelboum et. al 2019</a> demonstrated a prevalent sample-specific length effect that leads to a strong association between gene length and fold-change estimates between RNA-seq samples. This means that the changes to expression of genes must be assessed relative to its length and %GC. In the plots below, %GC content is shown against the ranking statistic, using -log10(p) multiplied by the sign of log fold-change. A small amount of length bias is noted particularly in females.</p>
+<pre class="r"><code>ggarrange(
+  toptable_1 %&gt;% 
+    bind_rows(.id = &quot;coef&quot;) %&gt;% 
+    mutate(rankstat = sign(logFC)*-log10(PValue)) %&gt;% 
+    ggplot(aes(x = length, y = rankstat)) +
+    geom_point(
+      aes(colour = DE),
+      alpha = 0.5
+    ) +
+    geom_smooth(se = FALSE, method = &quot;gam&quot;) +
+    facet_grid(rows = vars(coef)) +
+    theme_bw() +
+    theme(legend.position = &quot;none&quot;) +
+    scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;)) +
+    scale_x_log10()+
+    labs(x = &quot;Average transcript length per gene&quot;,
+         colour = &quot;Differentially expressed?&quot;,
+         y = &quot;sign(logFC)*-log10(PValue)&quot;) +
+    coord_cartesian(ylim = c(-10, 10)),
+  toptable_1 %&gt;% 
+    bind_rows(.id = &quot;coef&quot;) %&gt;% 
+    mutate(rankstat = sign(logFC)*-log10(PValue)) %&gt;% 
+    ggplot(aes(x = gc_content, y = rankstat)) +
+    geom_point(
+      aes(colour = DE),
+      alpha = 0.5
+    ) +
+    geom_smooth(se = FALSE, method = &quot;gam&quot;) +
+    facet_grid(rows = vars(coef)) +
+    theme_bw() +
+    theme(legend.position = &quot;none&quot;) +
+    scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;)) +
+    coord_cartesian(ylim = c(-10,10)) + 
+    labs(x = &quot;Weighted average GC content (%) per gene&quot;, 
+         colour = &quot;Differentially expressed?&quot;, 
+         y = &quot;sign(logFC)*-log10(PValue)&quot;),
+  common.legend = TRUE, 
+  labels = &quot;AUTO&quot;
+) </code></pre>
+<p><img src="figure/DGE.Rmd/GCLen-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="conditional-quantile-normalisation" class="section level1">
+<h1>Conditional Quantile Normalisation</h1>
+<p>A method to deal with any observed bias for differnetial expression and %GC or gene length is to use <code>Conditionl Quantile Normalisation</code> (cqn). In cqn, a gene and sample-level offset is calculated for each count which takes into account any systemic bias, such as that observed in the plots before. The resultant <code>glm.offset</code> values were added to the original <code>DGEList</code> object, and all dispersion estimates were calculated.</p>
+<pre class="r"><code>cqn &lt;- cqn(
+  counts = dge$counts,
+  x = dge$genes$gc_content,
+  lengths = dge$genes$length,
+  sizeFactors = dge$samples$lib.size
+)
+# Set some colours for plotting
+diagColours &lt;- viridis_pal(end = 0.8)(2)
+names(diagColours) &lt;- levels(dge$samples$diagnosis)</code></pre>
+<pre class="r"><code>par(mfrow = c(1, 2))
+cqnplot(cqn, n = 1, xlab = &quot;GC Content&quot;, col = diagColours)
+cqnplot(cqn, n = 2, xlab = &quot;Length&quot;, col = diagColours)
+legend(&quot;bottomright&quot;, legend = levels(dge$samples$diagnosis), col = diagColours, lty = 1)</code></pre>
+<p><img src="figure/DGE.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Make a copy of the DGE so that cqn offset can be added
+dge_cqn &lt;- dge
+
+dge_cqn$offset &lt;- cqn$glm.offset </code></pre>
+<div id="repeat-pca-after-cqn" class="section level2">
+<h2>Repeat PCA after cqn</h2>
+<p>A PCA was repeated after CQN had been applied. Very minimal effect is observed of cqn. This would be expected though, as the bias obsevred in the initial differential expression analysis was small as well.</p>
+<pre class="r"><code>cpmPostNorm &lt;- cqn %&gt;%
+  with(y + offset)
+
+ggarrange(
+  cpm(dge, log = TRUE) %&gt;%
+    t() %&gt;%
+    prcomp() %&gt;% 
+    autoplot(data = tibble(sample = rownames(.$x)) %&gt;%
+               left_join(dge$samples),
+             colour = &quot;libraryBatch&quot;, 
+             shape = &quot;diagnosis&quot;,
+             size = 4) +
+    ggtitle(&quot;Before CQN&quot;), 
+  
+  cpmPostNorm %&gt;%
+    t() %&gt;%
+    prcomp() %&gt;% 
+    autoplot(data = tibble(sample = rownames(.$x)) %&gt;%
+               left_join(dge$samples),
+             colour = &quot;libraryBatch&quot;, 
+             shape = &quot;diagnosis&quot;,
+             size = 4) +
+    ggtitle(&quot;After CQN&quot;), 
+  common.legend = TRUE
+  
+)</code></pre>
+<p><img src="figure/DGE.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="repeat-dge-after-cqn" class="section level2">
+<h2>Repeat DGE after cqn</h2>
+<pre class="r"><code># Repeat  the subsetting of the dge in to males and females
+dgeList_cqn &lt;- list(
+  female = dge_cqn[,femSamps], 
+  male = dge_cqn[,maleSamps]
+)
+designs_cqn &lt;- list(
+  female = model.matrix(~libraryBatch + diagnosis, data = dgeList_cqn$female$samples) %&gt;% 
+  set_colnames(str_remove(colnames(.), pattern = &quot;diagnosis&quot;)), 
+  male = model.matrix(~libraryBatch + diagnosis, data = dgeList_cqn$male$samples) %&gt;% 
+  set_colnames(str_remove(colnames(.), pattern = &quot;diagnosis&quot;))
+)
+
+# Fit the GLMs 
+fit_1_list_cqn &lt;- 
+  list(
+    female = dgeList_cqn$female %&gt;% 
+      estimateDisp(designs_cqn$female) %&gt;% 
+      glmFit(designs_cqn$female), 
+    
+    male = dgeList_cqn$male %&gt;% 
+      estimateDisp(designs_1$male) %&gt;% 
+      glmFit(designs_cqn$male)
+  )
+
+toptable_cqn &lt;- fit_1_list_cqn %&gt;% 
+  sapply(function(x) {
+    x %&gt;% 
+      glmLRT(coef = &quot;AD&quot;) %&gt;%
+      topTags(n = Inf) %&gt;%
+      .[[&quot;table&quot;]] %&gt;%
+      as_tibble() %&gt;%
+      arrange(PValue) %&gt;%
+      mutate(
+        DE = FDR &lt; 0.05, 
+      ) %&gt;% 
+      dplyr::select(
+        gene_name, logFC, logCPM, PValue, FDR, DE, everything()  
+      )
+  }, simplify = FALSE)</code></pre>
+<div id="visualiastions-1" class="section level3">
+<h3>Visualiastions</h3>
+<pre class="r"><code>toptable_cqn %&gt;% 
+  bind_rows(.id = &quot;coef&quot;) %&gt;% 
+  ggplot(aes(y = -log10(PValue), x = logFC, colour = FDR)) +
+  geom_point(
+    alpha = 0.5
+  ) +
+  facet_wrap(~coef, ncol = 1) +
+  theme_bw() +
+  geom_label_repel(
+    aes(label = gene_name), 
+    data = .  %&gt;% dplyr::filter(FDR &lt; 0.05), 
+    show.legend = FALSE
+  ) +
+  scale_color_continuous(type = &quot;viridis&quot;, end = 0.9, direction = -1)</code></pre>
+<div class="figure" style="text-align: center">
+<img src="figure/DGE.Rmd/unnamed-chunk-8-1.png" alt="Volcano plot of gene expression in male and female AD subjects relative to no cognitive impairment controls after CQN. No genes are found to be significantly DE (at FDR &lt; 0.05)" width="672" />
+<p class="caption">
+Volcano plot of gene expression in male and female AD subjects relative to no cognitive impairment controls after CQN. No genes are found to be significantly DE (at FDR &lt; 0.05)
+</p>
+</div>
+<pre class="r"><code>toptable_cqn %&gt;% 
+  bind_rows(.id = &quot;coef&quot;) %&gt;% 
+  ggplot(aes(y = logFC, x = logCPM, colour = FDR)) +
+  geom_point(
+    alpha = 0.5
+  ) +
+  facet_wrap(~coef, ncol = 1) +
+  theme_bw() +
+  geom_label_repel(
+    aes(label = gene_name), 
+    data = .  %&gt;% dplyr::filter(FDR &lt; 0.05), 
+    show.legend = FALSE
+  ) +
+  scale_color_continuous(type = &quot;viridis&quot;, end = 0.9, direction = -1)</code></pre>
+<div class="figure" style="text-align: center">
+<img src="figure/DGE.Rmd/unnamed-chunk-9-1.png" alt="MD plot of gene expression in male and female AD subjects relative to no cognitive impairment controls after CQN. No genes are found to be significantly DE (at FDR &lt; 0.05)" width="672" />
+<p class="caption">
+MD plot of gene expression in male and female AD subjects relative to no cognitive impairment controls after CQN. No genes are found to be significantly DE (at FDR &lt; 0.05)
+</p>
+</div>
+</div>
+<div id="check-for-gc-and-length-bias-again" class="section level3">
+<h3>Check for GC and Length bias again</h3>
+<p>A minor improvement of gene length is observed after applying cqn.</p>
+<pre class="r"><code>ggarrange(
+  # Length before cqn
+  toptable_1 %&gt;% 
+    bind_rows(.id = &quot;coef&quot;) %&gt;% 
+    mutate(rankstat = sign(logFC)*-log10(PValue)) %&gt;% 
+    ggplot(aes(x = length, y = rankstat)) +
+    geom_point(
+      aes(colour = DE),
+      alpha = 0.5
+    ) +
+    geom_smooth(se = FALSE, method = &quot;gam&quot;) +
+    facet_grid(rows = vars(coef)) +
+    theme_bw() +
+    theme(legend.position = &quot;none&quot;) +
+    scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;)) +
+    scale_x_log10()+
+    labs(x = &quot;Average transcript length per gene&quot;,
+         colour = &quot;Differentially expressed?&quot;,
+         y = &quot;sign(logFC)*-log10(PValue)&quot;) +
+    coord_cartesian(ylim = c(-5, 5)) +
+    ggtitle(&quot;Gene length before CQN&quot;),
+  
+    toptable_cqn %&gt;% 
+    bind_rows(.id = &quot;coef&quot;) %&gt;% 
+    mutate(rankstat = sign(logFC)*-log10(PValue)) %&gt;% 
+    ggplot(aes(x = length, y = rankstat)) +
+    geom_point(
+      aes(colour = DE),
+      alpha = 0.5
+    ) +
+    geom_smooth(se = FALSE, method = &quot;gam&quot;) +
+    facet_grid(rows = vars(coef)) +
+    theme_bw() +
+    theme(legend.position = &quot;none&quot;) +
+    scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;)) +
+    scale_x_log10()+
+    labs(x = &quot;Average transcript length per gene&quot;,
+         colour = &quot;Differentially expressed?&quot;,
+         y = &quot;sign(logFC)*-log10(PValue)&quot;) +
+    coord_cartesian(ylim = c(-5, 5)) +
+    ggtitle(&quot;Gene length after CQN&quot;),
+  common.legend = TRUE)</code></pre>
+<p><img src="figure/DGE.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggarrange(
+  # GC before cqn
+  toptable_1 %&gt;% 
+    bind_rows(.id = &quot;coef&quot;) %&gt;% 
+    mutate(rankstat = sign(logFC)*-log10(PValue)) %&gt;% 
+    ggplot(aes(x = gc_content, y = rankstat)) +
+    geom_point(
+      aes(colour = DE),
+      alpha = 0.5
+    ) +
+    geom_smooth(se = FALSE, method = &quot;gam&quot;) +
+    facet_grid(rows = vars(coef)) +
+    theme(legend.position = &quot;none&quot;) +
+    scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;)) +
+    coord_cartesian(ylim = c(-10,10)) + 
+    labs(x = &quot;Weighted average GC content (%) per gene&quot;, 
+         colour = &quot;Differentially expressed?&quot;, 
+         y = &quot;sign(logFC)*-log10(PValue)&quot;) +
+    ggtitle(&quot;GC Before CQN&quot;),
+  
+  # GC after cqn
+  toptable_cqn %&gt;% 
+    bind_rows(.id = &quot;coef&quot;) %&gt;% 
+    mutate(rankstat = sign(logFC)*-log10(PValue)) %&gt;% 
+    ggplot(aes(x = gc_content, y = rankstat)) +
+    geom_point(
+      aes(colour = DE),
+      alpha = 0.5
+    ) +
+    geom_smooth(se = FALSE, method = &quot;gam&quot;) +
+    facet_grid(rows = vars(coef)) +
+    theme_bw() +
+    theme(legend.position = &quot;none&quot;) +
+    scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;)) +
+    coord_cartesian(ylim = c(-10,10)) + 
+    labs(x = &quot;Weighted average GC content (%) per gene&quot;, 
+         colour = &quot;Differentially expressed?&quot;, 
+         y = &quot;sign(logFC)*-log10(PValue)&quot;) +
+    ggtitle(&quot;GC after CQN&quot;),
+  
+  common.legend = TRUE
+) </code></pre>
+<p><img src="figure/DGE.Rmd/GCLenAgain-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>cpmPostNorm %&gt;% 
+  .[,femSamps] %&gt;% 
+  fry(
+    index = readRDS(&quot;data/ireGenes.rds&quot;) %&gt;% 
+      lapply(function(x) {
+        x %&gt;% 
+          as_tibble() %&gt;% 
+          set_colnames(&quot;gene_id&quot;) %&gt;% 
+          dplyr::filter(gene_id %in% rownames(dge$counts)) %&gt;% 
+          .$gene_id
+      }
+      ),
+    design = designs_cqn$female,
+    contrast = &quot;AD&quot;,
+    sort = &quot;directional&quot;
+  ) %&gt;%
+  rownames_to_column(&quot;gs_name&quot;) %&gt;%
+  as_tibble()</code></pre>
+<pre><code># A tibble: 4 x 7
+  gs_name  NGenes Direction PValue   FDR PValue.Mixed FDR.Mixed
+  &lt;chr&gt;     &lt;int&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;
+1 ire3_all   2161 Up         0.212 0.800        0.141     0.147
+2 ire5_all    733 Down       0.400 0.800        0.132     0.147
+3 ire3_hq     224 Up         0.604 0.805        0.116     0.147
+4 ire5_hq      58 Up         0.989 0.989        0.147     0.147</code></pre>
+<pre class="r"><code>cpmPostNorm %&gt;% 
+  .[,maleSamps] %&gt;% 
+  fry(
+    index = readRDS(&quot;data/ireGenes.rds&quot;) %&gt;% 
+      lapply(function(x) {
+        x %&gt;% 
+          as_tibble() %&gt;% 
+          set_colnames(&quot;gene_id&quot;) %&gt;% 
+          dplyr::filter(gene_id %in% rownames(dge$counts)) %&gt;% 
+          .$gene_id
+      }
+      ),
+    design = designs_cqn$male,
+    contrast = &quot;AD&quot;,
+    sort = &quot;directional&quot;
+  ) %&gt;%
+  rownames_to_column(&quot;gs_name&quot;) %&gt;%
+  as_tibble()</code></pre>
+<pre><code># A tibble: 4 x 7
+  gs_name  NGenes Direction PValue   FDR PValue.Mixed FDR.Mixed
+  &lt;chr&gt;     &lt;int&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;
+1 ire5_hq      58 Down       0.143 0.490        0.644     0.644
+2 ire5_all    733 Down       0.245 0.490        0.505     0.644
+3 ire3_hq     224 Down       0.942 0.959        0.494     0.644
+4 ire3_all   2161 Down       0.959 0.959        0.553     0.644</code></pre>
+<pre class="r"><code>temp &lt;-  readRDS(&quot;data/ireGenes.rds&quot;) %&gt;% 
+      lapply(function(x) {
+        x %&gt;% 
+          as_tibble() %&gt;% 
+          set_colnames(&quot;gene_id&quot;) %&gt;% 
+          dplyr::filter(gene_id %in% rownames(dge$counts)) %&gt;% 
+          .$gene_id
+      }
+      )
+
+cpmPostNorm[temp$ire3_all, maleSamps] %&gt;% 
+  pheatmap(
+    show_rownames = F, show_colnames = T, scale = &quot;row&quot;, 
+    annotation_col = dgeList$male$samples %&gt;% 
+      dplyr::select(libraryBatch, diagnosis)
+  )</code></pre>
+<p><img src="figure/DGE.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+</div>
+<div id="manhatten-plot-to-check-for-chromosome-specific-effects" class="section level1">
+<h1>Manhatten plot to check for chromosome-specific effects</h1>
+<p>Next, an assessment was performed to determine whether anything strange going on across chromosomes. No obvious peaks are observed.</p>
+<pre class="r"><code>chrst &lt;- toptable_cqn %&gt;% 
+  lapply(function(x) {
+    x %&gt;% 
+      dplyr::filter(chromosome %in% seq(1:22)) %&gt;% 
+      group_by(gene_id) %&gt;% 
+      mutate(mid = mean(c(start, end))) %&gt;% 
+      ungroup %&gt;% 
+      mutate(chromosome = factor(chromosome, levels = seq(1:22)))  %&gt;% 
+      group_by(chromosome) %&gt;% 
+      summarise(chrLen = max(mid)) %&gt;% 
+      mutate(chrSt = cumsum(chrLen)-chrLen) %&gt;% 
+      dplyr::select(-chrLen) 
+  }) %&gt;% 
+  bind_rows() %&gt;% 
+  unique
+
+man &lt;- toptable_cqn %&gt;% 
+  lapply(function(x) {
+    x %&gt;% 
+      dplyr::filter(chromosome %in% seq(1:22)) %&gt;% 
+      left_join(chrst %&gt;% 
+                  mutate(chromosome = factor(chromosome, levels = seq(1:22))) 
+      ) %&gt;% 
+      group_by(gene_id) %&gt;% 
+      mutate(mid = mean(c(start, end))) %&gt;% 
+      ungroup %&gt;% 
+      dplyr::arrange(mid, chromosome) %&gt;% 
+      mutate(midCum = chrSt + mid)
+  })
+
+axis &lt;- 
+  man$female %&gt;%
+  mutate(chromosome = factor(chromosome, levels = seq(1:22))) %&gt;% 
+  group_by(chromosome) %&gt;%
+  dplyr::arrange(chromosome) %&gt;%
+  summarize(center = (max(midCum) + min(midCum)) / 2) %&gt;%
+  mutate(
+    colour = rep(c(&quot;grey40&quot;, &quot;black&quot;), length.out = 22)
+  )
+
+man %&gt;% 
+  bind_rows(.id = &quot;coef&quot;) %&gt;%  
+  mutate(chromosome = factor(chromosome, levels = seq(1:22))) %&gt;% 
+  ggplot(aes(x = midCum, y = logCPM)) +
+  theme_bw() +
+  geom_point(aes(color=chromosome), alpha = 0.5, size = 1) +
+  scale_color_manual(values = axis$colour ) +
+  scale_x_continuous(label = axis$chromosome, breaks = axis$center) +
+  labs(x = &quot;Chromosome&quot;, y = expression(paste(log[2], &quot;CPM&quot;))) +
+  facet_wrap(~coef, ncol = 1) +
+  geom_text_repel(data = dplyr::filter(bind_rows(man), DE == TRUE),
+                  aes(label = gene_name)
+  ) +
+  theme( 
+    legend.position=&quot;none&quot;,
+    panel.border = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank()
+  ) +
+  ggtitle(&quot;No observed biases for gene expression across chromosomes&quot;)</code></pre>
+<p><img src="figure/DGE.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>man %&gt;% 
+  bind_rows(.id = &quot;coef&quot;) %&gt;%  
+  mutate(chromosome = factor(chromosome, levels = seq(1:22))) %&gt;% 
+  ggplot(aes(x = midCum, y = -log10(PValue))) +
+  theme_bw() +
+  geom_point(aes(color=chromosome), alpha = 0.5, size = 1) +
+  scale_color_manual(values = axis$colour ) +
+  scale_x_continuous(label = axis$chromosome, breaks = axis$center) +
+  labs(x = &quot;Chromosome&quot;, y = expression(paste(-log[10], &quot;(p)&quot;))) +
+  facet_wrap(~coef, ncol = 1) +
+  geom_text_repel(data = dplyr::filter(bind_rows(man), DE == TRUE),
+                  aes(label = gene_name)
+  ) +
+  theme( 
+    legend.position=&quot;none&quot;,
+    panel.border = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank()
+  )  +
+  ggtitle(&quot;No observed bias for differential expression across chromosmoes&quot;)</code></pre>
+<p><img src="figure/DGE.Rmd/unnamed-chunk-12-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<p>No evidence for DE genes are observed in this dataset, even after controlling for batch effects and sex.</p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.0.2 (2020-06-22)
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Mojave 10.14.3
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
+
+attached base packages:
+[1] splines   stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+ [1] ggeasy_0.1.3          ggrepel_0.9.1         ggfortify_0.4.12     
+ [4] ggpubr_0.4.0          pheatmap_1.0.12       scales_1.1.1         
+ [7] pander_0.6.4          cqn_1.34.0            quantreg_5.86        
+[10] SparseM_1.81          preprocessCore_1.50.0 nor1mix_1.3-0        
+[13] mclust_5.4.7          edgeR_3.30.3          limma_3.44.3         
+[16] magrittr_2.0.1        forcats_0.5.1         stringr_1.4.0        
+[19] dplyr_1.0.7           purrr_0.3.4           readr_1.4.0          
+[22] tidyr_1.1.3           tibble_3.1.2          ggplot2_3.3.5        
+[25] tidyverse_1.3.1      
+
+loaded via a namespace (and not attached):
+ [1] nlme_3.1-152       matrixStats_0.59.0 fs_1.5.0           lubridate_1.7.10  
+ [5] RColorBrewer_1.1-2 httr_1.4.2         rprojroot_2.0.2    tools_4.0.2       
+ [9] backports_1.2.1    bslib_0.2.5.1      utf8_1.2.1         R6_2.5.0          
+[13] mgcv_1.8-36        DBI_1.1.1          colorspace_2.0-2   withr_2.4.2       
+[17] gridExtra_2.3      tidyselect_1.1.1   curl_4.3.2         compiler_4.0.2    
+[21] git2r_0.28.0       cli_3.0.0          rvest_1.0.0        xml2_1.3.2        
+[25] labeling_0.4.2     sass_0.4.0         digest_0.6.27      foreign_0.8-81    
+[29] rmarkdown_2.9      rio_0.5.27         pkgconfig_2.0.3    htmltools_0.5.1.1 
+[33] highr_0.9          dbplyr_2.1.1       rlang_0.4.11       readxl_1.3.1      
+[37] rstudioapi_0.13    farver_2.1.0       jquerylib_0.1.4    generics_0.1.0    
+[41] jsonlite_1.7.2     zip_2.2.0          car_3.0-11         Matrix_1.3-4      
+[45] Rcpp_1.0.7         munsell_0.5.0      fansi_0.5.0        abind_1.4-5       
+[49] lifecycle_1.0.0    stringi_1.6.2      yaml_2.2.1         carData_3.0-4     
+[53] grid_4.0.2         promises_1.2.0.1   crayon_1.4.1       lattice_0.20-44   
+[57] cowplot_1.1.1      haven_2.4.1        hms_1.1.0          locfit_1.5-9.4    
+[61] knitr_1.33         pillar_1.6.1       ggsignif_0.6.2     reprex_2.0.0      
+[65] glue_1.4.2         evaluate_0.14      data.table_1.14.0  modelr_0.1.8      
+[69] vctrs_0.3.8        httpuv_1.6.1       MatrixModels_0.5-0 cellranger_1.1.0  
+[73] gtable_0.3.0       assertthat_0.2.1   openxlsx_4.2.4     xfun_0.24         
+[77] broom_0.7.8        rstatix_0.7.0      later_1.2.0        viridisLite_0.4.0 
+[81] conquer_1.0.2      workflowr_1.6.2    statmod_1.4.36     ellipsis_0.3.2    </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

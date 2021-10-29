@@ -1,0 +1,531 @@
+---
+title: "DGE exploration with CQN"
+author: "Karissa Barthelson"
+date: "2021-10-27"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  autodep = TRUE,
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = "center"
+)
+```
+## Differential gene expression analysis
+```{r libs}
+library(tidyverse)
+library(magrittr)
+library(edgeR)
+library(cqn)
+library(pander)
+library(scales)
+
+library(pheatmap)
+library(ggpubr)
+library(ggfortify)
+library(ggrepel)
+library(ggeasy)
+
+theme_set(theme_bw())
+panderOptions("big.mark", ",")
+panderOptions("table.split.table", Inf)
+panderOptions("table.style", "rmarkdown")
+```
+
+In this analysis, I will explore the effects of removing the batch effects present during the generation of this dataset. In the [initial QC doc](first-analysis.html), I noted that library preparation/RNA-seq batch still appears to drive some of the variation in this dataset. [Lagomarsino et al. 2021](https://doi.org/10.1016/j.neuron.2021.08.003) noted that they used ComBat from the `sva` package to remove batch effects. However, [Nygaard et al. 2016](https://doi.org/10.1093/biostatistics/kxv027) noted that this may not be the most ideal method. 
+
+Therefore, I will follow the [edgeR users guide](https://www.bioconductor.org/packages/release/bioc/vignettes/edgeR/inst/doc/edgeRUsersGuide.pdf) for removing batch effects. This method uses an additive model formular to block the effect of batch, then test for differential expression between groups of interest. 
+
+In humans, there is an effect of sex on the brain transcriptome. Therefore, I will analyse males and females seperately. 
+
+I imported the `dge` object generated in the [initial QC doc](first-analysis.html). This `dge` object contains the expression values per sample after: 
+
+* filtering lowly expressed genes (i.e. genes which have a logCPM < 2)
+* Omitting one of the technical replicates of each iPSC sample which had the lower RIN
+
+```{r importDGE}
+dge <- readRDS("data/confidentialData/dge.rds")
+
+# edit the covariates to be factors rather than character/integers
+dge$samples %<>% 
+  dplyr::select(1:11, diagnosis, apoeGenotype, pmi, sex, yearsEducation, CERAD, Braak) %>% 
+  mutate(diagnosis = case_when(
+    diagnosis == "no cognitive impairment" ~ "NCI", 
+    diagnosis == "Alzheimer Disease" ~ "AD" 
+  ) %>% 
+    factor(levels = c("NCI", "AD")), 
+  
+  sex = as.factor(sex), 
+  
+  apoeGenotype = factor(apoeGenotype, levels = c("E3/E3", "E2/E3", "E3/E4" ,"E4/E4", "E2/E2")), 
+  CERAD = as.factor(CERAD), 
+  Braak = as.factor(Braak)
+    ) 
+
+# extract male samples
+maleSamps <- dge$samples %>% 
+  dplyr::filter(sex == "male") %>% 
+  .$sample
+
+# extract female samples
+femSamps <- dge$samples %>% 
+  dplyr::filter(sex == "female") %>% 
+  .$sample
+
+# Subset the inital DGE object by sex
+dgeList <- list(
+  female = dge[,femSamps], 
+  male = dge[,maleSamps]
+)
+```
+
+# Inital differential gene expression analysis
+
+## Only diagnosis in the model matrix
+```{r}
+designs_1 <- list(
+  female = model.matrix(~libraryBatch + diagnosis, data = dgeList$female$samples) %>% 
+  set_colnames(str_remove(colnames(.), pattern = "diagnosis")), 
+  male = model.matrix(~libraryBatch + diagnosis, data = dgeList$male$samples) %>% 
+  set_colnames(str_remove(colnames(.), pattern = "diagnosis"))
+)
+# git the GLMs 
+fit_1_list <- list(
+  female = dgeList$female %>% 
+    estimateDisp(designs_1$female) %>% 
+    glmFit(designs_1$female), 
+  
+    male = dgeList$male %>% 
+    estimateDisp(designs_1$male) %>% 
+    glmFit(designs_1$male)
+)
+  
+toptable_1 <- fit_1_list %>% 
+  sapply(function(x) {
+    x %>% 
+      glmLRT(coef = "AD") %>%
+      topTags(n = Inf) %>%
+      .[["table"]] %>%
+      as_tibble() %>%
+      arrange(PValue) %>%
+      mutate(
+        DE = FDR < 0.05, 
+      ) %>% 
+      dplyr::select(
+        gene_name, logFC, logCPM, PValue, FDR, DE, everything()  
+      )
+  }, simplify = FALSE)
+```
+
+### Visualiastions 
+```{r fig.cap="Volcano plot of gene expression in male and female AD subjects relative to no cognitive impairment controls. No genes are found to be significantly DE (at FDR < 0.05)"}
+toptable_1 %>% 
+  bind_rows(.id = "coef") %>% 
+  ggplot(aes(y = -log10(PValue), x = logFC, colour = DE)) +
+  geom_point(
+    alpha = 0.5
+  ) +
+  facet_wrap(~coef, ncol = 1) +
+  theme_bw() +
+  geom_label_repel(
+    aes(label = gene_name), 
+    data = .  %>% dplyr::filter(FDR < 0.05), 
+    show.legend = FALSE
+  ) +
+  theme(legend.position = "none") +
+  scale_color_manual(values = c("grey50", "red"))
+```
+
+## Check for GC and Length bias
+
+[Mandelboum et. al 2019](https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3000481) demonstrated a prevalent sample-specific length effect that leads to a strong association between gene length and fold-change estimates between RNA-seq samples. This means that the changes to expression of genes must be assessed relative to its length and %GC. In the plots below, %GC content is shown against the ranking statistic, using -log10(p) multiplied by the sign of log fold-change. A small amount of length bias is noted particularly in females. 
+
+```{r GCLen}
+ggarrange(
+  toptable_1 %>% 
+    bind_rows(.id = "coef") %>% 
+    mutate(rankstat = sign(logFC)*-log10(PValue)) %>% 
+    ggplot(aes(x = length, y = rankstat)) +
+    geom_point(
+      aes(colour = DE),
+      alpha = 0.5
+    ) +
+    geom_smooth(se = FALSE, method = "gam") +
+    facet_grid(rows = vars(coef)) +
+    theme_bw() +
+    theme(legend.position = "none") +
+    scale_color_manual(values = c("grey50", "red")) +
+    scale_x_log10()+
+    labs(x = "Average transcript length per gene",
+         colour = "Differentially expressed?",
+         y = "sign(logFC)*-log10(PValue)") +
+    coord_cartesian(ylim = c(-10, 10)),
+  toptable_1 %>% 
+    bind_rows(.id = "coef") %>% 
+    mutate(rankstat = sign(logFC)*-log10(PValue)) %>% 
+    ggplot(aes(x = gc_content, y = rankstat)) +
+    geom_point(
+      aes(colour = DE),
+      alpha = 0.5
+    ) +
+    geom_smooth(se = FALSE, method = "gam") +
+    facet_grid(rows = vars(coef)) +
+    theme_bw() +
+    theme(legend.position = "none") +
+    scale_color_manual(values = c("grey50", "red")) +
+    coord_cartesian(ylim = c(-10,10)) + 
+    labs(x = "Weighted average GC content (%) per gene", 
+         colour = "Differentially expressed?", 
+         y = "sign(logFC)*-log10(PValue)"),
+  common.legend = TRUE, 
+  labels = "AUTO"
+) 
+```
+
+# Conditional Quantile Normalisation
+
+A method to deal with any observed bias for differnetial expression and %GC or gene length is to use `Conditionl Quantile Normalisation` (cqn). In cqn, a gene and sample-level offset is calculated for each count which takes into account any systemic bias, such as that observed in the plots before. The resultant `glm.offset` values were added to the original `DGEList` object, and all dispersion estimates were calculated.
+
+```{r}
+cqn <- cqn(
+  counts = dge$counts,
+  x = dge$genes$gc_content,
+  lengths = dge$genes$length,
+  sizeFactors = dge$samples$lib.size
+)
+# Set some colours for plotting
+diagColours <- viridis_pal(end = 0.8)(2)
+names(diagColours) <- levels(dge$samples$diagnosis)
+```
+```{r GC="CQN model fits. Some variability is observed at the extremes of both parameters GC and length"}
+par(mfrow = c(1, 2))
+cqnplot(cqn, n = 1, xlab = "GC Content", col = diagColours)
+cqnplot(cqn, n = 2, xlab = "Length", col = diagColours)
+legend("bottomright", legend = levels(dge$samples$diagnosis), col = diagColours, lty = 1)
+```
+
+```{r}
+# Make a copy of the DGE so that cqn offset can be added
+dge_cqn <- dge
+
+dge_cqn$offset <- cqn$glm.offset 
+```
+
+## Repeat PCA after cqn
+
+A PCA was repeated after CQN had been applied. Very minimal effect is observed of cqn. This would be expected though, as the bias obsevred in the initial differential expression analysis was small as well. 
+
+```{r}
+cpmPostNorm <- cqn %>%
+  with(y + offset)
+
+ggarrange(
+  cpm(dge, log = TRUE) %>%
+    t() %>%
+    prcomp() %>% 
+    autoplot(data = tibble(sample = rownames(.$x)) %>%
+               left_join(dge$samples),
+             colour = "libraryBatch", 
+             shape = "diagnosis",
+             size = 4) +
+    ggtitle("Before CQN"), 
+  
+  cpmPostNorm %>%
+    t() %>%
+    prcomp() %>% 
+    autoplot(data = tibble(sample = rownames(.$x)) %>%
+               left_join(dge$samples),
+             colour = "libraryBatch", 
+             shape = "diagnosis",
+             size = 4) +
+    ggtitle("After CQN"), 
+  common.legend = TRUE
+  
+)
+```
+
+## Repeat DGE after cqn
+
+```{r}
+# Repeat  the subsetting of the dge in to males and females
+dgeList_cqn <- list(
+  female = dge_cqn[,femSamps], 
+  male = dge_cqn[,maleSamps]
+)
+designs_cqn <- list(
+  female = model.matrix(~libraryBatch + diagnosis, data = dgeList_cqn$female$samples) %>% 
+  set_colnames(str_remove(colnames(.), pattern = "diagnosis")), 
+  male = model.matrix(~libraryBatch + diagnosis, data = dgeList_cqn$male$samples) %>% 
+  set_colnames(str_remove(colnames(.), pattern = "diagnosis"))
+)
+
+# Fit the GLMs 
+fit_1_list_cqn <- 
+  list(
+    female = dgeList_cqn$female %>% 
+      estimateDisp(designs_cqn$female) %>% 
+      glmFit(designs_cqn$female), 
+    
+    male = dgeList_cqn$male %>% 
+      estimateDisp(designs_1$male) %>% 
+      glmFit(designs_cqn$male)
+  )
+
+toptable_cqn <- fit_1_list_cqn %>% 
+  sapply(function(x) {
+    x %>% 
+      glmLRT(coef = "AD") %>%
+      topTags(n = Inf) %>%
+      .[["table"]] %>%
+      as_tibble() %>%
+      arrange(PValue) %>%
+      mutate(
+        DE = FDR < 0.05, 
+      ) %>% 
+      dplyr::select(
+        gene_name, logFC, logCPM, PValue, FDR, DE, everything()  
+      )
+  }, simplify = FALSE)
+```
+
+### Visualiastions 
+```{r fig.cap="Volcano plot of gene expression in male and female AD subjects relative to no cognitive impairment controls after CQN. No genes are found to be significantly DE (at FDR < 0.05)"}
+toptable_cqn %>% 
+  bind_rows(.id = "coef") %>% 
+  ggplot(aes(y = -log10(PValue), x = logFC, colour = FDR)) +
+  geom_point(
+    alpha = 0.5
+  ) +
+  facet_wrap(~coef, ncol = 1) +
+  theme_bw() +
+  geom_label_repel(
+    aes(label = gene_name), 
+    data = .  %>% dplyr::filter(FDR < 0.05), 
+    show.legend = FALSE
+  ) +
+  scale_color_continuous(type = "viridis", end = 0.9, direction = -1)
+```
+
+```{r fig.cap="MD plot of gene expression in male and female AD subjects relative to no cognitive impairment controls after CQN. No genes are found to be significantly DE (at FDR < 0.05)"}
+toptable_cqn %>% 
+  bind_rows(.id = "coef") %>% 
+  ggplot(aes(y = logFC, x = logCPM, colour = FDR)) +
+  geom_point(
+    alpha = 0.5
+  ) +
+  facet_wrap(~coef, ncol = 1) +
+  theme_bw() +
+  geom_label_repel(
+    aes(label = gene_name), 
+    data = .  %>% dplyr::filter(FDR < 0.05), 
+    show.legend = FALSE
+  ) +
+  scale_color_continuous(type = "viridis", end = 0.9, direction = -1)
+```
+
+
+### Check for GC and Length bias again
+
+A minor improvement of gene length is observed after applying cqn.
+
+```{r}
+ggarrange(
+  # Length before cqn
+  toptable_1 %>% 
+    bind_rows(.id = "coef") %>% 
+    mutate(rankstat = sign(logFC)*-log10(PValue)) %>% 
+    ggplot(aes(x = length, y = rankstat)) +
+    geom_point(
+      aes(colour = DE),
+      alpha = 0.5
+    ) +
+    geom_smooth(se = FALSE, method = "gam") +
+    facet_grid(rows = vars(coef)) +
+    theme_bw() +
+    theme(legend.position = "none") +
+    scale_color_manual(values = c("grey50", "red")) +
+    scale_x_log10()+
+    labs(x = "Average transcript length per gene",
+         colour = "Differentially expressed?",
+         y = "sign(logFC)*-log10(PValue)") +
+    coord_cartesian(ylim = c(-5, 5)) +
+    ggtitle("Gene length before CQN"),
+  
+    toptable_cqn %>% 
+    bind_rows(.id = "coef") %>% 
+    mutate(rankstat = sign(logFC)*-log10(PValue)) %>% 
+    ggplot(aes(x = length, y = rankstat)) +
+    geom_point(
+      aes(colour = DE),
+      alpha = 0.5
+    ) +
+    geom_smooth(se = FALSE, method = "gam") +
+    facet_grid(rows = vars(coef)) +
+    theme_bw() +
+    theme(legend.position = "none") +
+    scale_color_manual(values = c("grey50", "red")) +
+    scale_x_log10()+
+    labs(x = "Average transcript length per gene",
+         colour = "Differentially expressed?",
+         y = "sign(logFC)*-log10(PValue)") +
+    coord_cartesian(ylim = c(-5, 5)) +
+    ggtitle("Gene length after CQN"),
+  common.legend = TRUE)
+```
+ 
+```{r GCLenAgain}
+ggarrange(
+  # GC before cqn
+  toptable_1 %>% 
+    bind_rows(.id = "coef") %>% 
+    mutate(rankstat = sign(logFC)*-log10(PValue)) %>% 
+    ggplot(aes(x = gc_content, y = rankstat)) +
+    geom_point(
+      aes(colour = DE),
+      alpha = 0.5
+    ) +
+    geom_smooth(se = FALSE, method = "gam") +
+    facet_grid(rows = vars(coef)) +
+    theme(legend.position = "none") +
+    scale_color_manual(values = c("grey50", "red")) +
+    coord_cartesian(ylim = c(-10,10)) + 
+    labs(x = "Weighted average GC content (%) per gene", 
+         colour = "Differentially expressed?", 
+         y = "sign(logFC)*-log10(PValue)") +
+    ggtitle("GC Before CQN"),
+  
+  # GC after cqn
+  toptable_cqn %>% 
+    bind_rows(.id = "coef") %>% 
+    mutate(rankstat = sign(logFC)*-log10(PValue)) %>% 
+    ggplot(aes(x = gc_content, y = rankstat)) +
+    geom_point(
+      aes(colour = DE),
+      alpha = 0.5
+    ) +
+    geom_smooth(se = FALSE, method = "gam") +
+    facet_grid(rows = vars(coef)) +
+    theme_bw() +
+    theme(legend.position = "none") +
+    scale_color_manual(values = c("grey50", "red")) +
+    coord_cartesian(ylim = c(-10,10)) + 
+    labs(x = "Weighted average GC content (%) per gene", 
+         colour = "Differentially expressed?", 
+         y = "sign(logFC)*-log10(PValue)") +
+    ggtitle("GC after CQN"),
+  
+  common.legend = TRUE
+) 
+```
+
+# Manhatten plot to check for chromosome-specific effects
+
+Next, an assessment was performed to determine whether anything strange going on across chromosomes. No obvious peaks are observed. 
+
+```{r}
+chrst <- toptable_cqn %>% 
+  lapply(function(x) {
+    x %>% 
+      dplyr::filter(chromosome %in% seq(1:22)) %>% 
+      group_by(gene_id) %>% 
+      mutate(mid = mean(c(start, end))) %>% 
+      ungroup %>% 
+      mutate(chromosome = factor(chromosome, levels = seq(1:22)))  %>% 
+      group_by(chromosome) %>% 
+      summarise(chrLen = max(mid)) %>% 
+      mutate(chrSt = cumsum(chrLen)-chrLen) %>% 
+      dplyr::select(-chrLen) 
+  }) %>% 
+  bind_rows() %>% 
+  unique
+
+man <- toptable_cqn %>% 
+  lapply(function(x) {
+    x %>% 
+      dplyr::filter(chromosome %in% seq(1:22)) %>% 
+      left_join(chrst %>% 
+                  mutate(chromosome = factor(chromosome, levels = seq(1:22))) 
+      ) %>% 
+      group_by(gene_id) %>% 
+      mutate(mid = mean(c(start, end))) %>% 
+      ungroup %>% 
+      dplyr::arrange(mid, chromosome) %>% 
+      mutate(midCum = chrSt + mid)
+  })
+
+axis <- 
+  man$female %>%
+  mutate(chromosome = factor(chromosome, levels = seq(1:22))) %>% 
+  group_by(chromosome) %>%
+  dplyr::arrange(chromosome) %>%
+  summarize(center = (max(midCum) + min(midCum)) / 2) %>%
+  mutate(
+    colour = rep(c("grey40", "black"), length.out = 22)
+  )
+
+man %>% 
+  bind_rows(.id = "coef") %>%  
+  mutate(chromosome = factor(chromosome, levels = seq(1:22))) %>% 
+  ggplot(aes(x = midCum, y = logCPM)) +
+  theme_bw() +
+  geom_point(aes(color=chromosome), alpha = 0.5, size = 1) +
+  scale_color_manual(values = axis$colour ) +
+  scale_x_continuous(label = axis$chromosome, breaks = axis$center) +
+  labs(x = "Chromosome", y = expression(paste(log[2], "CPM"))) +
+  facet_wrap(~coef, ncol = 1) +
+  geom_text_repel(data = dplyr::filter(bind_rows(man), DE == TRUE),
+                  aes(label = gene_name)
+  ) +
+  theme( 
+    legend.position="none",
+    panel.border = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank()
+  ) +
+  ggtitle("No observed biases for gene expression across chromosomes")
+
+man %>% 
+  bind_rows(.id = "coef") %>%  
+  mutate(chromosome = factor(chromosome, levels = seq(1:22))) %>% 
+  ggplot(aes(x = midCum, y = -log10(PValue))) +
+  theme_bw() +
+  geom_point(aes(color=chromosome), alpha = 0.5, size = 1) +
+  scale_color_manual(values = axis$colour ) +
+  scale_x_continuous(label = axis$chromosome, breaks = axis$center) +
+  labs(x = "Chromosome", y = expression(paste(-log[10], "(p)"))) +
+  facet_wrap(~coef, ncol = 1) +
+  geom_text_repel(data = dplyr::filter(bind_rows(man), DE == TRUE),
+                  aes(label = gene_name)
+  ) +
+  theme( 
+    legend.position="none",
+    panel.border = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank()
+  )  +
+  ggtitle("No observed bias for differential expression across chromosmoes")
+```
+
+# Conclusion
+
+No evidence for DE genes are observed in this dataset, even after controlling for batch effects and sex. 
+
+```{r}
+# export data for further analysis
+dge_cqn %>% 
+  saveRDS("data/confidentialData/dge_cqn.rds")
+
+toptable_cqn %>% 
+  saveRDS("data/confidentialData/topTab_cqn.rds")
+
+cpmPostNorm %>% 
+  saveRDS("data/confidentialData/logCPM_cqn.rds")
+
+fit_1_list_cqn %>% 
+  saveRDS("data/confidentialData/glmFit_cqn.rds")
+```
