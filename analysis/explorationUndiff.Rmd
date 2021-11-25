@@ -1,0 +1,162 @@
+---
+title: "explorationUndiff"
+author: "Karissa Barthelson"
+date: "2021-11-25"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  autodep = TRUE,
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = "center"
+)
+```
+```{r libs}
+library(tidyverse)
+library(magrittr)
+library(edgeR)
+library(cqn)
+library(pander)
+library(scales)
+
+library(pheatmap)
+library(ggpubr)
+library(ggfortify)
+library(ggrepel)
+library(ggeasy)
+
+theme_set(theme_bw())
+panderOptions("big.mark", ",")
+panderOptions("table.split.table", Inf)
+panderOptions("table.style", "rmarkdown")
+```
+
+```{r}
+dgecqnFem <- readRDS("data/confidentialData/dge_cqn_fem.rds")
+
+dgecqnMale  <- readRDS("data/confidentialData/dge_cqn_male.rds")
+
+toptable.CQN.male  <- readRDS("data/confidentialData/topTab_cqn_male.rds")
+
+toptable.CQN.Fem <- readRDS("data/confidentialData/topTab_cqn_female.rds")
+
+cpmPostNorm  <- readRDS("data/confidentialData/logCPM_cqn.rds")
+```
+
+
+## Introduction
+
+In the [initial QC doc](first-analysis.html), I noted that some samples may have contained high amounts of undifferentiated cells. This could be introducing more noise in the data and masking any changes to gene expression in the comparisons of interest. Therefore, I will next omit these samples and repeat the DE analysis. 
+
+# Repeat the DE analysis after omitting the potentially undifferentiated samples
+
+In the [initial QC doc](first-analysis.html), I noted that some samples may have contained high amounts of undifferentiated cells. This could be introducing more noise in the data and masking any changes to gene expression in the comparisons of interest. Therefore, I will next omit these samples and repeat the DE analysis. 
+
+```{r}
+femSamps2keep <- dgecqnFem$samples %>% 
+  dplyr::filter(possiblyUndiff == "No") %>% 
+  .$sample
+maleSamps2keep <- dgecqnMale$samples %>% 
+  dplyr::filter(possiblyUndiff == "No") %>% 
+  .$sample
+
+dgeFem.diff <- dgecqnFem[,femSamps2keep]
+dgeMale.diff <- dgecqnMale[,maleSamps2keep]
+```
+
+```{r}
+designs_cqn_diff <- list(
+  female = model.matrix(~libraryBatch + category, data = dgeFem.diff$samples) %>% 
+  set_colnames(str_remove(colnames(.), pattern = "category")), 
+  male = model.matrix(~libraryBatch + category, data = dgeMale.diff$samples) %>% 
+  set_colnames(str_remove(colnames(.), pattern = "category"))
+)
+
+# Fit the GLMs 
+fit_1_list_cqn_diff <- 
+  list(
+    female = dgeFem.diff %>% 
+      estimateDisp(designs_cqn_diff$female) %>% 
+      glmFit(designs_cqn_diff$female), 
+    
+    male = dgeMale.diff %>% 
+      estimateDisp(designs_cqn_diff$male) %>% 
+      glmFit(designs_cqn_diff$male)
+  )
+
+toptable.CQN.Fem.diff <- c("HP-NCI", "AD") %>% 
+  sapply(function(x) {
+    fit_1_list_cqn_diff$female %>% 
+      glmLRT(coef = x) %>%
+      topTags(n = Inf) %>%
+      .[["table"]] %>%
+      as_tibble() %>%
+      arrange(PValue) %>%
+      mutate(
+        DE = FDR < 0.05, 
+        coef = x, 
+        sex = "female"
+      ) %>% 
+      dplyr::select(
+        gene_name, logFC, logCPM, PValue, FDR, DE, everything()  
+      )
+  }, simplify = FALSE)
+
+toptable.CQN.male.diff <- c("AD") %>% 
+  sapply(function(x) {
+    fit_1_list_cqn_diff$male %>% 
+      glmLRT(coef = x) %>%
+      topTags(n = Inf) %>%
+      .[["table"]] %>%
+      as_tibble() %>%
+      arrange(PValue) %>%
+      mutate(
+        DE = FDR < 0.05, 
+        coef = x, 
+        sex = "male"
+      ) %>% 
+      dplyr::select(
+        gene_name, logFC, logCPM, PValue, FDR, DE, everything()  
+      )
+  }, simplify = FALSE)
+
+toptable.CQN.Fem.diff %>% 
+  bind_rows(.id = "coef") %>% 
+  ggplot(aes(y = -log10(PValue), x = logFC, colour = DE)) +
+  geom_point(
+    alpha = 0.5
+  ) +
+  facet_wrap(~coef, ncol = 1) +
+  theme_bw() +
+  geom_label_repel(
+    aes(label = gene_name), 
+    data = .  %>% dplyr::filter(FDR < 0.05), 
+    show.legend = FALSE
+  ) +
+  theme(legend.position = "bottom") +
+  scale_color_manual(values = c("grey50", "red"))
+
+toptable.CQN.Fem.diff %>% 
+  bind_rows(.id = "coef") %>% 
+  ggplot(aes(x = logCPM, y = logFC, colour = DE)) +
+  geom_point(
+    alpha = 0.5
+  ) +
+  facet_wrap(~coef, ncol = 1) +
+  theme_bw() +
+  geom_label_repel(
+    aes(label = gene_name), 
+    data = .  %>% dplyr::filter(FDR < 0.05), 
+    show.legend = FALSE
+  ) +
+  theme(legend.position = "bottom") +
+  scale_color_manual(values = c("grey50", "red"))
+```
+
+# Conclusion 
+I am not confident enough in whether these samples are truly "un-differentiated" since I am essentially basing the conclusion on the expression of 1 gene: (*LEFTY2*). Therefore, the DE results will be reported after `cqn` only.

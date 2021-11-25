@@ -352,7 +352,10 @@ div.tocify {
       <a href="removeBatchEffects.html">Remove batch effects</a>
     </li>
     <li>
-      <a href="DGE.html">DGE analysis exploration of methods</a>
+      <a href="DGE.html">DGE analysis</a>
+    </li>
+    <li>
+      <a href="explorationUndiff.html">Exploration of removing undifferentiaed samples</a>
     </li>
     <li>
       <a href="ire_test.html">IRE enrichment analysis</a>
@@ -394,7 +397,7 @@ div.tocify {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -403,7 +406,7 @@ div.tocify {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -412,10 +415,10 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-10-29
+<strong>Last updated:</strong> 2021-11-25
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>2021-rosmap-ire/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -431,12 +434,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -503,16 +506,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021humanADiNsIREtreee988a78fb0670075d7761a77f372a0151e4157bbtargetblanke988a78a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/tree/e988a78fb0670075d7761a77f372a0151e4157bb" target="_blank">e988a78</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021humanADiNsIREtree08ab9c825b058de5227bfc0cc504478bdce15d37targetblank08ab9c8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/tree/08ab9c825b058de5227bfc0cc504478bdce15d37" target="_blank">08ab9c8</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021humanADiNsIREtreee988a78fb0670075d7761a77f372a0151e4157bbtargetblanke988a78a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021humanADiNsIREtree08ab9c825b058de5227bfc0cc504478bdce15d37targetblank08ab9c8a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/tree/e988a78fb0670075d7761a77f372a0151e4157bb" target="_blank">e988a78</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/tree/08ab9c825b058de5227bfc0cc504478bdce15d37" target="_blank">08ab9c8</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -527,8 +530,27 @@ Ignored files:
     Ignored:    data/.DS_Store
     Ignored:    data/confidentialData/
 
-Staged changes:
+Untracked files:
+    Untracked:  SEsraFiles.txt
+    Untracked:  SraAccList (1).txt
+    Untracked:  analysis/Mertensetal_obtainData.Rmd
+    Untracked:  analysis/explorationUndiff.Rmd
+    Untracked:  analysis/mertensQC.Rmd
+    Untracked:  atac.txt
+    Untracked:  code/getENA.sh
+    Untracked:  data/fastqc_mertens_trimmed/
+    Untracked:  data/fastqc_raw_Mertens/
+    Untracked:  data/filereport_read_run_PRJEB44542_tsv.txt
+    Untracked:  data/metaAE.tsv
+    Untracked:  got.txt
+    Untracked:  output/ire3.png
+    Untracked:  output/ire5.png
+
+Unstaged changes:
+    Modified:   analysis/DGE.Rmd
     Modified:   analysis/_site.yml
+    Modified:   analysis/first-analysis.Rmd
+    Modified:   analysis/ire_test.Rmd
 
 </code></pre>
 <p>
@@ -567,6 +589,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/karissa-b/2021-human-AD-iNs-IRE/08ab9c825b058de5227bfc0cc504478bdce15d37/docs/DGE.html" target="_blank">08ab9c8</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-29
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -628,8 +667,8 @@ panderOptions(&quot;big.mark&quot;, &quot;,&quot;)
 panderOptions(&quot;table.split.table&quot;, Inf)
 panderOptions(&quot;table.style&quot;, &quot;rmarkdown&quot;)</code></pre>
 <p>In this analysis, I will explore the effects of removing the batch effects present during the generation of this dataset. In the <a href="first-analysis.html">initial QC doc</a>, I noted that library preparation/RNA-seq batch still appears to drive some of the variation in this dataset. <a href="https://doi.org/10.1016/j.neuron.2021.08.003">Lagomarsino et al. 2021</a> noted that they used ComBat from the <code>sva</code> package to remove batch effects. However, <a href="https://doi.org/10.1093/biostatistics/kxv027">Nygaard et al. 2016</a> noted that this may not be the most ideal method.</p>
-<p>Therefore, I will follow the <a href="https://www.bioconductor.org/packages/release/bioc/vignettes/edgeR/inst/doc/edgeRUsersGuide.pdf">edgeR users guide</a> for removing batch effects. This method uses an additive model formular to block the effect of batch, then test for differential expression between groups of interest.</p>
-<p>In humans, there is an effect of sex on the brain transcriptome. Therefore, I will analyse males and females seperately.</p>
+<p>Therefore, I will follow the <a href="https://www.bioconductor.org/packages/release/bioc/vignettes/edgeR/inst/doc/edgeRUsersGuide.pdf">edgeR users guide</a> for removing batch effects. This method uses an additive model formula to block the effect of batch, then test for differential expression between groups of interest.</p>
+<p>In humans, there is an effect of sex on the brain transcriptome. Therefore, I will analyse males and females separately.</p>
 <p>I imported the <code>dge</code> object generated in the <a href="first-analysis.html">initial QC doc</a>. This <code>dge</code> object contains the expression values per sample after:</p>
 <ul>
 <li>filtering lowly expressed genes (i.e. genes which have a logCPM &lt; 2)</li>
@@ -639,13 +678,13 @@ panderOptions(&quot;table.style&quot;, &quot;rmarkdown&quot;)</code></pre>
 
 # edit the covariates to be factors rather than character/integers
 dge$samples %&lt;&gt;% 
-  dplyr::select(1:11, diagnosis, apoeGenotype, pmi, sex, yearsEducation, CERAD, Braak) %&gt;% 
+  dplyr::select(1:11, diagnosis, category, apoeGenotype, pmi, sex, yearsEducation, CERAD, Braak, possiblyUndiff) %&gt;% 
   mutate(diagnosis = case_when(
     diagnosis == &quot;no cognitive impairment&quot; ~ &quot;NCI&quot;, 
     diagnosis == &quot;Alzheimer Disease&quot; ~ &quot;AD&quot; 
   ) %&gt;% 
     factor(levels = c(&quot;NCI&quot;, &quot;AD&quot;)), 
-  
+  category = factor(category, levels = c(&quot;LP-NCI&quot;, &quot;HP-NCI&quot;, &quot;AD&quot;)), 
   sex = as.factor(sex), 
   
   apoeGenotype = factor(apoeGenotype, levels = c(&quot;E3/E3&quot;, &quot;E2/E3&quot;, &quot;E3/E4&quot; ,&quot;E4/E4&quot;, &quot;E2/E2&quot;)), 
@@ -664,42 +703,69 @@ femSamps &lt;- dge$samples %&gt;%
   .$sample
 
 # Subset the inital DGE object by sex
-dgeList &lt;- list(
-  female = dge[,femSamps], 
-  male = dge[,maleSamps]
-)</code></pre>
+dgeFem &lt;- dge[,femSamps]
+dgeMale &lt;- dge[,maleSamps]</code></pre>
+<p>There appears to only be one "High pathology, no cognitive impairment sample in the male samples. Therefore, I will omit this sample as we cannot do any statistics on it.</p>
+<pre class="r"><code>keep &lt;- dgeMale$samples %&gt;% 
+  dplyr::filter(category != &quot;HP-NCI&quot;) %&gt;% 
+  rownames()
+
+dgeMale &lt;- dgeMale[,keep]
+# drop teh unused levels so the design matrix doesnt break later. 
+dgeMale$samples$category %&lt;&gt;% droplevels()</code></pre>
 </div>
 <div id="inital-differential-gene-expression-analysis" class="section level1">
 <h1>Inital differential gene expression analysis</h1>
-<div id="only-diagnosis-in-the-model-matrix" class="section level2">
-<h2>Only diagnosis in the model matrix</h2>
+<div id="only-lib-batch-and-diagnosis-in-the-model-matrix" class="section level2">
+<h2>Only lib batch and diagnosis in the model matrix</h2>
 <pre class="r"><code>designs_1 &lt;- list(
-  female = model.matrix(~libraryBatch + diagnosis, data = dgeList$female$samples) %&gt;% 
-  set_colnames(str_remove(colnames(.), pattern = &quot;diagnosis&quot;)), 
-  male = model.matrix(~libraryBatch + diagnosis, data = dgeList$male$samples) %&gt;% 
-  set_colnames(str_remove(colnames(.), pattern = &quot;diagnosis&quot;))
+  female = model.matrix(~libraryBatch + category, data = dgeFem$samples) %&gt;% 
+  set_colnames(str_remove(colnames(.), pattern = &quot;category&quot;)), 
+  male = model.matrix(~libraryBatch + category, data = dgeMale$samples) %&gt;% 
+  set_colnames(str_remove(colnames(.), pattern = &quot;category&quot;))
 )
 # git the GLMs 
+
 fit_1_list &lt;- list(
-  female = dgeList$female %&gt;% 
+  female = dgeFem %&gt;% 
     estimateDisp(designs_1$female) %&gt;% 
     glmFit(designs_1$female), 
   
-    male = dgeList$male %&gt;% 
+    male = dgeMale %&gt;% 
     estimateDisp(designs_1$male) %&gt;% 
     glmFit(designs_1$male)
 )
   
-toptable_1 &lt;- fit_1_list %&gt;% 
+toptableFem &lt;- c(&quot;HP-NCI&quot;, &quot;AD&quot;) %&gt;% 
   sapply(function(x) {
-    x %&gt;% 
-      glmLRT(coef = &quot;AD&quot;) %&gt;%
+    fit_1_list$female %&gt;% 
+      glmLRT(coef = x) %&gt;%
       topTags(n = Inf) %&gt;%
       .[[&quot;table&quot;]] %&gt;%
       as_tibble() %&gt;%
       arrange(PValue) %&gt;%
       mutate(
         DE = FDR &lt; 0.05, 
+        coef = x, 
+        sex = &quot;female&quot;
+      ) %&gt;% 
+      dplyr::select(
+        gene_name, logFC, logCPM, PValue, FDR, DE, everything()  
+      )
+  }, simplify = FALSE)
+
+toptableMale &lt;- c(&quot;AD&quot;) %&gt;% 
+  sapply(function(x) {
+    fit_1_list$male %&gt;% 
+      glmLRT(coef = x) %&gt;%
+      topTags(n = Inf) %&gt;%
+      .[[&quot;table&quot;]] %&gt;%
+      as_tibble() %&gt;%
+      arrange(PValue) %&gt;%
+      mutate(
+        DE = FDR &lt; 0.05, 
+        coef = x, 
+        sex = &quot;male&quot;
       ) %&gt;% 
       dplyr::select(
         gene_name, logFC, logCPM, PValue, FDR, DE, everything()  
@@ -707,7 +773,7 @@ toptable_1 &lt;- fit_1_list %&gt;%
   }, simplify = FALSE)</code></pre>
 <div id="visualiastions" class="section level3">
 <h3>Visualiastions</h3>
-<pre class="r"><code>toptable_1 %&gt;% 
+<pre class="r"><code>toptableFem %&gt;% 
   bind_rows(.id = &quot;coef&quot;) %&gt;% 
   ggplot(aes(y = -log10(PValue), x = logFC, colour = DE)) +
   geom_point(
@@ -720,152 +786,35 @@ toptable_1 &lt;- fit_1_list %&gt;%
     data = .  %&gt;% dplyr::filter(FDR &lt; 0.05), 
     show.legend = FALSE
   ) +
-  theme(legend.position = &quot;none&quot;) +
+  theme(legend.position = &quot;bottom&quot;) +
   scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;))</code></pre>
 <div class="figure" style="text-align: center">
-<img src="figure/DGE.Rmd/unnamed-chunk-2-1.png" alt="Volcano plot of gene expression in male and female AD subjects relative to no cognitive impairment controls. No genes are found to be significantly DE (at FDR &lt; 0.05)" width="672" />
+<img src="figure/DGE.Rmd/unnamed-chunk-3-1.png" alt="Volcano plot of gene expression in female high pathology, no cog impairment (HP-NCI), and AD subjects relative to no cognitive impairment controls." width="672" />
 <p class="caption">
-Volcano plot of gene expression in male and female AD subjects relative to no cognitive impairment controls. No genes are found to be significantly DE (at FDR &lt; 0.05)
+Volcano plot of gene expression in female high pathology, no cog impairment (HP-NCI), and AD subjects relative to no cognitive impairment controls.
 </p>
 </div>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
-Past versions of unnamed-chunk-2-1.png
-</button>
+<pre class="r"><code>toptableMale %&gt;% 
+  bind_rows(.id = &quot;coef&quot;) %&gt;% 
+  ggplot(aes(y = -log10(PValue), x = logFC, colour = DE)) +
+  geom_point(
+    alpha = 0.5
+  ) +
+  facet_wrap(~coef, ncol = 1) +
+  theme_bw() +
+  geom_label_repel(
+    aes(label = gene_name), 
+    data = .  %&gt;% dplyr::filter(FDR &lt; 0.05), 
+    show.legend = FALSE
+  ) +
+  theme(legend.position = &quot;bottom&quot;) +
+  scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;))</code></pre>
+<div class="figure" style="text-align: center">
+<img src="figure/DGE.Rmd/unnamed-chunk-4-1.png" alt="Volcano plot of gene expression in AD subjects relative to no cognitive impairment controls." width="672" />
+<p class="caption">
+Volcano plot of gene expression in AD subjects relative to no cognitive impairment controls.
 </p>
-<div id="fig-unnamed-chunk-2-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/blob/2faac44e7f400d080891ed765d056a1df49ec68c/docs/figure/DGE.Rmd/unnamed-chunk-2-1.png" target="_blank">2faac44</a>
-</td>
-<td>
-Karissa Barthelson
-</td>
-<td>
-2021-10-29
-</td>
-</tr>
-</tbody>
-</table>
 </div>
-</div>
-</div>
-</div>
-<div id="check-for-gc-and-length-bias" class="section level2">
-<h2>Check for GC and Length bias</h2>
-<p><a href="https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3000481">Mandelboum et. al 2019</a> demonstrated a prevalent sample-specific length effect that leads to a strong association between gene length and fold-change estimates between RNA-seq samples. This means that the changes to expression of genes must be assessed relative to its length and %GC. In the plots below, %GC content is shown against the ranking statistic, using -log10(p) multiplied by the sign of log fold-change. A small amount of length bias is noted particularly in females.</p>
-<pre class="r"><code>ggarrange(
-  toptable_1 %&gt;% 
-    bind_rows(.id = &quot;coef&quot;) %&gt;% 
-    mutate(rankstat = sign(logFC)*-log10(PValue)) %&gt;% 
-    ggplot(aes(x = length, y = rankstat)) +
-    geom_point(
-      aes(colour = DE),
-      alpha = 0.5
-    ) +
-    geom_smooth(se = FALSE, method = &quot;gam&quot;) +
-    facet_grid(rows = vars(coef)) +
-    theme_bw() +
-    theme(legend.position = &quot;none&quot;) +
-    scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;)) +
-    scale_x_log10()+
-    labs(x = &quot;Average transcript length per gene&quot;,
-         colour = &quot;Differentially expressed?&quot;,
-         y = &quot;sign(logFC)*-log10(PValue)&quot;) +
-    coord_cartesian(ylim = c(-10, 10)),
-  toptable_1 %&gt;% 
-    bind_rows(.id = &quot;coef&quot;) %&gt;% 
-    mutate(rankstat = sign(logFC)*-log10(PValue)) %&gt;% 
-    ggplot(aes(x = gc_content, y = rankstat)) +
-    geom_point(
-      aes(colour = DE),
-      alpha = 0.5
-    ) +
-    geom_smooth(se = FALSE, method = &quot;gam&quot;) +
-    facet_grid(rows = vars(coef)) +
-    theme_bw() +
-    theme(legend.position = &quot;none&quot;) +
-    scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;)) +
-    coord_cartesian(ylim = c(-10,10)) + 
-    labs(x = &quot;Weighted average GC content (%) per gene&quot;, 
-         colour = &quot;Differentially expressed?&quot;, 
-         y = &quot;sign(logFC)*-log10(PValue)&quot;),
-  common.legend = TRUE, 
-  labels = &quot;AUTO&quot;
-) </code></pre>
-<p><img src="figure/DGE.Rmd/GCLen-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-GCLen-1">
-Past versions of GCLen-1.png
-</button>
-</p>
-<div id="fig-GCLen-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/blob/2faac44e7f400d080891ed765d056a1df49ec68c/docs/figure/DGE.Rmd/GCLen-1.png" target="_blank">2faac44</a>
-</td>
-<td>
-Karissa Barthelson
-</td>
-<td>
-2021-10-29
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-<div id="conditional-quantile-normalisation" class="section level1">
-<h1>Conditional Quantile Normalisation</h1>
-<p>A method to deal with any observed bias for differnetial expression and %GC or gene length is to use <code>Conditionl Quantile Normalisation</code> (cqn). In cqn, a gene and sample-level offset is calculated for each count which takes into account any systemic bias, such as that observed in the plots before. The resultant <code>glm.offset</code> values were added to the original <code>DGEList</code> object, and all dispersion estimates were calculated.</p>
-<pre class="r"><code>cqn &lt;- cqn(
-  counts = dge$counts,
-  x = dge$genes$gc_content,
-  lengths = dge$genes$length,
-  sizeFactors = dge$samples$lib.size
-)
-# Set some colours for plotting
-diagColours &lt;- viridis_pal(end = 0.8)(2)
-names(diagColours) &lt;- levels(dge$samples$diagnosis)</code></pre>
-<pre class="r"><code>par(mfrow = c(1, 2))
-cqnplot(cqn, n = 1, xlab = &quot;GC Content&quot;, col = diagColours)
-cqnplot(cqn, n = 2, xlab = &quot;Length&quot;, col = diagColours)
-legend(&quot;bottomright&quot;, legend = levels(dge$samples$diagnosis), col = diagColours, lty = 1)</code></pre>
-<p><img src="figure/DGE.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
 Past versions of unnamed-chunk-4-1.png
@@ -903,39 +852,116 @@ Karissa Barthelson
 </table>
 </div>
 </div>
-<pre class="r"><code># Make a copy of the DGE so that cqn offset can be added
-dge_cqn &lt;- dge
-
-dge_cqn$offset &lt;- cqn$glm.offset </code></pre>
-<div id="repeat-pca-after-cqn" class="section level2">
-<h2>Repeat PCA after cqn</h2>
-<p>A PCA was repeated after CQN had been applied. Very minimal effect is observed of cqn. This would be expected though, as the bias obsevred in the initial differential expression analysis was small as well.</p>
-<pre class="r"><code>cpmPostNorm &lt;- cqn %&gt;%
-  with(y + offset)
-
-ggarrange(
-  cpm(dge, log = TRUE) %&gt;%
-    t() %&gt;%
-    prcomp() %&gt;% 
-    autoplot(data = tibble(sample = rownames(.$x)) %&gt;%
-               left_join(dge$samples),
-             colour = &quot;libraryBatch&quot;, 
-             shape = &quot;diagnosis&quot;,
-             size = 4) +
-    ggtitle(&quot;Before CQN&quot;), 
+</div>
+</div>
+<div id="check-for-gc-and-length-bias" class="section level2">
+<h2>Check for GC and Length bias</h2>
+<p><a href="https://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.3000481">Mandelboum et. al 2019</a> demonstrated a prevalent sample-specific length effect that leads to a strong association between gene length and fold-change estimates between RNA-seq samples. This means that the changes to expression of genes must be assessed relative to its length and %GC. In the plots below, %GC content is shown against the ranking statistic, using -log10(p) multiplied by the sign of log fold-change. A small amount of length bias is noted particularly in females.</p>
+<pre class="r"><code>ggarrange(
+  toptableMale %&gt;% 
+    bind_rows(.id = &quot;coef&quot;) %&gt;% 
+    mutate(rankstat = sign(logFC)*-log10(PValue)) %&gt;% 
+    ggplot(aes(x = length, y = rankstat)) +
+    geom_point(
+      aes(colour = DE),
+      alpha = 0.5
+    ) +
+    geom_smooth(se = FALSE, method = &quot;gam&quot;) +
+    facet_grid(rows = vars(coef)) +
+    theme_bw() +
+    theme(legend.position = &quot;none&quot;) +
+    scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;)) +
+    scale_x_log10()+
+    labs(x = &quot;Average transcript length per gene&quot;,
+         colour = &quot;Differentially expressed?&quot;,
+         y = &quot;sign(logFC)*-log10(PValue)&quot;) +
+    coord_cartesian(ylim = c(-10, 10)),
   
-  cpmPostNorm %&gt;%
-    t() %&gt;%
-    prcomp() %&gt;% 
-    autoplot(data = tibble(sample = rownames(.$x)) %&gt;%
-               left_join(dge$samples),
-             colour = &quot;libraryBatch&quot;, 
-             shape = &quot;diagnosis&quot;,
-             size = 4) +
-    ggtitle(&quot;After CQN&quot;), 
-  common.legend = TRUE
   
-)</code></pre>
+  toptableMale %&gt;% 
+    bind_rows(.id = &quot;coef&quot;) %&gt;% 
+    mutate(rankstat = sign(logFC)*-log10(PValue)) %&gt;% 
+    ggplot(aes(x = gc_content, y = rankstat)) +
+    geom_point(
+      aes(colour = DE),
+      alpha = 0.5
+    ) +
+    geom_smooth(se = FALSE, method = &quot;gam&quot;) +
+    facet_grid(rows = vars(coef)) +
+    theme_bw() +
+    theme(legend.position = &quot;none&quot;) +
+    scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;)) +
+    coord_cartesian(ylim = c(-10,10)) + 
+    labs(x = &quot;Weighted average GC content (%) per gene&quot;, 
+         colour = &quot;Differentially expressed?&quot;, 
+         y = &quot;sign(logFC)*-log10(PValue)&quot;),
+  common.legend = TRUE, 
+  labels = &quot;AUTO&quot;
+) </code></pre>
+<p><img src="figure/DGE.Rmd/GCLenMale-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggarrange(
+  toptableFem %&gt;% 
+    bind_rows(.id = &quot;coef&quot;) %&gt;% 
+    mutate(rankstat = sign(logFC)*-log10(PValue)) %&gt;% 
+    ggplot(aes(x = length, y = rankstat)) +
+    geom_point(
+      aes(colour = DE),
+      alpha = 0.5
+    ) +
+    geom_smooth(se = FALSE, method = &quot;gam&quot;) +
+    facet_grid(rows = vars(coef)) +
+    theme_bw() +
+    theme(legend.position = &quot;none&quot;) +
+    scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;)) +
+    scale_x_log10()+
+    labs(x = &quot;Average transcript length per gene&quot;,
+         colour = &quot;Differentially expressed?&quot;,
+         y = &quot;sign(logFC)*-log10(PValue)&quot;) +
+    coord_cartesian(ylim = c(-10, 10)),
+  toptableFem %&gt;% 
+    bind_rows(.id = &quot;coef&quot;) %&gt;% 
+    mutate(rankstat = sign(logFC)*-log10(PValue)) %&gt;% 
+    ggplot(aes(x = gc_content, y = rankstat)) +
+    geom_point(
+      aes(colour = DE),
+      alpha = 0.5
+    ) +
+    geom_smooth(se = FALSE, method = &quot;gam&quot;) +
+    facet_grid(rows = vars(coef)) +
+    theme_bw() +
+    theme(legend.position = &quot;none&quot;) +
+    scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;)) +
+    coord_cartesian(ylim = c(-10,10)) + 
+    labs(x = &quot;Weighted average GC content (%) per gene&quot;, 
+         colour = &quot;Differentially expressed?&quot;, 
+         y = &quot;sign(logFC)*-log10(PValue)&quot;),
+  common.legend = TRUE, 
+  labels = &quot;AUTO&quot;
+) </code></pre>
+<div class="figure" style="text-align: center">
+<img src="figure/DGE.Rmd/GCLenFemale-1.png" alt="Assessment of GC and length bias in females samples. Somee biases are noted" width="672" />
+<p class="caption">
+Assessment of GC and length bias in females samples. Somee biases are noted
+</p>
+</div>
+</div>
+</div>
+<div id="conditional-quantile-normalisation" class="section level1">
+<h1>Conditional Quantile Normalisation</h1>
+<p>A method to deal with any observed bias for differnetial expression and %GC or gene length is to use <code>Conditionl Quantile Normalisation</code> (cqn). In cqn, a gene and sample-level offset is calculated for each count which takes into account any systemic bias, such as that observed in the plots above The resultant <code>glm.offset</code> values were added to the original <code>DGEList</code> object, and all dispersion estimates were calculated. Then the <code>DGEList</code> object was then subsetted into males and females again.</p>
+<pre class="r"><code>cqn &lt;- cqn(
+  counts = dge$counts,
+  x = dge$genes$gc_content,
+  lengths = dge$genes$length,
+  sizeFactors = dge$samples$lib.size
+)
+# Set some colours for plotting
+diagColours &lt;- viridis_pal(end = 0.9)(3)
+names(diagColours) &lt;- levels(dge$samples$category)</code></pre>
+<pre class="r"><code>par(mfrow = c(1, 2))
+cqnplot(cqn, n = 1, xlab = &quot;GC Content&quot;, col = diagColours)
+cqnplot(cqn, n = 2, xlab = &quot;Length&quot;, col = diagColours)
+legend(&quot;bottomright&quot;, legend = levels(dge$samples$category), col = diagColours, lty = 1)</code></pre>
 <p><img src="figure/DGE.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
@@ -974,70 +1000,40 @@ Karissa Barthelson
 </table>
 </div>
 </div>
-</div>
-<div id="repeat-dge-after-cqn" class="section level2">
-<h2>Repeat DGE after cqn</h2>
-<pre class="r"><code># Repeat  the subsetting of the dge in to males and females
-dgeList_cqn &lt;- list(
-  female = dge_cqn[,femSamps], 
-  male = dge_cqn[,maleSamps]
-)
-designs_cqn &lt;- list(
-  female = model.matrix(~libraryBatch + diagnosis, data = dgeList_cqn$female$samples) %&gt;% 
-  set_colnames(str_remove(colnames(.), pattern = &quot;diagnosis&quot;)), 
-  male = model.matrix(~libraryBatch + diagnosis, data = dgeList_cqn$male$samples) %&gt;% 
-  set_colnames(str_remove(colnames(.), pattern = &quot;diagnosis&quot;))
-)
+<pre class="r"><code># Make a copy of the DGE so that cqn offset can be added
+dge_cqn &lt;- dge
 
-# Fit the GLMs 
-fit_1_list_cqn &lt;- 
-  list(
-    female = dgeList_cqn$female %&gt;% 
-      estimateDisp(designs_cqn$female) %&gt;% 
-      glmFit(designs_cqn$female), 
-    
-    male = dgeList_cqn$male %&gt;% 
-      estimateDisp(designs_1$male) %&gt;% 
-      glmFit(designs_cqn$male)
-  )
+dge_cqn$offset &lt;- cqn$glm.offset </code></pre>
+<div id="repeat-pca-after-cqn" class="section level2">
+<h2>Repeat PCA after cqn</h2>
+<p>A PCA was repeated after CQN had been applied. Very minimal effect is observed of cqn. This would be expected though, as the bias obsevred in the initial differential expression analysis was small as well.</p>
+<pre class="r"><code>cpmPostNorm &lt;- cqn %&gt;%
+  with(y + offset)
 
-toptable_cqn &lt;- fit_1_list_cqn %&gt;% 
-  sapply(function(x) {
-    x %&gt;% 
-      glmLRT(coef = &quot;AD&quot;) %&gt;%
-      topTags(n = Inf) %&gt;%
-      .[[&quot;table&quot;]] %&gt;%
-      as_tibble() %&gt;%
-      arrange(PValue) %&gt;%
-      mutate(
-        DE = FDR &lt; 0.05, 
-      ) %&gt;% 
-      dplyr::select(
-        gene_name, logFC, logCPM, PValue, FDR, DE, everything()  
-      )
-  }, simplify = FALSE)</code></pre>
-<div id="visualiastions-1" class="section level3">
-<h3>Visualiastions</h3>
-<pre class="r"><code>toptable_cqn %&gt;% 
-  bind_rows(.id = &quot;coef&quot;) %&gt;% 
-  ggplot(aes(y = -log10(PValue), x = logFC, colour = FDR)) +
-  geom_point(
-    alpha = 0.5
-  ) +
-  facet_wrap(~coef, ncol = 1) +
-  theme_bw() +
-  geom_label_repel(
-    aes(label = gene_name), 
-    data = .  %&gt;% dplyr::filter(FDR &lt; 0.05), 
-    show.legend = FALSE
-  ) +
-  scale_color_continuous(type = &quot;viridis&quot;, end = 0.9, direction = -1)</code></pre>
-<div class="figure" style="text-align: center">
-<img src="figure/DGE.Rmd/unnamed-chunk-8-1.png" alt="Volcano plot of gene expression in male and female AD subjects relative to no cognitive impairment controls after CQN. No genes are found to be significantly DE (at FDR &lt; 0.05)" width="672" />
-<p class="caption">
-Volcano plot of gene expression in male and female AD subjects relative to no cognitive impairment controls after CQN. No genes are found to be significantly DE (at FDR &lt; 0.05)
-</p>
-</div>
+ggarrange(
+  cpm(dge, log = TRUE) %&gt;%
+    t() %&gt;%
+    prcomp() %&gt;% 
+    autoplot(data = tibble(sample = rownames(.$x)) %&gt;%
+               left_join(dge$samples),
+             colour = &quot;libraryBatch&quot;, 
+             shape = &quot;category&quot;,
+             size = 4) +
+    ggtitle(&quot;Before CQN&quot;), 
+  
+  cpmPostNorm %&gt;%
+    t() %&gt;%
+    prcomp() %&gt;% 
+    autoplot(data = tibble(sample = rownames(.$x)) %&gt;%
+               left_join(dge$samples),
+             colour = &quot;libraryBatch&quot;, 
+             shape = &quot;category&quot;,
+             size = 4) +
+    ggtitle(&quot;After CQN&quot;), 
+  common.legend = TRUE
+  
+)</code></pre>
+<p><img src="figure/DGE.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
 Past versions of unnamed-chunk-8-1.png
@@ -1075,9 +1071,75 @@ Karissa Barthelson
 </table>
 </div>
 </div>
-<pre class="r"><code>toptable_cqn %&gt;% 
+</div>
+<div id="repeat-dge-after-cqn" class="section level2">
+<h2>Repeat DGE after cqn</h2>
+<p>The DGE object was subsetted by sex again (also omitting the one HP-NCI male sample). Then the GLMs were re-fitted.</p>
+<pre class="r"><code># Repeat  the subsetting of the dge in to males and females
+dgecqnFem &lt;- dge_cqn[,femSamps]
+dgecqnMale &lt;- dge_cqn[,maleSamps]
+dgecqnMale &lt;- dgecqnMale[,keep]
+dgecqnMale$samples$category %&lt;&gt;% droplevels()
+
+designs_cqn &lt;- list(
+  female = model.matrix(~libraryBatch + category, data = dgecqnFem$samples) %&gt;% 
+  set_colnames(str_remove(colnames(.), pattern = &quot;category&quot;)), 
+  male = model.matrix(~libraryBatch + category, data = dgecqnMale$samples) %&gt;% 
+  set_colnames(str_remove(colnames(.), pattern = &quot;category&quot;))
+)
+
+# Fit the GLMs 
+fit_1_list_cqn &lt;- 
+  list(
+    female = dgecqnFem %&gt;% 
+      estimateDisp(designs_cqn$female) %&gt;% 
+      glmFit(designs_cqn$female), 
+    
+    male = dgecqnMale %&gt;% 
+      estimateDisp(designs_cqn$male) %&gt;% 
+      glmFit(designs_cqn$male)
+  )
+
+toptable.CQN.Fem &lt;- c(&quot;HP-NCI&quot;, &quot;AD&quot;) %&gt;% 
+  sapply(function(x) {
+    fit_1_list_cqn$female %&gt;% 
+      glmLRT(coef = x) %&gt;%
+      topTags(n = Inf) %&gt;%
+      .[[&quot;table&quot;]] %&gt;%
+      as_tibble() %&gt;%
+      arrange(PValue) %&gt;%
+      mutate(
+        DE = FDR &lt; 0.05, 
+        coef = x, 
+        sex = &quot;female&quot;
+      ) %&gt;% 
+      dplyr::select(
+        gene_name, logFC, logCPM, PValue, FDR, DE, everything()  
+      )
+  }, simplify = FALSE)
+
+toptable.CQN.male &lt;- c(&quot;AD&quot;) %&gt;% 
+  sapply(function(x) {
+    fit_1_list_cqn$male %&gt;% 
+      glmLRT(coef = x) %&gt;%
+      topTags(n = Inf) %&gt;%
+      .[[&quot;table&quot;]] %&gt;%
+      as_tibble() %&gt;%
+      arrange(PValue) %&gt;%
+      mutate(
+        DE = FDR &lt; 0.05, 
+        coef = x, 
+        sex = &quot;male&quot;
+      ) %&gt;% 
+      dplyr::select(
+        gene_name, logFC, logCPM, PValue, FDR, DE, everything()  
+      )
+  }, simplify = FALSE)</code></pre>
+<div id="visualiastions-1" class="section level3">
+<h3>Visualiastions</h3>
+<pre class="r"><code>toptable.CQN.Fem %&gt;% 
   bind_rows(.id = &quot;coef&quot;) %&gt;% 
-  ggplot(aes(y = logFC, x = logCPM, colour = FDR)) +
+  ggplot(aes(y = -log10(PValue), x = logFC, colour = DE)) +
   geom_point(
     alpha = 0.5
   ) +
@@ -1088,97 +1150,14 @@ Karissa Barthelson
     data = .  %&gt;% dplyr::filter(FDR &lt; 0.05), 
     show.legend = FALSE
   ) +
-  scale_color_continuous(type = &quot;viridis&quot;, end = 0.9, direction = -1)</code></pre>
+  scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;)) +
+  ggtitle(&quot;Females&quot;)</code></pre>
 <div class="figure" style="text-align: center">
-<img src="figure/DGE.Rmd/unnamed-chunk-9-1.png" alt="MD plot of gene expression in male and female AD subjects relative to no cognitive impairment controls after CQN. No genes are found to be significantly DE (at FDR &lt; 0.05)" width="672" />
+<img src="figure/DGE.Rmd/unnamed-chunk-10-1.png" alt="Volcano and MD plots of gene expression in female AD subjects and HP-NCI relative to no cognitive impairment controls after CQN." width="672" />
 <p class="caption">
-MD plot of gene expression in male and female AD subjects relative to no cognitive impairment controls after CQN. No genes are found to be significantly DE (at FDR &lt; 0.05)
+Volcano and MD plots of gene expression in female AD subjects and HP-NCI relative to no cognitive impairment controls after CQN.
 </p>
 </div>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
-Past versions of unnamed-chunk-9-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-9-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/blob/2faac44e7f400d080891ed765d056a1df49ec68c/docs/figure/DGE.Rmd/unnamed-chunk-9-1.png" target="_blank">2faac44</a>
-</td>
-<td>
-Karissa Barthelson
-</td>
-<td>
-2021-10-29
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="check-for-gc-and-length-bias-again" class="section level3">
-<h3>Check for GC and Length bias again</h3>
-<p>A minor improvement of gene length is observed after applying cqn.</p>
-<pre class="r"><code>ggarrange(
-  # Length before cqn
-  toptable_1 %&gt;% 
-    bind_rows(.id = &quot;coef&quot;) %&gt;% 
-    mutate(rankstat = sign(logFC)*-log10(PValue)) %&gt;% 
-    ggplot(aes(x = length, y = rankstat)) +
-    geom_point(
-      aes(colour = DE),
-      alpha = 0.5
-    ) +
-    geom_smooth(se = FALSE, method = &quot;gam&quot;) +
-    facet_grid(rows = vars(coef)) +
-    theme_bw() +
-    theme(legend.position = &quot;none&quot;) +
-    scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;)) +
-    scale_x_log10()+
-    labs(x = &quot;Average transcript length per gene&quot;,
-         colour = &quot;Differentially expressed?&quot;,
-         y = &quot;sign(logFC)*-log10(PValue)&quot;) +
-    coord_cartesian(ylim = c(-5, 5)) +
-    ggtitle(&quot;Gene length before CQN&quot;),
-  
-    toptable_cqn %&gt;% 
-    bind_rows(.id = &quot;coef&quot;) %&gt;% 
-    mutate(rankstat = sign(logFC)*-log10(PValue)) %&gt;% 
-    ggplot(aes(x = length, y = rankstat)) +
-    geom_point(
-      aes(colour = DE),
-      alpha = 0.5
-    ) +
-    geom_smooth(se = FALSE, method = &quot;gam&quot;) +
-    facet_grid(rows = vars(coef)) +
-    theme_bw() +
-    theme(legend.position = &quot;none&quot;) +
-    scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;)) +
-    scale_x_log10()+
-    labs(x = &quot;Average transcript length per gene&quot;,
-         colour = &quot;Differentially expressed?&quot;,
-         y = &quot;sign(logFC)*-log10(PValue)&quot;) +
-    coord_cartesian(ylim = c(-5, 5)) +
-    ggtitle(&quot;Gene length after CQN&quot;),
-  common.legend = TRUE)</code></pre>
-<p><img src="figure/DGE.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
 Past versions of unnamed-chunk-10-1.png
@@ -1216,9 +1195,295 @@ Karissa Barthelson
 </table>
 </div>
 </div>
+<pre class="r"><code>toptable.CQN.Fem %&gt;% 
+  bind_rows(.id = &quot;coef&quot;) %&gt;% 
+  ggplot(aes(x = logCPM, y = logFC, colour = DE)) +
+  geom_point(
+    alpha = 0.5
+  ) +
+  facet_wrap(~coef, ncol = 1) +
+  theme_bw() +
+  geom_label_repel(
+    aes(label = gene_name), 
+    data = .  %&gt;% dplyr::filter(FDR &lt; 0.05), 
+    show.legend = FALSE
+  ) +
+  scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;)) +
+  ggtitle(&quot;Females&quot;)</code></pre>
+<div class="figure" style="text-align: center">
+<img src="figure/DGE.Rmd/unnamed-chunk-10-2.png" alt="Volcano and MD plots of gene expression in female AD subjects and HP-NCI relative to no cognitive impairment controls after CQN." width="672" />
+<p class="caption">
+Volcano and MD plots of gene expression in female AD subjects and HP-NCI relative to no cognitive impairment controls after CQN.
+</p>
+</div>
+<pre class="r"><code>toptable.CQN.male %&gt;% 
+  bind_rows(.id = &quot;coef&quot;) %&gt;% 
+  ggplot(aes(y = -log10(PValue), x = logFC, colour = DE)) +
+  geom_point(
+    alpha = 0.5
+  ) +
+  facet_wrap(~coef, ncol = 1) +
+  theme_bw() +
+  geom_label_repel(
+    aes(label = gene_name), 
+    data = .  %&gt;% dplyr::filter(FDR &lt; 0.05), 
+    show.legend = FALSE
+  ) +
+  scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;)) +
+  ggtitle(&quot;Males&quot;)</code></pre>
+<div class="figure" style="text-align: center">
+<img src="figure/DGE.Rmd/unnamed-chunk-11-1.png" alt="Volcano and MD plots of gene expression in male AD subjects relative to no cognitive impairment controls after CQN." width="672" />
+<p class="caption">
+Volcano and MD plots of gene expression in male AD subjects relative to no cognitive impairment controls after CQN.
+</p>
+</div>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
+Past versions of unnamed-chunk-11-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/blob/08ab9c825b058de5227bfc0cc504478bdce15d37/docs/figure/DGE.Rmd/unnamed-chunk-11-1.png" target="_blank">08ab9c8</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-29
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/blob/2faac44e7f400d080891ed765d056a1df49ec68c/docs/figure/DGE.Rmd/unnamed-chunk-11-1.png" target="_blank">2faac44</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-29
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>toptable.CQN.male %&gt;% 
+  bind_rows(.id = &quot;coef&quot;) %&gt;% 
+  ggplot(aes(x = logCPM, y = logFC, colour = DE)) +
+  geom_point(
+    alpha = 0.5
+  ) +
+  facet_wrap(~coef, ncol = 1) +
+  theme_bw() +
+  geom_label_repel(
+    aes(label = gene_name), 
+    data = .  %&gt;% dplyr::filter(FDR &lt; 0.05), 
+    show.legend = FALSE
+  ) +
+  scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;)) +
+  ggtitle(&quot;Males&quot;)</code></pre>
+<div class="figure" style="text-align: center">
+<img src="figure/DGE.Rmd/unnamed-chunk-11-2.png" alt="Volcano and MD plots of gene expression in male AD subjects relative to no cognitive impairment controls after CQN." width="672" />
+<p class="caption">
+Volcano and MD plots of gene expression in male AD subjects relative to no cognitive impairment controls after CQN.
+</p>
+</div>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-2">
+Past versions of unnamed-chunk-11-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/blob/08ab9c825b058de5227bfc0cc504478bdce15d37/docs/figure/DGE.Rmd/unnamed-chunk-11-2.png" target="_blank">08ab9c8</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-29
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="check-for-gc-and-length-bias-again" class="section level3">
+<h3>Check for GC and Length bias again</h3>
+<p>An improvement of gene length is observed after applying cqn. #### Gene Length</p>
+<pre class="r"><code>ggarrange(
+  # Length before cqn
+  toptableFem %&gt;% 
+    bind_rows(.id = &quot;coef&quot;) %&gt;% 
+    mutate(rankstat = sign(logFC)*-log10(PValue)) %&gt;% 
+    ggplot(aes(x = length, y = rankstat)) +
+    geom_point(
+      aes(colour = DE),
+      alpha = 0.5
+    ) +
+    geom_smooth(se = FALSE, method = &quot;gam&quot;) +
+    facet_grid(rows = vars(coef)) +
+    theme_bw() +
+    theme(legend.position = &quot;none&quot;) +
+    scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;)) +
+    scale_x_log10()+
+    labs(x = &quot;Average transcript length per gene&quot;,
+         colour = &quot;Differentially expressed?&quot;,
+         y = &quot;sign(logFC)*-log10(PValue)&quot;) +
+    coord_cartesian(ylim = c(-5, 5)) +
+    ggtitle(&quot;Gene length in females before CQN&quot;),
+  
+    toptable.CQN.Fem %&gt;% 
+    bind_rows(.id = &quot;coef&quot;) %&gt;% 
+    mutate(rankstat = sign(logFC)*-log10(PValue)) %&gt;% 
+    ggplot(aes(x = length, y = rankstat)) +
+    geom_point(
+      aes(colour = DE),
+      alpha = 0.5
+    ) +
+    geom_smooth(se = FALSE, method = &quot;gam&quot;) +
+    facet_grid(rows = vars(coef)) +
+    theme_bw() +
+    theme(legend.position = &quot;none&quot;) +
+    scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;)) +
+    scale_x_log10()+
+    labs(x = &quot;Average transcript length per gene&quot;,
+         colour = &quot;Differentially expressed?&quot;,
+         y = &quot;sign(logFC)*-log10(PValue)&quot;) +
+    coord_cartesian(ylim = c(-5, 5)) +
+    ggtitle(&quot;Gene length in females after CQN&quot;),
+  common.legend = TRUE)</code></pre>
+<p><img src="figure/DGE.Rmd/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-12-1">
+Past versions of unnamed-chunk-12-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-12-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/blob/08ab9c825b058de5227bfc0cc504478bdce15d37/docs/figure/DGE.Rmd/unnamed-chunk-12-1.png" target="_blank">08ab9c8</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-29
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/blob/2faac44e7f400d080891ed765d056a1df49ec68c/docs/figure/DGE.Rmd/unnamed-chunk-12-1.png" target="_blank">2faac44</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-29
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>ggarrange(
+  # Length before cqn
+  toptableMale %&gt;% 
+    bind_rows(.id = &quot;coef&quot;) %&gt;% 
+    mutate(rankstat = sign(logFC)*-log10(PValue)) %&gt;% 
+    ggplot(aes(x = length, y = rankstat)) +
+    geom_point(
+      aes(colour = DE),
+      alpha = 0.5
+    ) +
+    geom_smooth(se = FALSE, method = &quot;gam&quot;) +
+    facet_grid(rows = vars(coef)) +
+    theme_bw() +
+    theme(legend.position = &quot;none&quot;) +
+    scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;)) +
+    scale_x_log10()+
+    labs(x = &quot;Average transcript length per gene&quot;,
+         colour = &quot;Differentially expressed?&quot;,
+         y = &quot;sign(logFC)*-log10(PValue)&quot;) +
+    coord_cartesian(ylim = c(-5, 5)) +
+    ggtitle(&quot;Gene length in males before CQN&quot;),
+  
+    toptable.CQN.male %&gt;% 
+    bind_rows(.id = &quot;coef&quot;) %&gt;% 
+    mutate(rankstat = sign(logFC)*-log10(PValue)) %&gt;% 
+    ggplot(aes(x = length, y = rankstat)) +
+    geom_point(
+      aes(colour = DE),
+      alpha = 0.5
+    ) +
+    geom_smooth(se = FALSE, method = &quot;gam&quot;) +
+    facet_grid(rows = vars(coef)) +
+    theme_bw() +
+    theme(legend.position = &quot;none&quot;) +
+    scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;)) +
+    scale_x_log10()+
+    labs(x = &quot;Average transcript length per gene&quot;,
+         colour = &quot;Differentially expressed?&quot;,
+         y = &quot;sign(logFC)*-log10(PValue)&quot;) +
+    coord_cartesian(ylim = c(-5, 5)) +
+    ggtitle(&quot;Gene length in males after CQN&quot;),
+  common.legend = TRUE)</code></pre>
+<p><img src="figure/DGE.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>ggarrange(
   # GC before cqn
-  toptable_1 %&gt;% 
+  toptableFem %&gt;% 
     bind_rows(.id = &quot;coef&quot;) %&gt;% 
     mutate(rankstat = sign(logFC)*-log10(PValue)) %&gt;% 
     ggplot(aes(x = gc_content, y = rankstat)) +
@@ -1234,10 +1499,10 @@ Karissa Barthelson
     labs(x = &quot;Weighted average GC content (%) per gene&quot;, 
          colour = &quot;Differentially expressed?&quot;, 
          y = &quot;sign(logFC)*-log10(PValue)&quot;) +
-    ggtitle(&quot;GC Before CQN&quot;),
+    ggtitle(&quot;FEM: %GC Before CQN&quot;),
   
   # GC after cqn
-  toptable_cqn %&gt;% 
+  toptable.CQN.Fem %&gt;% 
     bind_rows(.id = &quot;coef&quot;) %&gt;% 
     mutate(rankstat = sign(logFC)*-log10(PValue)) %&gt;% 
     ggplot(aes(x = gc_content, y = rankstat)) +
@@ -1254,7 +1519,7 @@ Karissa Barthelson
     labs(x = &quot;Weighted average GC content (%) per gene&quot;, 
          colour = &quot;Differentially expressed?&quot;, 
          y = &quot;sign(logFC)*-log10(PValue)&quot;) +
-    ggtitle(&quot;GC after CQN&quot;),
+    ggtitle(&quot;Fem: GC after CQN&quot;),
   
   common.legend = TRUE
 ) </code></pre>
@@ -1296,141 +1561,151 @@ Karissa Barthelson
 </table>
 </div>
 </div>
+<pre class="r"><code>ggarrange(
+  # GC before cqn
+  toptableMale %&gt;% 
+    bind_rows(.id = &quot;coef&quot;) %&gt;% 
+    mutate(rankstat = sign(logFC)*-log10(PValue)) %&gt;% 
+    ggplot(aes(x = gc_content, y = rankstat)) +
+    geom_point(
+      aes(colour = DE),
+      alpha = 0.5
+    ) +
+    geom_smooth(se = FALSE, method = &quot;gam&quot;) +
+    facet_grid(rows = vars(coef)) +
+    theme(legend.position = &quot;none&quot;) +
+    scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;)) +
+    coord_cartesian(ylim = c(-10,10)) + 
+    labs(x = &quot;Weighted average GC content (%) per gene&quot;, 
+         colour = &quot;Differentially expressed?&quot;, 
+         y = &quot;sign(logFC)*-log10(PValue)&quot;) +
+    ggtitle(&quot;Males: %GC Before CQN&quot;),
+  
+  # GC after cqn
+  toptable.CQN.male %&gt;% 
+    bind_rows(.id = &quot;coef&quot;) %&gt;% 
+    mutate(rankstat = sign(logFC)*-log10(PValue)) %&gt;% 
+    ggplot(aes(x = gc_content, y = rankstat)) +
+    geom_point(
+      aes(colour = DE),
+      alpha = 0.5
+    ) +
+    geom_smooth(se = FALSE, method = &quot;gam&quot;) +
+    facet_grid(rows = vars(coef)) +
+    theme_bw() +
+    theme(legend.position = &quot;none&quot;) +
+    scale_color_manual(values = c(&quot;grey50&quot;, &quot;red&quot;)) +
+    coord_cartesian(ylim = c(-10,10)) + 
+    labs(x = &quot;Weighted average GC content (%) per gene&quot;, 
+         colour = &quot;Differentially expressed?&quot;, 
+         y = &quot;sign(logFC)*-log10(PValue)&quot;) +
+    ggtitle(&quot;Male: GC after CQN&quot;),
+  
+  common.legend = TRUE
+) </code></pre>
+<p><img src="figure/DGE.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<!-- # Manhatten plot to check for chromosome-specific effects -->
+<!-- Next, an assessment was performed to determine whether anything strange going on across chromosomes. No obvious peaks are observed.  -->
+<!-- ```{r} -->
+<!-- chrst <- toptable.CQN.Fem %>%  -->
+<!--   lapply(function(x) { -->
+<!--     x %>%  -->
+<!--       dplyr::filter(chromosome %in% seq(1:22)) %>%  -->
+<!--       group_by(gene_id) %>%  -->
+<!--       mutate(mid = mean(c(start, end))) %>%  -->
+<!--       ungroup %>%  -->
+<!--       mutate(chromosome = factor(chromosome, levels = seq(1:22)))  %>%  -->
+<!--       group_by(chromosome) %>%  -->
+<!--       summarise(chrLen = max(mid)) %>%  -->
+<!--       mutate(chrSt = cumsum(chrLen)-chrLen) %>%  -->
+<!--       dplyr::select(-chrLen)  -->
+<!--   }) %>%  -->
+<!--   bind_rows() %>%  -->
+<!--   unique -->
+<!-- man <- toptable_cqn %>%  -->
+<!--   lapply(function(x) { -->
+<!--     x %>%  -->
+<!--       dplyr::filter(chromosome %in% seq(1:22)) %>%  -->
+<!--       left_join(chrst %>%  -->
+<!--                   mutate(chromosome = factor(chromosome, levels = seq(1:22)))  -->
+<!--       ) %>%  -->
+<!--       group_by(gene_id) %>%  -->
+<!--       mutate(mid = mean(c(start, end))) %>%  -->
+<!--       ungroup %>%  -->
+<!--       dplyr::arrange(mid, chromosome) %>%  -->
+<!--       mutate(midCum = chrSt + mid) -->
+<!--   }) -->
+<!-- axis <-  -->
+<!--   man$female %>% -->
+<!--   mutate(chromosome = factor(chromosome, levels = seq(1:22))) %>%  -->
+<!--   group_by(chromosome) %>% -->
+<!--   dplyr::arrange(chromosome) %>% -->
+<!--   summarize(center = (max(midCum) + min(midCum)) / 2) %>% -->
+<!--   mutate( -->
+<!--     colour = rep(c("grey40", "black"), length.out = 22) -->
+<!--   ) -->
+<!-- man %>%  -->
+<!--   bind_rows(.id = "coef") %>%   -->
+<!--   mutate(chromosome = factor(chromosome, levels = seq(1:22))) %>%  -->
+<!--   ggplot(aes(x = midCum, y = logCPM)) + -->
+<!--   theme_bw() + -->
+<!--   geom_point(aes(color=chromosome), alpha = 0.5, size = 1) + -->
+<!--   scale_color_manual(values = axis$colour ) + -->
+<!--   scale_x_continuous(label = axis$chromosome, breaks = axis$center) + -->
+<!--   labs(x = "Chromosome", y = expression(paste(log[2], "CPM"))) + -->
+<!--   facet_wrap(~coef, ncol = 1) + -->
+<!--   geom_text_repel(data = dplyr::filter(bind_rows(man), DE == TRUE), -->
+<!--                   aes(label = gene_name) -->
+<!--   ) + -->
+<!--   theme(  -->
+<!--     legend.position="none", -->
+<!--     panel.border = element_blank(), -->
+<!--     panel.grid.major.x = element_blank(), -->
+<!--     panel.grid.minor.x = element_blank() -->
+<!--   ) + -->
+<!--   ggtitle("No observed biases for gene expression across chromosomes") -->
+<!-- man %>%  -->
+<!--   bind_rows(.id = "coef") %>%   -->
+<!--   mutate(chromosome = factor(chromosome, levels = seq(1:22))) %>%  -->
+<!--   ggplot(aes(x = midCum, y = -log10(PValue))) + -->
+<!--   theme_bw() + -->
+<!--   geom_point(aes(color=chromosome), alpha = 0.5, size = 1) + -->
+<!--   scale_color_manual(values = axis$colour ) + -->
+<!--   scale_x_continuous(label = axis$chromosome, breaks = axis$center) + -->
+<!--   labs(x = "Chromosome", y = expression(paste(-log[10], "(p)"))) + -->
+<!--   facet_wrap(~coef, ncol = 1) + -->
+<!--   geom_text_repel(data = dplyr::filter(bind_rows(man), DE == TRUE), -->
+<!--                   aes(label = gene_name) -->
+<!--   ) + -->
+<!--   theme(  -->
+<!--     legend.position="none", -->
+<!--     panel.border = element_blank(), -->
+<!--     panel.grid.major.x = element_blank(), -->
+<!--     panel.grid.minor.x = element_blank() -->
+<!--   )  + -->
+<!--   ggtitle("No observed bias for differential expression across chromosmoes") -->
+<!-- ``` -->
 </div>
 </div>
-</div>
-<div id="manhatten-plot-to-check-for-chromosome-specific-effects" class="section level1">
-<h1>Manhatten plot to check for chromosome-specific effects</h1>
-<p>Next, an assessment was performed to determine whether anything strange going on across chromosomes. No obvious peaks are observed.</p>
-<pre class="r"><code>chrst &lt;- toptable_cqn %&gt;% 
-  lapply(function(x) {
-    x %&gt;% 
-      dplyr::filter(chromosome %in% seq(1:22)) %&gt;% 
-      group_by(gene_id) %&gt;% 
-      mutate(mid = mean(c(start, end))) %&gt;% 
-      ungroup %&gt;% 
-      mutate(chromosome = factor(chromosome, levels = seq(1:22)))  %&gt;% 
-      group_by(chromosome) %&gt;% 
-      summarise(chrLen = max(mid)) %&gt;% 
-      mutate(chrSt = cumsum(chrLen)-chrLen) %&gt;% 
-      dplyr::select(-chrLen) 
-  }) %&gt;% 
-  bind_rows() %&gt;% 
-  unique
-
-man &lt;- toptable_cqn %&gt;% 
-  lapply(function(x) {
-    x %&gt;% 
-      dplyr::filter(chromosome %in% seq(1:22)) %&gt;% 
-      left_join(chrst %&gt;% 
-                  mutate(chromosome = factor(chromosome, levels = seq(1:22))) 
-      ) %&gt;% 
-      group_by(gene_id) %&gt;% 
-      mutate(mid = mean(c(start, end))) %&gt;% 
-      ungroup %&gt;% 
-      dplyr::arrange(mid, chromosome) %&gt;% 
-      mutate(midCum = chrSt + mid)
-  })
-
-axis &lt;- 
-  man$female %&gt;%
-  mutate(chromosome = factor(chromosome, levels = seq(1:22))) %&gt;% 
-  group_by(chromosome) %&gt;%
-  dplyr::arrange(chromosome) %&gt;%
-  summarize(center = (max(midCum) + min(midCum)) / 2) %&gt;%
-  mutate(
-    colour = rep(c(&quot;grey40&quot;, &quot;black&quot;), length.out = 22)
-  )
-
-man %&gt;% 
-  bind_rows(.id = &quot;coef&quot;) %&gt;%  
-  mutate(chromosome = factor(chromosome, levels = seq(1:22))) %&gt;% 
-  ggplot(aes(x = midCum, y = logCPM)) +
-  theme_bw() +
-  geom_point(aes(color=chromosome), alpha = 0.5, size = 1) +
-  scale_color_manual(values = axis$colour ) +
-  scale_x_continuous(label = axis$chromosome, breaks = axis$center) +
-  labs(x = &quot;Chromosome&quot;, y = expression(paste(log[2], &quot;CPM&quot;))) +
-  facet_wrap(~coef, ncol = 1) +
-  geom_text_repel(data = dplyr::filter(bind_rows(man), DE == TRUE),
-                  aes(label = gene_name)
-  ) +
-  theme( 
-    legend.position=&quot;none&quot;,
-    panel.border = element_blank(),
-    panel.grid.major.x = element_blank(),
-    panel.grid.minor.x = element_blank()
-  ) +
-  ggtitle(&quot;No observed biases for gene expression across chromosomes&quot;)</code></pre>
-<p><img src="figure/DGE.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
-Past versions of unnamed-chunk-11-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-11-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/blob/2faac44e7f400d080891ed765d056a1df49ec68c/docs/figure/DGE.Rmd/unnamed-chunk-11-1.png" target="_blank">2faac44</a>
-</td>
-<td>
-Karissa Barthelson
-</td>
-<td>
-2021-10-29
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code>man %&gt;% 
-  bind_rows(.id = &quot;coef&quot;) %&gt;%  
-  mutate(chromosome = factor(chromosome, levels = seq(1:22))) %&gt;% 
-  ggplot(aes(x = midCum, y = -log10(PValue))) +
-  theme_bw() +
-  geom_point(aes(color=chromosome), alpha = 0.5, size = 1) +
-  scale_color_manual(values = axis$colour ) +
-  scale_x_continuous(label = axis$chromosome, breaks = axis$center) +
-  labs(x = &quot;Chromosome&quot;, y = expression(paste(-log[10], &quot;(p)&quot;))) +
-  facet_wrap(~coef, ncol = 1) +
-  geom_text_repel(data = dplyr::filter(bind_rows(man), DE == TRUE),
-                  aes(label = gene_name)
-  ) +
-  theme( 
-    legend.position=&quot;none&quot;,
-    panel.border = element_blank(),
-    panel.grid.major.x = element_blank(),
-    panel.grid.minor.x = element_blank()
-  )  +
-  ggtitle(&quot;No observed bias for differential expression across chromosmoes&quot;)</code></pre>
-<p><img src="figure/DGE.Rmd/unnamed-chunk-11-2.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="conclusion" class="section level1">
 <h1>Conclusion</h1>
-<p>No evidence for DE genes are observed in this dataset, even after controlling for batch effects and sex.</p>
+<p>Some evidence for a small number of DE genes is obsevred.</p>
 <pre class="r"><code># export data for further analysis
 dge_cqn %&gt;% 
   saveRDS(&quot;data/confidentialData/dge_cqn.rds&quot;)
 
-toptable_cqn %&gt;% 
-  saveRDS(&quot;data/confidentialData/topTab_cqn.rds&quot;)
+dgeFem %&gt;% 
+  saveRDS(&quot;data/confidentialData/dge_cqn_fem.rds&quot;)
+
+dgecqnMale %&gt;% 
+  saveRDS(&quot;data/confidentialData/dge_cqn_male.rds&quot;)
+
+toptable.CQN.male %&gt;% 
+  saveRDS(&quot;data/confidentialData/topTab_cqn_male.rds&quot;)
+
+toptable.CQN.Fem %&gt;% 
+  saveRDS(&quot;data/confidentialData/topTab_cqn_female.rds&quot;)
 
 cpmPostNorm %&gt;% 
   saveRDS(&quot;data/confidentialData/logCPM_cqn.rds&quot;)
@@ -1469,7 +1744,7 @@ other attached packages:
 [16] magrittr_2.0.1        forcats_0.5.1         stringr_1.4.0        
 [19] dplyr_1.0.7           purrr_0.3.4           readr_1.4.0          
 [22] tidyr_1.1.3           tibble_3.1.2          ggplot2_3.3.5        
-[25] tidyverse_1.3.1       workflowr_1.6.2      
+[25] tidyverse_1.3.1      
 
 loaded via a namespace (and not attached):
  [1] nlme_3.1-152       matrixStats_0.59.0 fs_1.5.0           lubridate_1.7.10  
@@ -1492,7 +1767,7 @@ loaded via a namespace (and not attached):
 [69] modelr_0.1.8       vctrs_0.3.8        httpuv_1.6.1       MatrixModels_0.5-0
 [73] cellranger_1.1.0   gtable_0.3.0       assertthat_0.2.1   openxlsx_4.2.4    
 [77] xfun_0.24          broom_0.7.8        rstatix_0.7.0      later_1.2.0       
-[81] viridisLite_0.4.0  conquer_1.0.2      ellipsis_0.3.2    </code></pre>
+[81] viridisLite_0.4.0  conquer_1.0.2      workflowr_1.6.2    ellipsis_0.3.2    </code></pre>
 </div>
 </div>
 

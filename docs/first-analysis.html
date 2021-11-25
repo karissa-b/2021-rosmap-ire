@@ -394,7 +394,7 @@ div.tocify {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -403,7 +403,7 @@ div.tocify {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -412,10 +412,10 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-10-29
+<strong>Last updated:</strong> 2021-11-25
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>2021-rosmap-ire/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -431,12 +431,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -503,16 +503,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021humanADiNsIREtreee988a78fb0670075d7761a77f372a0151e4157bbtargetblanke988a78a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/tree/e988a78fb0670075d7761a77f372a0151e4157bb" target="_blank">e988a78</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021humanADiNsIREtree08ab9c825b058de5227bfc0cc504478bdce15d37targetblank08ab9c8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/tree/08ab9c825b058de5227bfc0cc504478bdce15d37" target="_blank">08ab9c8</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021humanADiNsIREtreee988a78fb0670075d7761a77f372a0151e4157bbtargetblanke988a78a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021humanADiNsIREtree08ab9c825b058de5227bfc0cc504478bdce15d37targetblank08ab9c8a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/tree/e988a78fb0670075d7761a77f372a0151e4157bb" target="_blank">e988a78</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/tree/08ab9c825b058de5227bfc0cc504478bdce15d37" target="_blank">08ab9c8</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -527,8 +527,22 @@ Ignored files:
     Ignored:    data/.DS_Store
     Ignored:    data/confidentialData/
 
-Staged changes:
-    Modified:   analysis/_site.yml
+Untracked files:
+    Untracked:  SEsraFiles.txt
+    Untracked:  SraAccList (1).txt
+    Untracked:  analysis/Mertensetal_obtainData.Rmd
+    Untracked:  analysis/mertensQC.Rmd
+    Untracked:  atac.txt
+    Untracked:  code/getENA.sh
+    Untracked:  data/fastqc_mertens_trimmed/
+    Untracked:  data/fastqc_raw_Mertens/
+    Untracked:  data/filereport_read_run_PRJEB44542_tsv.txt
+    Untracked:  data/metaAE.tsv
+    Untracked:  got.txt
+
+Unstaged changes:
+    Modified:   analysis/first-analysis.Rmd
+    Modified:   analysis/ire_test.Rmd
 
 </code></pre>
 <p>
@@ -567,6 +581,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/karissa-b/2021-human-AD-iNs-IRE/08ab9c825b058de5227bfc0cc504478bdce15d37/docs/first-analysis.html" target="_blank">08ab9c8</a>
+</td>
+<td>
+Karissa Barthelson
+</td>
+<td>
+2021-10-29
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1079,6 +1110,11 @@ mcols(grGenes) %&lt;&gt;%
            apoeGenotype == 33 ~ &quot;E3/E3&quot;, 
            apoeGenotype == 34 ~ &quot;E3/E4&quot;,
            apoeGenotype == 44 ~ &quot;E4/E4&quot;, 
+         ),
+         category = case_when( # from fig. 1B of Lag... et al. 
+           specimenIdSource %in% c(&quot;BR01&quot;, &quot;BR04&quot;, &quot;BR08&quot;, &quot;BR09&quot;, &quot;BR13&quot;, &quot;BR21&quot;, &quot;BR24&quot;, &quot;BR33&quot;, &quot;BR40&quot;, &quot;BR41&quot;, &quot;BR58&quot;, &quot;BR62&quot;, &quot;BR65&quot;, &quot;BR67&quot;, &quot;BR68&quot;, &quot;BR69&quot;, &quot;BR72&quot;, &quot;BR89&quot;, &quot;BR93&quot;, &quot;BR95&quot;) ~ &quot;LP-NCI&quot;, 
+           specimenIdSource %in% paste0(&quot;BR&quot;, c(11, 22, 26, 28, 29, 30, 36, 37, 43, 48, 50, 59, 60, 61, 63, 64, 91)) ~ &quot;HP-NCI&quot;, # a better way to do this.
+           specimenIdSource %in% paste0(&quot;BR&quot;, c(14, 15, 27, 39, 46, 54, 57, 66, 83, 92, 97:99, 103:105, 108)) ~ &quot;AD&quot;
          )
   ) %&gt;% 
   dplyr::select(sample, experimentor, everything())# make some new cols to match the names in the gene counts matrix
@@ -1526,7 +1562,7 @@ b &lt;- featureCounts %&gt;%
   labs(
     x = &quot;logCPM&quot;,
     y = &quot;Density&quot;,
-    colour = &quot;Genotype&quot;
+    colour = &quot;diagnosis&quot;
   )+
   ggtitle(&quot;After filtering&quot;) 
 ggarrange(a, b, common.legend = TRUE)</code></pre>
@@ -1603,7 +1639,7 @@ Karissa Barthelson
   ggplot(aes(x = specimenIdSource, y = lib.size, fill = sequencingBatch)) + 
   geom_col() +
   easy_rotate_x_labels(angle = -45) +
-  facet_wrap(~diagnosis, scales = &quot;free_x&quot;) +
+  facet_wrap(~category, scales = &quot;free_x&quot;) +
   scale_y_continuous(labels = comma) +
   labs(
     x = &quot;Sample&quot;, 
@@ -1882,22 +1918,31 @@ dge &lt;- dge[,samps2keep]</code></pre>
 <div id="assessment-of-differentiated-cell-lines." class="section level1">
 <h1>Assessment of differentiated cell lines.</h1>
 <p><a href="https://doi.org/10.1016/j.neuron.2021.08.003">Lagomarsino et al. 2021</a> noted in their methods section that a few samples may show abnormally high levels of Oct2, Oct3 or LEFTY2. This implies that these cell lines may contain a high proportion of undifferentiated cells and should be removed. These three genes were filtered from the analysus in the filtering step, meaning they are lowly expressed and considered undetectable.</p>
-<p>The graphs below show the expression of these genes from the unfiltered expression levels. A few of the cell lines show some expression of LEFTY2. However, I am unsure at this stage whether the expression is high enough to consider the cell line as undifferentiated. I will note the sample IDs for now, and assess whether they appear to be outliers when performing differential expression analysis.</p>
+<p>The graphs below show the expression of these genes from the unfiltered expression levels. A few of the cell lines show some expression of LEFTY2. However, I am unsure at this stage whether the expression is high enough to consider the cell line as undifferentiated. However, they do appear to be clustering away from the other samples in the PCA plot. I will note the sample IDs for now, and assess whether they appear to be outliers when performing differential expression analysis.</p>
 <pre class="r"><code>undifferentiatedMarkerGeneIDs &lt;- c(&quot;ENSG00000112499&quot;, &quot;ENSG00000146477&quot;, &quot;ENSG00000143768&quot;)
 
 featureCounts %&gt;% 
   cpm(log=T) %&gt;% 
   as.data.frame() %&gt;% 
-  .[undifferentiatedMarkerGeneIDs,] %&gt;% 
+  .[undifferentiatedMarkerGeneIDs,samps2keep] %&gt;% 
   rownames_to_column(&quot;gene_id&quot;) %&gt;% 
   gather(key = &quot;sample&quot;, value = &quot;logCPM&quot;, contains(&quot;s&quot;)) %&gt;% 
   left_join(grGenes %&gt;% as_tibble() %&gt;% dplyr::select(gene_id, gene_name)) %&gt;% 
   as_tibble() %&gt;% 
   left_join(meta) %&gt;% 
-  ggplot(aes(x = sample, y = logCPM, fill = sample %in% samps2keep)) +
-  geom_col()+
+  ggplot(aes(x = sample, y = logCPM)) +
+  geom_col() +
+  geom_col(aes(fill = specimenIdSource), 
+           data = . %&gt;%  dplyr::filter(logCPM &gt; 1)
+  ) + 
+   geom_label(aes(label = specimenIdSource, colour = specimenIdSource), 
+             data = . %&gt;%  dplyr::filter(logCPM &gt; 1), 
+             position = position_nudge(y = 0.5), 
+             show.legend = FALSE) +
   facet_wrap(~gene_name) +
-  easy_rotate_x_labels(angle = -45) </code></pre>
+  easy_rotate_x_labels(angle = -45) +
+  labs(fill = &quot;Samples with poentially high expression of undifferentiated marker genes&quot;)+
+  theme(legend.position = &quot;bottom&quot;)</code></pre>
 <p><img src="figure/first-analysis.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-14-1">
@@ -1958,7 +2003,7 @@ Karissa Barthelson
 </table>
 </div>
 </div>
-<pre class="r"><code>featureCounts %&gt;% 
+<pre class="r"><code>sampswithLeftyExpression &lt;- featureCounts %&gt;% 
   cpm(log=T) %&gt;% 
   as.data.frame() %&gt;% 
   .[undifferentiatedMarkerGeneIDs,] %&gt;% 
@@ -1967,11 +2012,23 @@ Karissa Barthelson
   left_join(grGenes %&gt;% as_tibble() %&gt;% dplyr::select(gene_id, gene_name)) %&gt;% 
   as_tibble() %&gt;% 
   left_join(meta) %&gt;% 
-  ggplot(aes(x = sample, y = logCPM)) +
-  geom_col(aes(alpha = sample %in% samps2keep,
-               fill = rnaBatch))+
-  facet_wrap(~gene_name) +
-  easy_rotate_x_labels(angle = -45) </code></pre>
+  dplyr::filter(logCPM &gt; 1) %&gt;% 
+  .$sample
+
+dge$samples %&lt;&gt;% 
+  mutate(possiblyUndiff = case_when(
+    sample %in% sampswithLeftyExpression ~ &quot;Yes&quot;, 
+    TRUE ~ &quot;No&quot;
+  ))
+
+cpm(dge, log = TRUE) %&gt;%
+  t() %&gt;%
+  prcomp() %&gt;% 
+  autoplot(data = tibble(sample = rownames(.$x)) %&gt;%
+             left_join(dge$samples),
+           colour = &quot;possiblyUndiff&quot;, 
+           size = 4,
+           shape = &quot;category&quot;)</code></pre>
 <p><img src="figure/first-analysis.Rmd/unnamed-chunk-14-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-14-2">
@@ -2021,19 +2078,6 @@ Karissa Barthelson
 </table>
 </div>
 </div>
-<pre class="r"><code>  #theme(legend.position = &quot;none&quot;)
-
-sampswithLeftyExpression &lt;- featureCounts %&gt;% 
-  cpm(log=T) %&gt;% 
-  as.data.frame() %&gt;% 
-  .[undifferentiatedMarkerGeneIDs,] %&gt;% 
-  rownames_to_column(&quot;gene_id&quot;) %&gt;% 
-  gather(key = &quot;sample&quot;, value = &quot;logCPM&quot;, contains(&quot;s&quot;)) %&gt;% 
-  left_join(grGenes %&gt;% as_tibble() %&gt;% dplyr::select(gene_id, gene_name)) %&gt;% 
-  as_tibble() %&gt;% 
-  left_join(meta) %&gt;% 
-  dplyr::filter(logCPM &gt; 1) %&gt;% 
-  .$sample</code></pre>
 </div>
 <div id="pca-after-omitting-samples" class="section level1">
 <h1>PCA after omitting samples</h1>
@@ -2043,11 +2087,11 @@ sampswithLeftyExpression &lt;- featureCounts %&gt;%
   prcomp() %&gt;% 
   autoplot(data = tibble(sample = rownames(.$x)) %&gt;%
              left_join(dge$samples),
-           colour = &quot;diagnosis&quot;, 
+           colour = &quot;category&quot;, 
            size = 4) +
   scale_colour_viridis_d(end = 0.8) +
   theme(aspect.ratio = 1) +
-  ggtitle(&quot;Diagnosis&quot;)</code></pre>
+  ggtitle(&quot;AD?&quot;)</code></pre>
 <p><img src="figure/first-analysis.Rmd/PCAafterOmit-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-PCAafterOmit-1">
@@ -2239,7 +2283,7 @@ Karissa Barthelson
   left_join(dge$samples) %&gt;% 
   mutate(`Library Size (millions) ` = lib.size/1e6) %&gt;% 
   ggplot(aes(x = PC1, y = `Library Size (millions) `)) +
-  geom_point(aes( colour = diagnosis, shape = sex), 
+  geom_point(aes( colour = category, shape = sex), 
              size = 4) +
   geom_smooth(method = &quot;lm&quot;) +
   theme_bw()</code></pre>
@@ -2445,7 +2489,7 @@ Karissa Barthelson
 </table>
 </div>
 </div>
-<p>Might be a trend happening between the second pricipal component and the RIN of the sample.</p>
+<p>Might be a trend happening between the second principal component and the RIN of the sample.</p>
 </div>
 <div id="conclusion" class="section level1">
 <h1>Conclusion</h1>
@@ -2486,76 +2530,76 @@ other attached packages:
 [25] forcats_0.5.1           stringr_1.4.0           dplyr_1.0.7            
 [28] purrr_0.3.4             readr_1.4.0             tidyr_1.1.3            
 [31] tibble_3.1.2            ggplot2_3.3.5           tidyverse_1.3.1        
-[34] workflowr_1.6.2        
 
 loaded via a namespace (and not attached):
   [1] readxl_1.3.1                  backports_1.2.1              
-  [3] plyr_1.8.6                    lazyeval_0.2.2               
-  [5] splines_4.0.2                 BiocParallel_1.22.0          
-  [7] digest_0.6.27                 htmltools_0.5.1.1            
-  [9] fansi_0.5.0                   memoise_2.0.0                
- [11] cluster_2.1.2                 openxlsx_4.2.4               
- [13] Biostrings_2.56.0             modelr_0.1.8                 
- [15] matrixStats_0.59.0            askpass_1.1                  
- [17] prettyunits_1.1.1             jpeg_0.1-8.1                 
- [19] colorspace_2.0-2              blob_1.2.1                   
- [21] rvest_1.0.0                   rappdirs_0.3.3               
- [23] haven_2.4.1                   xfun_0.24                    
- [25] crayon_1.4.1                  RCurl_1.98-1.3               
- [27] jsonlite_1.7.2                zoo_1.8-9                    
- [29] glue_1.4.2                    gtable_0.3.0                 
- [31] zlibbioc_1.34.0               XVector_0.28.0               
- [33] DelayedArray_0.14.1           car_3.0-11                   
- [35] abind_1.4-5                   DBI_1.1.1                    
- [37] rstatix_0.7.0                 Rcpp_1.0.7                   
- [39] progress_1.2.2                viridisLite_0.4.0            
- [41] xtable_1.8-4                  flashClust_1.01-2            
- [43] foreign_0.8-81                bit_4.0.4                    
- [45] DT_0.18                       truncnorm_1.0-8              
- [47] htmlwidgets_1.5.3             httr_1.4.2                   
- [49] RColorBrewer_1.1-2            ellipsis_0.3.2               
- [51] farver_2.1.0                  XML_3.99-0.6                 
- [53] pkgconfig_2.0.3               sass_0.4.0                   
- [55] locfit_1.5-9.4                utf8_1.2.1                   
- [57] labeling_0.4.2                tidyselect_1.1.1             
- [59] rlang_0.4.11                  reshape2_1.4.4               
- [61] later_1.2.0                   munsell_0.5.0                
- [63] BiocVersion_3.11.1            cellranger_1.1.0             
- [65] tools_4.0.2                   cachem_1.0.5                 
- [67] cli_3.0.0                     generics_0.1.0               
- [69] RSQLite_2.2.7                 broom_0.7.8                  
- [71] evaluate_0.14                 fastmap_1.1.0                
- [73] ggdendro_0.1.22               yaml_2.2.1                   
- [75] knitr_1.33                    bit64_4.0.5                  
- [77] fs_1.5.0                      zip_2.2.0                    
- [79] nlme_3.1-152                  whisker_0.4                  
- [81] mime_0.11                     leaps_3.1                    
- [83] xml2_1.3.2                    biomaRt_2.44.4               
- [85] compiler_4.0.2                rstudioapi_0.13              
- [87] png_0.1-7                     plotly_4.9.4.1               
- [89] curl_4.3.2                    interactiveDisplayBase_1.26.3
- [91] ggsignif_0.6.2                reprex_2.0.0                 
- [93] bslib_0.2.5.1                 stringi_1.6.2                
- [95] highr_0.9                     lattice_0.20-44              
- [97] ProtGenerics_1.20.0           Matrix_1.3-4                 
- [99] vctrs_0.3.8                   pillar_1.6.1                 
-[101] lifecycle_1.0.0               BiocManager_1.30.16          
-[103] jquerylib_0.1.4               cowplot_1.1.1                
-[105] data.table_1.14.0             bitops_1.0-7                 
-[107] rtracklayer_1.48.0            httpuv_1.6.1                 
-[109] latticeExtra_0.6-29           hwriter_1.3.2                
-[111] R6_2.5.0                      ShortRead_1.46.0             
-[113] promises_1.2.0.1              gridExtra_2.3                
-[115] rio_0.5.27                    MASS_7.3-54                  
-[117] assertthat_0.2.1              SummarizedExperiment_1.18.2  
-[119] openssl_1.4.4                 rprojroot_2.0.2              
-[121] withr_2.4.2                   GenomicAlignments_1.24.0     
-[123] Rsamtools_2.4.0               GenomeInfoDbData_1.2.3       
-[125] mgcv_1.8-36                   hms_1.1.0                    
-[127] grid_4.0.2                    rmarkdown_2.9                
-[129] carData_3.0-4                 git2r_0.28.0                 
-[131] scatterplot3d_0.3-41          shiny_1.6.0                  
-[133] lubridate_1.7.10              FactoMineR_2.4               </code></pre>
+  [3] workflowr_1.6.2               plyr_1.8.6                   
+  [5] lazyeval_0.2.2                splines_4.0.2                
+  [7] BiocParallel_1.22.0           digest_0.6.27                
+  [9] htmltools_0.5.1.1             fansi_0.5.0                  
+ [11] memoise_2.0.0                 cluster_2.1.2                
+ [13] openxlsx_4.2.4                Biostrings_2.56.0            
+ [15] modelr_0.1.8                  matrixStats_0.59.0           
+ [17] askpass_1.1                   prettyunits_1.1.1            
+ [19] jpeg_0.1-8.1                  colorspace_2.0-2             
+ [21] blob_1.2.1                    rvest_1.0.0                  
+ [23] rappdirs_0.3.3                haven_2.4.1                  
+ [25] xfun_0.24                     crayon_1.4.1                 
+ [27] RCurl_1.98-1.3                jsonlite_1.7.2               
+ [29] zoo_1.8-9                     glue_1.4.2                   
+ [31] gtable_0.3.0                  zlibbioc_1.34.0              
+ [33] XVector_0.28.0                DelayedArray_0.14.1          
+ [35] car_3.0-11                    abind_1.4-5                  
+ [37] DBI_1.1.1                     rstatix_0.7.0                
+ [39] Rcpp_1.0.7                    progress_1.2.2               
+ [41] viridisLite_0.4.0             xtable_1.8-4                 
+ [43] flashClust_1.01-2             foreign_0.8-81               
+ [45] bit_4.0.4                     DT_0.18                      
+ [47] truncnorm_1.0-8               htmlwidgets_1.5.3            
+ [49] httr_1.4.2                    RColorBrewer_1.1-2           
+ [51] ellipsis_0.3.2                farver_2.1.0                 
+ [53] XML_3.99-0.6                  pkgconfig_2.0.3              
+ [55] sass_0.4.0                    locfit_1.5-9.4               
+ [57] utf8_1.2.1                    labeling_0.4.2               
+ [59] tidyselect_1.1.1              rlang_0.4.11                 
+ [61] reshape2_1.4.4                later_1.2.0                  
+ [63] munsell_0.5.0                 BiocVersion_3.11.1           
+ [65] cellranger_1.1.0              tools_4.0.2                  
+ [67] cachem_1.0.5                  cli_3.0.0                    
+ [69] generics_0.1.0                RSQLite_2.2.7                
+ [71] broom_0.7.8                   evaluate_0.14                
+ [73] fastmap_1.1.0                 ggdendro_0.1.22              
+ [75] yaml_2.2.1                    knitr_1.33                   
+ [77] bit64_4.0.5                   fs_1.5.0                     
+ [79] zip_2.2.0                     nlme_3.1-152                 
+ [81] whisker_0.4                   mime_0.11                    
+ [83] leaps_3.1                     xml2_1.3.2                   
+ [85] biomaRt_2.44.4                compiler_4.0.2               
+ [87] rstudioapi_0.13               png_0.1-7                    
+ [89] plotly_4.9.4.1                curl_4.3.2                   
+ [91] interactiveDisplayBase_1.26.3 ggsignif_0.6.2               
+ [93] reprex_2.0.0                  bslib_0.2.5.1                
+ [95] stringi_1.6.2                 highr_0.9                    
+ [97] lattice_0.20-44               ProtGenerics_1.20.0          
+ [99] Matrix_1.3-4                  vctrs_0.3.8                  
+[101] pillar_1.6.1                  lifecycle_1.0.0              
+[103] BiocManager_1.30.16           jquerylib_0.1.4              
+[105] cowplot_1.1.1                 data.table_1.14.0            
+[107] bitops_1.0-7                  rtracklayer_1.48.0           
+[109] httpuv_1.6.1                  latticeExtra_0.6-29          
+[111] hwriter_1.3.2                 R6_2.5.0                     
+[113] ShortRead_1.46.0              promises_1.2.0.1             
+[115] gridExtra_2.3                 rio_0.5.27                   
+[117] MASS_7.3-54                   assertthat_0.2.1             
+[119] SummarizedExperiment_1.18.2   openssl_1.4.4                
+[121] rprojroot_2.0.2               withr_2.4.2                  
+[123] GenomicAlignments_1.24.0      Rsamtools_2.4.0              
+[125] GenomeInfoDbData_1.2.3        mgcv_1.8-36                  
+[127] hms_1.1.0                     grid_4.0.2                   
+[129] rmarkdown_2.9                 carData_3.0-4                
+[131] git2r_0.28.0                  scatterplot3d_0.3-41         
+[133] shiny_1.6.0                   lubridate_1.7.10             
+[135] FactoMineR_2.4               </code></pre>
 </div>
 </div>
 

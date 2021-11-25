@@ -13,8 +13,10 @@ navbar:
       href: first-analysis.html
     - text: Remove batch effects
       href: removeBatchEffects.html
-    - text: DGE analysis exploration of methods
+    - text: DGE analysis
       href: DGE.html
+    - text: Exploration of removing undifferentiaed samples
+      href: explorationUndiff.html
     - text: IRE enrichment analysis
       href: ire_test.html
   right:

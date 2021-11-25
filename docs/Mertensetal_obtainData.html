@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Karissa Barthelson" />
+
+<meta name="date" content="2021-10-30" />
+
+<title>Mertensetal_obtainData</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">2021-human-AD-iNs-IRE/</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    iPSC-neurons
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="snakemake_pipeline.html">Pre-processing</a>
+    </li>
+    <li>
+      <a href="first-analysis.html">QC</a>
+    </li>
+    <li>
+      <a href="removeBatchEffects.html">Remove batch effects</a>
+    </li>
+    <li>
+      <a href="DGE.html">DGE analysis exploration of methods</a>
+    </li>
+    <li>
+      <a href="ire_test.html">IRE enrichment analysis</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/">
+    <span class="fa fa-github"></span>
+     
+    Source code
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Mertensetal_obtainData</h1>
+<h4 class="author">Karissa Barthelson</h4>
+<h4 class="date">2021-10-30</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2021-10-30
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>2021-rosmap-ire/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20211022code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20211022)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20211022code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20211022)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021humanADiNsIREtree08ab9c825b058de5227bfc0cc504478bdce15d37targetblank08ab9c8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/tree/08ab9c825b058de5227bfc0cc504478bdce15d37" target="_blank">08ab9c8</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomkarissab2021humanADiNsIREtree08ab9c825b058de5227bfc0cc504478bdce15d37targetblank08ab9c8a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/karissa-b/2021-human-AD-iNs-IRE/tree/08ab9c825b058de5227bfc0cc504478bdce15d37" target="_blank">08ab9c8</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rapp.history
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    code/.DS_Store
+    Ignored:    data/.DS_Store
+    Ignored:    data/confidentialData/
+
+Untracked files:
+    Untracked:  analysis/Mertensetal_obtainData.Rmd
+    Untracked:  code/getENA.sh
+    Untracked:  data/filereport_read_run_PRJEB44542_tsv.txt
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>This page describes how I obtained the raw RNA-seq data for Mertens et al 2021.</p>
+<ol style="list-style-type: decimal">
+<li>The raw data was desposited in Array Express under the accession number E-MTAB-10352.</li>
+<li>I then found the data in ENA</li>
+<li>The accession in ENA is Project: <a href="https://www.ebi.ac.uk/ena/browser/view/PRJEB44542?show=reads">PRJEB44542</a>. The total number of files in this project is 114, and includes both RNA- and ATAC-seq data. 4 .I used this project ID as input to the SRA explorer to generate a bash script to download all files.</li>
+<li>I then used <code>sed</code> to remove all lines which contain the following ERR accession numbers (i.e. the ones which are ATAC-seq files, which I will not analyse here)</li>
+</ol>
+<pre class="r"><code>library(tidyverse)
+library(pander)
+list.files(&quot;data&quot;, full.names = T)[2] %&gt;% read_tsv() %&gt;% dplyr::filter(library_strategy == &quot;ATAC-seq&quot;) %&gt;% .$run_accession %&gt;% pander()</code></pre>
+<p><em>ERR5769859</em>, <em>ERR5769863</em>, <em>ERR5769867</em>, <em>ERR5769876</em>, <em>ERR5769892</em>, <em>ERR5769895</em>, <em>ERR5769898</em>, <em>ERR5769901</em>, <em>ERR5769907</em>, <em>ERR5769916</em>, <em>ERR5769928</em>, <em>ERR5769930</em>, <em>ERR5769933</em>, <em>ERR5769938</em>, <em>ERR5769939</em>, <em>ERR5769940</em>, <em>ERR5769943</em>, <em>ERR5769946</em>, <em>ERR5769949</em> and <em>ERR5769950</em></p>
+<p>The final bash script is found in the code chunk. But it looks like this essentially:</p>
+<p>#!/usr/bin/env bash</p>
+<p>curl -L <a href="ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/003/ERR5769873/ERR5769873_1.fastq.gz" class="uri">ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/003/ERR5769873/ERR5769873_1.fastq.gz</a> -o ERR5769873_1.fastq.gz</p>
+<pre class="bash"><code>#!/usr/bin/env bash
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/003/ERR5769873/ERR5769873_1.fastq.gz -o ERR5769873_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/003/ERR5769873/ERR5769873_2.fastq.gz -o ERR5769873_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/001/ERR5769871/ERR5769871_1.fastq.gz -o ERR5769871_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/001/ERR5769871/ERR5769871_2.fastq.gz -o ERR5769871_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/009/ERR5769869/ERR5769869_1.fastq.gz -o ERR5769869_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/009/ERR5769869/ERR5769869_2.fastq.gz -o ERR5769869_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/000/ERR5769870/ERR5769870_1.fastq.gz -o ERR5769870_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/000/ERR5769870/ERR5769870_2.fastq.gz -o ERR5769870_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/002/ERR5769872/ERR5769872_1.fastq.gz -o ERR5769872_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/002/ERR5769872/ERR5769872_2.fastq.gz -o ERR5769872_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/008/ERR5769868/ERR5769868_1.fastq.gz -o ERR5769868_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/008/ERR5769868/ERR5769868_2.fastq.gz -o ERR5769868_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/005/ERR5769875/ERR5769875_1.fastq.gz -o ERR5769875_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/005/ERR5769875/ERR5769875_2.fastq.gz -o ERR5769875_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/004/ERR5769874/ERR5769874_1.fastq.gz -o ERR5769874_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/004/ERR5769874/ERR5769874_2.fastq.gz -o ERR5769874_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/009/ERR5769879/ERR5769879_1.fastq.gz -o ERR5769879_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/009/ERR5769879/ERR5769879_2.fastq.gz -o ERR5769879_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/007/ERR5769877/ERR5769877_1.fastq.gz -o ERR5769877_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/007/ERR5769877/ERR5769877_2.fastq.gz -o ERR5769877_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/008/ERR5769878/ERR5769878_1.fastq.gz -o ERR5769878_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/008/ERR5769878/ERR5769878_2.fastq.gz -o ERR5769878_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/000/ERR5769880/ERR5769880_1.fastq.gz -o ERR5769880_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/000/ERR5769880/ERR5769880_2.fastq.gz -o ERR5769880_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/001/ERR5769881/ERR5769881_1.fastq.gz -o ERR5769881_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/001/ERR5769881/ERR5769881_2.fastq.gz -o ERR5769881_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/004/ERR5769844/ERR5769844.fastq.gz -o ERR5769844.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/003/ERR5769883/ERR5769883_1.fastq.gz -o ERR5769883_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/003/ERR5769883/ERR5769883_2.fastq.gz -o ERR5769883_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/002/ERR5769882/ERR5769882_1.fastq.gz -o ERR5769882_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/002/ERR5769882/ERR5769882_2.fastq.gz -o ERR5769882_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/004/ERR5769884/ERR5769884_1.fastq.gz -o ERR5769884_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/004/ERR5769884/ERR5769884_2.fastq.gz -o ERR5769884_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/005/ERR5769885/ERR5769885_1.fastq.gz -o ERR5769885_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/005/ERR5769885/ERR5769885_2.fastq.gz -o ERR5769885_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/006/ERR5769886/ERR5769886_1.fastq.gz -o ERR5769886_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/006/ERR5769886/ERR5769886_2.fastq.gz -o ERR5769886_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/007/ERR5769887/ERR5769887_1.fastq.gz -o ERR5769887_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/007/ERR5769887/ERR5769887_2.fastq.gz -o ERR5769887_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/008/ERR5769888/ERR5769888_1.fastq.gz -o ERR5769888_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/008/ERR5769888/ERR5769888_2.fastq.gz -o ERR5769888_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/000/ERR5769890/ERR5769890_1.fastq.gz -o ERR5769890_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/000/ERR5769890/ERR5769890_2.fastq.gz -o ERR5769890_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/009/ERR5769889/ERR5769889_1.fastq.gz -o ERR5769889_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/009/ERR5769889/ERR5769889_2.fastq.gz -o ERR5769889_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/001/ERR5769891/ERR5769891_1.fastq.gz -o ERR5769891_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/001/ERR5769891/ERR5769891_2.fastq.gz -o ERR5769891_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/003/ERR5769893/ERR5769893_1.fastq.gz -o ERR5769893_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/003/ERR5769893/ERR5769893_2.fastq.gz -o ERR5769893_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/004/ERR5769894/ERR5769894_1.fastq.gz -o ERR5769894_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/004/ERR5769894/ERR5769894_2.fastq.gz -o ERR5769894_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/006/ERR5769896/ERR5769896_1.fastq.gz -o ERR5769896_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/006/ERR5769896/ERR5769896_2.fastq.gz -o ERR5769896_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/007/ERR5769897/ERR5769897_1.fastq.gz -o ERR5769897_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/007/ERR5769897/ERR5769897_2.fastq.gz -o ERR5769897_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/005/ERR5769845/ERR5769845.fastq.gz -o ERR5769845.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/000/ERR5769900/ERR5769900_1.fastq.gz -o ERR5769900_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/000/ERR5769900/ERR5769900_2.fastq.gz -o ERR5769900_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/009/ERR5769899/ERR5769899_1.fastq.gz -o ERR5769899_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/009/ERR5769899/ERR5769899_2.fastq.gz -o ERR5769899_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/002/ERR5769902/ERR5769902_1.fastq.gz -o ERR5769902_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/002/ERR5769902/ERR5769902_2.fastq.gz -o ERR5769902_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/003/ERR5769903/ERR5769903_1.fastq.gz -o ERR5769903_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/003/ERR5769903/ERR5769903_2.fastq.gz -o ERR5769903_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/004/ERR5769904/ERR5769904_1.fastq.gz -o ERR5769904_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/004/ERR5769904/ERR5769904_2.fastq.gz -o ERR5769904_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/005/ERR5769905/ERR5769905_1.fastq.gz -o ERR5769905_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/005/ERR5769905/ERR5769905_2.fastq.gz -o ERR5769905_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/006/ERR5769906/ERR5769906_1.fastq.gz -o ERR5769906_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/006/ERR5769906/ERR5769906_2.fastq.gz -o ERR5769906_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/008/ERR5769908/ERR5769908_1.fastq.gz -o ERR5769908_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/008/ERR5769908/ERR5769908_2.fastq.gz -o ERR5769908_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/009/ERR5769909/ERR5769909_1.fastq.gz -o ERR5769909_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/009/ERR5769909/ERR5769909_2.fastq.gz -o ERR5769909_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/000/ERR5769910/ERR5769910_1.fastq.gz -o ERR5769910_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/000/ERR5769910/ERR5769910_2.fastq.gz -o ERR5769910_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/001/ERR5769911/ERR5769911_1.fastq.gz -o ERR5769911_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/001/ERR5769911/ERR5769911_2.fastq.gz -o ERR5769911_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/002/ERR5769912/ERR5769912_1.fastq.gz -o ERR5769912_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/002/ERR5769912/ERR5769912_2.fastq.gz -o ERR5769912_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/003/ERR5769913/ERR5769913_1.fastq.gz -o ERR5769913_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/003/ERR5769913/ERR5769913_2.fastq.gz -o ERR5769913_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/004/ERR5769914/ERR5769914_1.fastq.gz -o ERR5769914_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/004/ERR5769914/ERR5769914_2.fastq.gz -o ERR5769914_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/005/ERR5769915/ERR5769915_1.fastq.gz -o ERR5769915_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/005/ERR5769915/ERR5769915_2.fastq.gz -o ERR5769915_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/007/ERR5769917/ERR5769917_1.fastq.gz -o ERR5769917_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/007/ERR5769917/ERR5769917_2.fastq.gz -o ERR5769917_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/008/ERR5769918/ERR5769918_1.fastq.gz -o ERR5769918_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/008/ERR5769918/ERR5769918_2.fastq.gz -o ERR5769918_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/009/ERR5769919/ERR5769919_1.fastq.gz -o ERR5769919_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/009/ERR5769919/ERR5769919_2.fastq.gz -o ERR5769919_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/002/ERR5769922/ERR5769922_1.fastq.gz -o ERR5769922_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/002/ERR5769922/ERR5769922_2.fastq.gz -o ERR5769922_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/000/ERR5769920/ERR5769920_1.fastq.gz -o ERR5769920_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/000/ERR5769920/ERR5769920_2.fastq.gz -o ERR5769920_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/001/ERR5769921/ERR5769921_1.fastq.gz -o ERR5769921_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/001/ERR5769921/ERR5769921_2.fastq.gz -o ERR5769921_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/003/ERR5769923/ERR5769923_1.fastq.gz -o ERR5769923_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/003/ERR5769923/ERR5769923_2.fastq.gz -o ERR5769923_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/004/ERR5769924/ERR5769924_1.fastq.gz -o ERR5769924_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/004/ERR5769924/ERR5769924_2.fastq.gz -o ERR5769924_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/005/ERR5769925/ERR5769925_1.fastq.gz -o ERR5769925_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/005/ERR5769925/ERR5769925_2.fastq.gz -o ERR5769925_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/006/ERR5769926/ERR5769926_1.fastq.gz -o ERR5769926_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/006/ERR5769926/ERR5769926_2.fastq.gz -o ERR5769926_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/007/ERR5769927/ERR5769927_1.fastq.gz -o ERR5769927_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/007/ERR5769927/ERR5769927_2.fastq.gz -o ERR5769927_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/009/ERR5769929/ERR5769929_1.fastq.gz -o ERR5769929_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/009/ERR5769929/ERR5769929_2.fastq.gz -o ERR5769929_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/001/ERR5769931/ERR5769931_1.fastq.gz -o ERR5769931_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/001/ERR5769931/ERR5769931_2.fastq.gz -o ERR5769931_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/004/ERR5769934/ERR5769934_1.fastq.gz -o ERR5769934_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/004/ERR5769934/ERR5769934_2.fastq.gz -o ERR5769934_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/002/ERR5769932/ERR5769932_1.fastq.gz -o ERR5769932_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/002/ERR5769932/ERR5769932_2.fastq.gz -o ERR5769932_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/005/ERR5769935/ERR5769935_1.fastq.gz -o ERR5769935_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/005/ERR5769935/ERR5769935_2.fastq.gz -o ERR5769935_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/006/ERR5769936/ERR5769936_1.fastq.gz -o ERR5769936_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/006/ERR5769936/ERR5769936_2.fastq.gz -o ERR5769936_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/007/ERR5769937/ERR5769937_1.fastq.gz -o ERR5769937_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/007/ERR5769937/ERR5769937_2.fastq.gz -o ERR5769937_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/006/ERR5769846/ERR5769846.fastq.gz -o ERR5769846.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/007/ERR5769847/ERR5769847.fastq.gz -o ERR5769847.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/008/ERR5769848/ERR5769848.fastq.gz -o ERR5769848.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/009/ERR5769849/ERR5769849.fastq.gz -o ERR5769849.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/000/ERR5769850/ERR5769850.fastq.gz -o ERR5769850.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/001/ERR5769941/ERR5769941_1.fastq.gz -o ERR5769941_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/001/ERR5769941/ERR5769941_2.fastq.gz -o ERR5769941_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/002/ERR5769942/ERR5769942_1.fastq.gz -o ERR5769942_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/002/ERR5769942/ERR5769942_2.fastq.gz -o ERR5769942_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/001/ERR5769851/ERR5769851.fastq.gz -o ERR5769851.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/002/ERR5769852/ERR5769852.fastq.gz -o ERR5769852.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/004/ERR5769944/ERR5769944_1.fastq.gz -o ERR5769944_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/004/ERR5769944/ERR5769944_2.fastq.gz -o ERR5769944_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/005/ERR5769945/ERR5769945_1.fastq.gz -o ERR5769945_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/005/ERR5769945/ERR5769945_2.fastq.gz -o ERR5769945_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/003/ERR5769853/ERR5769853.fastq.gz -o ERR5769853.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/004/ERR5769854/ERR5769854.fastq.gz -o ERR5769854.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/008/ERR5769948/ERR5769948_1.fastq.gz -o ERR5769948_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/008/ERR5769948/ERR5769948_2.fastq.gz -o ERR5769948_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/007/ERR5769947/ERR5769947_1.fastq.gz -o ERR5769947_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/007/ERR5769947/ERR5769947_2.fastq.gz -o ERR5769947_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/001/ERR5769951/ERR5769951_1.fastq.gz -o ERR5769951_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/001/ERR5769951/ERR5769951_2.fastq.gz -o ERR5769951_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/002/ERR5769952/ERR5769952_1.fastq.gz -o ERR5769952_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/002/ERR5769952/ERR5769952_2.fastq.gz -o ERR5769952_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/003/ERR5769953/ERR5769953_1.fastq.gz -o ERR5769953_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/003/ERR5769953/ERR5769953_2.fastq.gz -o ERR5769953_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/004/ERR5769954/ERR5769954_1.fastq.gz -o ERR5769954_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/004/ERR5769954/ERR5769954_2.fastq.gz -o ERR5769954_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/005/ERR5769955/ERR5769955_1.fastq.gz -o ERR5769955_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/005/ERR5769955/ERR5769955_2.fastq.gz -o ERR5769955_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/006/ERR5769956/ERR5769956_1.fastq.gz -o ERR5769956_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/006/ERR5769956/ERR5769956_2.fastq.gz -o ERR5769956_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/005/ERR5769855/ERR5769855_1.fastq.gz -o ERR5769855_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/005/ERR5769855/ERR5769855_2.fastq.gz -o ERR5769855_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/006/ERR5769856/ERR5769856_1.fastq.gz -o ERR5769856_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/006/ERR5769856/ERR5769856_2.fastq.gz -o ERR5769856_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/008/ERR5769858/ERR5769858_1.fastq.gz -o ERR5769858_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/008/ERR5769858/ERR5769858_2.fastq.gz -o ERR5769858_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/000/ERR5769860/ERR5769860_1.fastq.gz -o ERR5769860_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/000/ERR5769860/ERR5769860_2.fastq.gz -o ERR5769860_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/007/ERR5769857/ERR5769857_1.fastq.gz -o ERR5769857_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/007/ERR5769857/ERR5769857_2.fastq.gz -o ERR5769857_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/001/ERR5769861/ERR5769861_1.fastq.gz -o ERR5769861_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/001/ERR5769861/ERR5769861_2.fastq.gz -o ERR5769861_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/005/ERR5769865/ERR5769865_1.fastq.gz -o ERR5769865_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/005/ERR5769865/ERR5769865_2.fastq.gz -o ERR5769865_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/003/ERR5769843/ERR5769843.fastq.gz -o ERR5769843.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/004/ERR5769864/ERR5769864_1.fastq.gz -o ERR5769864_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/004/ERR5769864/ERR5769864_2.fastq.gz -o ERR5769864_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/002/ERR5769862/ERR5769862_1.fastq.gz -o ERR5769862_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/002/ERR5769862/ERR5769862_2.fastq.gz -o ERR5769862_2.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/006/ERR5769866/ERR5769866_1.fastq.gz -o ERR5769866_1.fastq.gz
+curl -L ftp://ftp.sra.ebi.ac.uk/vol1/fastq/ERR576/006/ERR5769866/ERR5769866_2.fastq.gz -o ERR5769866_2.fastq.gz
+</code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.0.2 (2020-06-22)
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Mojave 10.14.3
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] pander_0.6.4    forcats_0.5.1   stringr_1.4.0   dplyr_1.0.7    
+ [5] purrr_0.3.4     readr_1.4.0     tidyr_1.1.3     tibble_3.1.2   
+ [9] ggplot2_3.3.5   tidyverse_1.3.1
+
+loaded via a namespace (and not attached):
+ [1] tidyselect_1.1.1  xfun_0.24         bslib_0.2.5.1     haven_2.4.1      
+ [5] colorspace_2.0-2  vctrs_0.3.8       generics_0.1.0    htmltools_0.5.1.1
+ [9] yaml_2.2.1        utf8_1.2.1        rlang_0.4.11      jquerylib_0.1.4  
+[13] later_1.2.0       pillar_1.6.1      withr_2.4.2       glue_1.4.2       
+[17] DBI_1.1.1         dbplyr_2.1.1      readxl_1.3.1      modelr_0.1.8     
+[21] lifecycle_1.0.0   cellranger_1.1.0  munsell_0.5.0     gtable_0.3.0     
+[25] workflowr_1.6.2   rvest_1.0.0       evaluate_0.14     knitr_1.33       
+[29] httpuv_1.6.1      fansi_0.5.0       broom_0.7.8       Rcpp_1.0.7       
+[33] promises_1.2.0.1  backports_1.2.1   scales_1.1.1      jsonlite_1.7.2   
+[37] fs_1.5.0          hms_1.1.0         digest_0.6.27     stringi_1.6.2    
+[41] rprojroot_2.0.2   grid_4.0.2        cli_3.0.0         tools_4.0.2      
+[45] magrittr_2.0.1    sass_0.4.0        crayon_1.4.1      pkgconfig_2.0.3  
+[49] ellipsis_0.3.2    xml2_1.3.2        reprex_2.0.0      lubridate_1.7.10 
+[53] rstudioapi_0.13   assertthat_0.2.1  rmarkdown_2.9     httr_1.4.2       
+[57] R6_2.5.0          git2r_0.28.0      compiler_4.0.2   </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

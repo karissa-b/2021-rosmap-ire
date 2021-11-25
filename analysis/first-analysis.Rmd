@@ -91,6 +91,11 @@ meta <-
            apoeGenotype == 33 ~ "E3/E3", 
            apoeGenotype == 34 ~ "E3/E4",
            apoeGenotype == 44 ~ "E4/E4", 
+         ),
+         category = case_when( # from fig. 1B of Lag... et al. 
+           specimenIdSource %in% c("BR01", "BR04", "BR08", "BR09", "BR13", "BR21", "BR24", "BR33", "BR40", "BR41", "BR58", "BR62", "BR65", "BR67", "BR68", "BR69", "BR72", "BR89", "BR93", "BR95") ~ "LP-NCI", 
+           specimenIdSource %in% paste0("BR", c(11, 22, 26, 28, 29, 30, 36, 37, 43, 48, 50, 59, 60, 61, 63, 64, 91)) ~ "HP-NCI", # a better way to do this.
+           specimenIdSource %in% paste0("BR", c(14, 15, 27, 39, 46, 54, 57, 66, 83, 92, 97:99, 103:105, 108)) ~ "AD"
          )
   ) %>% 
   dplyr::select(sample, experimentor, everything())# make some new cols to match the names in the gene counts matrix
@@ -274,7 +279,7 @@ b <- featureCounts %>%
   labs(
     x = "logCPM",
     y = "Density",
-    colour = "Genotype"
+    colour = "diagnosis"
   )+
   ggtitle("After filtering") 
 ggarrange(a, b, common.legend = TRUE)
@@ -307,7 +312,7 @@ dge$samples %>%
   ggplot(aes(x = specimenIdSource, y = lib.size, fill = sequencingBatch)) + 
   geom_col() +
   easy_rotate_x_labels(angle = -45) +
-  facet_wrap(~diagnosis, scales = "free_x") +
+  facet_wrap(~category, scales = "free_x") +
   scale_y_continuous(labels = comma) +
   labs(
     x = "Sample", 
@@ -417,9 +422,9 @@ Therefore, for this analysis, I will omit the technical replicate which had the 
 
 # Assessment of differentiated cell lines. 
 
-[Lagomarsino et al. 2021](https://doi.org/10.1016/j.neuron.2021.08.003) noted in their methods section that a few samples may show abnormally high levels of Oct2, Oct3 or LEFTY2. This implies that these cell lines may contain a high proportion of undifferentiated cells and should be removed. These three genes were filtered from the analysus in the filtering step, meaning they are lowly expressed and considered undetectable. 
+[Lagomarsino et al. 2021](https://doi.org/10.1016/j.neuron.2021.08.003) noted in their methods section that a few samples may show abnormally high levels of Oct2, Oct3 or LEFTY2. This implies that these cell lines may contain a high proportion of undifferentiated cells and should be removed. These three genes were filtered from the analysis in the filtering step, meaning they are lowly expressed and considered undetectable. 
 
-The graphs below show the expression of these genes from the unfiltered expression levels. A few of the cell lines show some expression of LEFTY2. However, I am unsure at this stage whether the expression is high enough to consider the cell line as undifferentiated. I will note the sample IDs for now, and assess whether they appear to be outliers when performing differential expression analysis. 
+The graphs below show the expression of these genes from the unfiltered expression levels. A few of the cell lines show some expression of LEFTY2. However, I am unsure at this stage whether the expression is high enough to consider the cell line as undifferentiated. However, they do appear to be clustering away from the other samples in the PCA plot. I will note the sample IDs for now, and assess whether they appear to be outliers when performing differential expression analysis. 
  
 ```{r}
 undifferentiatedMarkerGeneIDs <- c("ENSG00000112499", "ENSG00000146477", "ENSG00000143768")
@@ -427,32 +432,25 @@ undifferentiatedMarkerGeneIDs <- c("ENSG00000112499", "ENSG00000146477", "ENSG00
 featureCounts %>% 
   cpm(log=T) %>% 
   as.data.frame() %>% 
-  .[undifferentiatedMarkerGeneIDs,] %>% 
-  rownames_to_column("gene_id") %>% 
-  gather(key = "sample", value = "logCPM", contains("s")) %>% 
-  left_join(grGenes %>% as_tibble() %>% dplyr::select(gene_id, gene_name)) %>% 
-  as_tibble() %>% 
-  left_join(meta) %>% 
-  ggplot(aes(x = sample, y = logCPM, fill = sample %in% samps2keep)) +
-  geom_col()+
-  facet_wrap(~gene_name) +
-  easy_rotate_x_labels(angle = -45) 
-
-featureCounts %>% 
-  cpm(log=T) %>% 
-  as.data.frame() %>% 
-  .[undifferentiatedMarkerGeneIDs,] %>% 
+  .[undifferentiatedMarkerGeneIDs,samps2keep] %>% 
   rownames_to_column("gene_id") %>% 
   gather(key = "sample", value = "logCPM", contains("s")) %>% 
   left_join(grGenes %>% as_tibble() %>% dplyr::select(gene_id, gene_name)) %>% 
   as_tibble() %>% 
   left_join(meta) %>% 
   ggplot(aes(x = sample, y = logCPM)) +
-  geom_col(aes(alpha = sample %in% samps2keep,
-               fill = rnaBatch))+
+  geom_col() +
+  geom_col(aes(fill = specimenIdSource), 
+           data = . %>%  dplyr::filter(logCPM > 1)
+  ) + 
+   geom_label(aes(label = specimenIdSource, colour = specimenIdSource), 
+             data = . %>%  dplyr::filter(logCPM > 1), 
+             position = position_nudge(y = 0.5), 
+             show.legend = FALSE) +
   facet_wrap(~gene_name) +
-  easy_rotate_x_labels(angle = -45) 
-  #theme(legend.position = "none")
+  easy_rotate_x_labels(angle = -45) +
+  labs(fill = "Samples with poentially high expression of undifferentiated marker genes")+
+  theme(legend.position = "bottom")
 
 sampswithLeftyExpression <- featureCounts %>% 
   cpm(log=T) %>% 
@@ -465,6 +463,21 @@ sampswithLeftyExpression <- featureCounts %>%
   left_join(meta) %>% 
   dplyr::filter(logCPM > 1) %>% 
   .$sample
+
+dge$samples %<>% 
+  mutate(possiblyUndiff = case_when(
+    sample %in% sampswithLeftyExpression ~ "Yes", 
+    TRUE ~ "No"
+  ))
+
+cpm(dge, log = TRUE) %>%
+  t() %>%
+  prcomp() %>% 
+  autoplot(data = tibble(sample = rownames(.$x)) %>%
+             left_join(dge$samples),
+           colour = "possiblyUndiff", 
+           size = 4,
+           shape = "category")
 ```
 
 
@@ -477,11 +490,11 @@ cpm(dge, log = TRUE) %>%
   prcomp() %>% 
   autoplot(data = tibble(sample = rownames(.$x)) %>%
              left_join(dge$samples),
-           colour = "diagnosis", 
+           colour = "category", 
            size = 4) +
   scale_colour_viridis_d(end = 0.8) +
   theme(aspect.ratio = 1) +
-  ggtitle("Diagnosis")
+  ggtitle("AD?")
 
 cpm(dge, log = TRUE) %>%
   t() %>%
@@ -527,7 +540,7 @@ cpm(dge, log = TRUE) %>%
   left_join(dge$samples) %>% 
   mutate(`Library Size (millions) ` = lib.size/1e6) %>% 
   ggplot(aes(x = PC1, y = `Library Size (millions) `)) +
-  geom_point(aes( colour = diagnosis, shape = sex), 
+  geom_point(aes( colour = category, shape = sex), 
              size = 4) +
   geom_smooth(method = "lm") +
   theme_bw()
@@ -559,6 +572,7 @@ cpm(dge, log = TRUE) %>%
              size = 6) +
   geom_smooth(method = "lm") +
   theme_bw()
+
 cpm(dge, log = TRUE) %>%
   t() %>%
   prcomp() %>% 
@@ -574,7 +588,7 @@ cpm(dge, log = TRUE) %>%
   theme_bw() 
 ```
 
-Might be a trend happening between the second pricipal component and the RIN of the sample. 
+Might be a trend happening between the second principal component and the RIN of the sample. 
 
 
 # Conclusion
