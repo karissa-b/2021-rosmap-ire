@@ -120,15 +120,15 @@ fry_ire_fem %>%
   ggplot(aes(x = -log10(PValue.Mixed), y = gs_name)) +
   geom_col(aes(fill = category), colour= "black", position = "dodge") +
   geom_vline(xintercept = -log10(0.05), linetype = 2) +
-  facet_wrap(~sex) +
+  facet_wrap(~sex, ncol = 2, scales = "free_y") +
   scale_fill_viridis_d() +
   labs(x = expression(paste(log[10], "(p)")), 
        y = "IRE gene set"
         ) +
-  ggtitle("Significance of IRE gene sets in male and female AD samples", 
-          subtitle = "All IRE gene sets reach the FDR-adujusted p-val of 0.05 (dotted line) in female AD samples")
-
-
+  theme(legend.position = "bottom") +
+  # ggtitle("Significance of IRE gene sets in male and female AD samples",
+  #         subtitle = "All IRE gene sets reach the FDR-adujusted p-val of 0.05 (dotted line) in female AD samples") + 
+  ggsave("output/irePVals.png", width = 20, height = 5, units = "cm", dpi = 200, scale = 1.5)
 ```
 
 # Heatmap visualisations
@@ -260,4 +260,110 @@ toptable.CQN.Fem %>%
 dev.off()
 
 ```
+
+## Scatterplot vis
+
+```{r}
+
+p1 <- toptable.CQN.Fem %>% 
+  bind_rows(.id = "coef") %>% 
+  bind_rows(toptable.CQN.male$AD) %>% 
+  mutate(Group = paste0(coef, "_", sex)) %>% 
+  dplyr::filter(gene_id %in% intersect(ire_fems$ire5_all, ire_males$ire5_all)) %>% 
+  dplyr::select(gene_name, logFC, Group) %>% 
+  spread(key = "Group", value = "logFC") %>% 
+  ggscatter(x = "AD_female" , y = "AD_male", 
+             add = "reg.line",
+             add.params = list(color = "blue", fill = "lightgray")) +
+  stat_cor(method = "pearson", 
+           aes(label = paste(..rr.label.., ..p.label.., sep = "~`,`~"))) + 
+  ggtitle("5'IREs") +
+  labs(x = "LogFC in AD v LP-NCI females", 
+       y = "LogFC in AD v LP-NCI males")
+
+p2 <- toptable.CQN.Fem %>% 
+  bind_rows(.id = "coef") %>% 
+  bind_rows(toptable.CQN.male$AD) %>% 
+  mutate(Group = paste0(coef, "_", sex)) %>% 
+  dplyr::filter(gene_id %in% intersect(ire_fems$ire3_all,
+                                       ire_males$ire3_all)) %>% 
+  dplyr::select(gene_name, logFC, Group) %>% 
+  spread(key = "Group", value = "logFC") %>% 
+  ggscatter(x = "AD_female" , y = "AD_male", 
+             add = "reg.line",
+             add.params = list(color = "blue", fill = "lightgray")) +
+  stat_cor(method = "pearson", 
+           aes(label = paste(..rr.label.., ..p.label.., sep = "~`,`~"))) + 
+  ggtitle("3'IREs") +
+    labs(x = "LogFC in AD v LP-NCI females", 
+       y = "LogFC in AD v LP-NCI males")
+
+p3 <- toptable.CQN.Fem %>% 
+  bind_rows(.id = "coef") %>% 
+  bind_rows(toptable.CQN.male$AD) %>% 
+  mutate(Group = paste0(coef, "_", sex)) %>% 
+  dplyr::filter(gene_id %in% intersect(ire_fems$ire5_all, ire_males$ire5_all)) %>% 
+  dplyr::select(gene_name, logFC, Group) %>% 
+  spread(key = "Group", value = "logFC") %>% 
+  ggscatter(x = "AD_female" , y =  "HP-NCI_female", 
+             add = "reg.line",
+             add.params = list(color = "blue", fill = "lightgray")) +
+  stat_cor(method = "pearson", 
+           aes(label = paste(..rr.label.., ..p.label.., sep = "~`,`~"))) + 
+  ggtitle("5'IREs") + 
+    labs(x = "LogFC in AD v LP-NCI females", 
+       y = "LogFC in HP-NCI v LP-NCI females")
+
+p4 <- toptable.CQN.Fem %>% 
+  bind_rows(.id = "coef") %>% 
+  bind_rows(toptable.CQN.male$AD) %>% 
+  mutate(Group = paste0(coef, "_", sex)) %>% 
+  dplyr::filter(gene_id %in% intersect(ire_fems$ire3_all,
+                                       ire_males$ire3_all)) %>% 
+  dplyr::select(gene_name, logFC, Group) %>% 
+  spread(key = "Group", value = "logFC") %>% 
+  ggscatter(x = "AD_female" , y = "HP-NCI_female", 
+             add = "reg.line",
+             add.params = list(color = "blue", fill = "lightgray")) +
+  stat_cor(method = "pearson", 
+           aes(label = paste(..rr.label.., ..p.label.., sep = "~`,`~"))) + 
+  ggtitle("3'IREs") + 
+      labs(x = "LogFC in AD v LP-NCI females", 
+       y = "LogFC in HP-NCI v LP-NCI females")
+
+ggarrange(p1, p2, p3 , p4, nrow = 1, labels = c("E", "F", "G", "H")) + 
+  ggsave("output/scatterplots.png", width = 20, height = 5, units = "cm", dpi = 200, scale = 1.5)
+
+```
+
+
+```{r}
+toptable.CQN.Fem %>% 
+  bind_rows(.id = "coef") %>% 
+  bind_rows(toptable.CQN.male$AD) %>% 
+  mutate(Group = paste0(coef, "_", sex)) %>% 
+  dplyr::filter(gene_name %in% c(
+    "FTH1", "FTL", "NR4A3", "ALAS2", "EPAS1", "FXYD5", "SLC40A1"
+  )) %>% 
+  ggplot(aes(x = Group, y = logFC)) +
+  geom_col() +
+  facet_wrap(~gene_name, nrow = 1) +
+  easy_rotate_x_labels(angle = -45) +
+  ggtitle("Classical 5' IRE containing genes")
+
+
+toptable.CQN.Fem %>% 
+  bind_rows(.id = "coef") %>% 
+  bind_rows(toptable.CQN.male$AD) %>% 
+  mutate(Group = paste0(coef, "_", sex)) %>% 
+  dplyr::filter(gene_name %in% c(
+    "SLC11A2", "TFRC", "EIF4EBP2", "LAS1L", "ZNF207"
+  )) %>% 
+  ggplot(aes(x = Group, y = logFC)) +
+  geom_col() +
+  facet_wrap(~gene_name, nrow = 1) +
+  easy_rotate_x_labels(angle = -45) +
+  ggtitle("Classical 3' IRE containing genes")
+```
+
 

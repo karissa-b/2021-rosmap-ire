@@ -29,6 +29,8 @@ library(edgeR)
 library(scales)
 library(ngsReports)
 library(pheatmap)
+
+library(msigdbr)
 ```
 
 ```{r setOptions}
@@ -79,6 +81,8 @@ meta <-
   dplyr::select(specimenID, RIN, rnaBatch, libraryBatch, sequencingBatch) %>% 
   left_join(read_csv("data/confidentialData/ROSMAP-IN_invitro_biospecimen_metadata.csv")) %>% 
   left_join(read_csv("data/confidentialData/ROSMAP-IN_individual_metadata.csv")) %>% 
+  dplyr::select(where(~n_distinct(.) > 1)) %>% # omit the columns where its the same row
+  left_join(read_csv("data/confidentialData/ROSMAP_clinical.csv"), by = "individualID") %>% 
   mutate(experimentor = str_extract(.$specimenID, 
                                     pattern = "(AH|VL)"), 
          temp = str_remove(.$specimenID, 
@@ -96,8 +100,10 @@ meta <-
            specimenIdSource %in% c("BR01", "BR04", "BR08", "BR09", "BR13", "BR21", "BR24", "BR33", "BR40", "BR41", "BR58", "BR62", "BR65", "BR67", "BR68", "BR69", "BR72", "BR89", "BR93", "BR95") ~ "LP-NCI", 
            specimenIdSource %in% paste0("BR", c(11, 22, 26, 28, 29, 30, 36, 37, 43, 48, 50, 59, 60, 61, 63, 64, 91)) ~ "HP-NCI", # a better way to do this.
            specimenIdSource %in% paste0("BR", c(14, 15, 27, 39, 46, 54, 57, 66, 83, 92, 97:99, 103:105, 108)) ~ "AD"
+         
          )
   ) %>% 
+   dplyr::select(where(~n_distinct(.) > 1)) %>% # omit the columns where its the same row
   dplyr::select(sample, experimentor, everything())# make some new cols to match the names in the gene counts matrix
 
 
@@ -179,7 +185,6 @@ trimStats <- readTotals(fastqc_raw) %>%
   )
 ```
 
-
 The raw reads were processed with [fastp](https://github.com/OpenGene/fastphttps://github.com/OpenGene/fastp). Reads which contained an average quality score of < 15 were omitted, as were reads which were shorter than 20nt after adaptor removal. I allowed fastp to detect adaptors automatically. After adapter trimming between `r pander(range(percent_format(0.01)(trimStats$Discarded)))` of reads were discarded. No over-represented sequences remained, and the %GC appears to have improved. 
 
 ```{r}
@@ -225,7 +230,6 @@ plotGcContent(
 Genes which are lowly expressed are uninformative for DE analysis. Here, I will consider a gene to be lowly expressed if it contains a CPM of less than 2 in at least 33 samples (i.e. the number of AD samples). The effect of filtering is be shown in the density plots below. 
 
 ```{r}
-
 a <- featureCounts %>% 
   cpm(log = TRUE) %>%
   as.data.frame() %>% 
@@ -250,7 +254,7 @@ a <- featureCounts %>%
   labs(
     x = "logCPM",
     y = "Density",
-    colour = "diagnosis"
+    colour = "category"
   )+
   ggtitle("Before filtering")
 
@@ -279,7 +283,7 @@ b <- featureCounts %>%
   labs(
     x = "logCPM",
     y = "Density",
-    colour = "diagnosis"
+    colour = "category"
   )+
   ggtitle("After filtering") 
 ggarrange(a, b, common.legend = TRUE)
@@ -288,6 +292,7 @@ ggarrange(a, b, common.legend = TRUE)
 ```{r dge}
 dge <- featureCounts %>% 
   as.matrix() %>% 
+  .[rowSums(cpm(.) >= 2) >= 33,] %>% 
   DGEList(
     samples = tibble(sample = colnames(.)) %>%
       left_join(meta) %>% 
@@ -364,6 +369,7 @@ cpm(dge, log = TRUE) %>%
   autoplot(data = tibble(sample = rownames(.$x)) %>%
              left_join(dge$samples),
              size = 2,
+           colour = "specimenIdSource",
              shape = "sex") +
     geom_label_repel(aes(label = specimenIdSource, 
                          colour = specimenIdSource), 
@@ -422,13 +428,22 @@ Therefore, for this analysis, I will omit the technical replicate which had the 
 
 # Assessment of differentiated cell lines. 
 
-[Lagomarsino et al. 2021](https://doi.org/10.1016/j.neuron.2021.08.003) noted in their methods section that a few samples may show abnormally high levels of Oct2, Oct3 or LEFTY2. This implies that these cell lines may contain a high proportion of undifferentiated cells and should be removed. These three genes were filtered from the analysis in the filtering step, meaning they are lowly expressed and considered undetectable. 
+[Lagomarsino et al. 2021](https://doi.org/10.1016/j.neuron.2021.08.003) noted in their methods section that a few samples may show abnormally high levels of Oct2 (SLC22A2), Oct3 (SLC22A3) or LEFTY2. This implies that these cell lines may contain a high proportion of undifferentiated cells and should be removed. These three genes were filtered from the analysis in the filtering step, meaning they are lowly expressed and considered undetectable. Notably, the OCT2/3 genes show fairly consistent expression across the samples. 
 
-The graphs below show the expression of these genes from the unfiltered expression levels. A few of the cell lines show some expression of LEFTY2. However, I am unsure at this stage whether the expression is high enough to consider the cell line as undifferentiated. However, they do appear to be clustering away from the other samples in the PCA plot. I will note the sample IDs for now, and assess whether they appear to be outliers when performing differential expression analysis. 
+The samples show pretty variable expression of LEFTY2. Basing a decision on whether to keep or omit a sample based on the expression of 1 gene seems a bit dodgy. So I will also look at three other common pluripotnecy genes: NANOG, OCT4 and ZFP42 (REX1). 
+
+The graphs below show the expression of these genes from the unfiltered expression levels.
  
 ```{r}
-undifferentiatedMarkerGeneIDs <- c("ENSG00000112499", "ENSG00000146477", "ENSG00000143768")
+# Obtain the gene ids for the marker genes
+undifferentiatedMarkerGeneIDs <- 
+  grGenes %>% 
+  as_tibble() %>% 
+  dplyr::filter(gene_name %in% c("LEFTY2", "SLC22A2", "SLC22A3", "NANOG", "POU5F1", "ZFP42")) %>% 
+  na.omit() %>% 
+  .$gene_id
 
+# PLot the expression *before filtering
 featureCounts %>% 
   cpm(log=T) %>% 
   as.data.frame() %>% 
@@ -437,6 +452,7 @@ featureCounts %>%
   gather(key = "sample", value = "logCPM", contains("s")) %>% 
   left_join(grGenes %>% as_tibble() %>% dplyr::select(gene_id, gene_name)) %>% 
   as_tibble() %>% 
+  na.omit() %>% 
   left_join(meta) %>% 
   ggplot(aes(x = sample, y = logCPM)) +
   geom_col() +
@@ -448,41 +464,61 @@ featureCounts %>%
              position = position_nudge(y = 0.5), 
              show.legend = FALSE) +
   facet_wrap(~gene_name) +
-  easy_rotate_x_labels(angle = -45) +
-  labs(fill = "Samples with poentially high expression of undifferentiated marker genes")+
-  theme(legend.position = "bottom")
+  easy_rotate_x_labels(angle = -45) + 
+  labs(fill = "Samples with potentiallt high expression of undifferentiated marker genes")+
+  ggtitle("logCPM (before filtering) of pluripotency marker genes") +
+  theme(legend.position = "none")
 
-sampswithLeftyExpression <- featureCounts %>% 
-  cpm(log=T) %>% 
-  as.data.frame() %>% 
-  .[undifferentiatedMarkerGeneIDs,] %>% 
-  rownames_to_column("gene_id") %>% 
-  gather(key = "sample", value = "logCPM", contains("s")) %>% 
-  left_join(grGenes %>% as_tibble() %>% dplyr::select(gene_id, gene_name)) %>% 
-  as_tibble() %>% 
-  left_join(meta) %>% 
-  dplyr::filter(logCPM > 1) %>% 
-  .$sample
 
-dge$samples %<>% 
-  mutate(possiblyUndiff = case_when(
-    sample %in% sampswithLeftyExpression ~ "Yes", 
-    TRUE ~ "No"
-  ))
 
 cpm(dge, log = TRUE) %>%
   t() %>%
   prcomp() %>% 
   autoplot(data = tibble(sample = rownames(.$x)) %>%
              left_join(dge$samples),
-           colour = "possiblyUndiff", 
+           colour = "libraryBatch" , 
            size = 4,
-           shape = "category")
+           shape = "category") +
+  geom_label_repel(aes(label = specimenIdSource), 
+             data = . %>%  dplyr::filter(specimenIdSource %in% c("BR62", "BR65")), 
+             nudge_y = -0.1, 
+             nudge_x =  -0.1,
+             show.legend = FALSE) 
 ```
 
+An alternative way to assess the purity of these samples is to assess marker genes of neurons. Here, I obtained the gene set from Cahoy et al from msigdb and will assess the expression of these genes in the iPSC neuron samples. 
+
+```{r}
+cahoy_neurons <- msigdbr("Homo sapiens", category = "C6") %>% 
+  dplyr::filter(grepl(gs_name, pattern = "CAHOY_NEURONAL")) %>% 
+  dplyr::distinct(gs_name, ensembl_gene, .keep_all = TRUE) %>% 
+  .$ensembl_gene
+
+dge %>% 
+  cpm(log=T) %>% 
+  as.data.frame() %>% 
+  .[cahoy_neurons,] %>% 
+  na.omit %>% # Omit the genes undetectable in the experinment
+  t %>% 
+  prcomp %>% 
+  autoplot(data = tibble(sample = rownames(.$x)) %>%
+             left_join(dge$samples),
+           colour = "category", 
+           shape = "sex",
+           size = 4) + 
+  geom_label_repel(aes(label = specimenIdSource), 
+                   data = . %>%  dplyr::filter(specimenIdSource %in% c("BR62", "BR65")), 
+                   nudge_y = -0.1, 
+                   nudge_x =  -0.1,
+                   show.legend = FALSE) +
+  ggtitle("PCA of 75 neuronally expressed genes in iPSC cells")
+          
+```
+
+I dont think there is enough evidence here to determine whether any particular sample contains too many undifferentiated iPSC cells to omit it. 
 
 # PCA after omitting samples
-The PCA was repeated after omitting the problematic RNA-seq libraries. Samples still seperate by library batch. So I will need to correct for this
+The PCA was repeated after omitting the problematic RNA-seq libraries (technical replicates). Samples still seperate by library batch. So I will need to correct for this
 
 ```{r PCAafterOmit}
 cpm(dge, log = TRUE) %>%
@@ -512,7 +548,8 @@ cpm(dge, log = TRUE) %>%
   prcomp() %>% 
   autoplot(data = tibble(sample = rownames(.$x)) %>%
              left_join(dge$samples),
-           colour = "libraryBatch", 
+           colour = "libraryBatch",                
+           
            size = 4) +
   scale_colour_viridis_d(end = 0.9) +
   theme(aspect.ratio = 1) +
@@ -528,6 +565,28 @@ cpm(dge, log = TRUE) %>%
   scale_color_viridis_c() +
   theme(aspect.ratio = 1) +
   ggtitle("RNA Integrity Number (RIN)")
+
+cpm(dge, log = TRUE) %>%
+  t() %>%
+  prcomp() %>% 
+  autoplot(data = tibble(sample = rownames(.$x)) %>%
+             left_join(dge$samples),
+           colour = "Study", 
+           size = 4) +
+  scale_color_viridis_d(end = 0.9) +
+  theme(aspect.ratio = 1) +
+  ggtitle("ROS or MAP cohort")
+
+cpm(dge, log = TRUE) %>%
+  t() %>%
+  prcomp() %>% 
+  autoplot(data = tibble(sample = rownames(.$x)) %>%
+             left_join(dge$samples),
+           colour = "age_death", 
+           size = 4) +
+  scale_color_viridis_d(end = 0.9) +
+  theme(aspect.ratio = 1) +
+  ggtitle("Age at death")
 ```
 
 ```{r}
@@ -590,7 +649,6 @@ cpm(dge, log = TRUE) %>%
 
 Might be a trend happening between the second principal component and the RIN of the sample. 
 
-
 # Conclusion
 
 I next need to remove batch effects. This will be explored in the [Batch effects analysis](removeBatchEffects.html).   
@@ -599,6 +657,5 @@ I next need to remove batch effects. This will be explored in the [Batch effects
 ```{r exportData}
 saveRDS(dge, "data/confidentialData/dge.rds")
 ```
-
 
 
